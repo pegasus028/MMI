@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MMI Practice Circuit</title>
+<meta name="description" content="In-class Multiple Mini Interview practice: synced station clock, rotating roles, observer scoring and feedback reports.">
+<meta name="theme-color" content="#16212A">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="app.css">
+<script>
+  /* Deployment settings. APP_URL: the public address students open (used in QR codes).
+     Leave empty to use the current page address. GRADEBOOK_URL: optional Apps Script /exec URL (SPEC §14). */
+  window.MMI_CONFIG = { APP_URL: "", GRADEBOOK_URL: "" };
+</script>
+</head>
+<body>
+<header class="bar"><div class="bar-in">
+  <div class="brand"><i aria-hidden="true">M</i><span class="bt">MMI Practice Circuit</span></div>
+  <nav class="tabs" role="tablist" aria-label="Sections">
+    <button class="tab" role="tab" id="tab-station" data-tab="station" aria-selected="true">Station</button>
+    <button class="tab" role="tab" id="tab-toolkit" data-tab="toolkit" aria-selected="false">Toolkit</button>
+    <button class="tab" role="tab" id="tab-reports" data-tab="reports" aria-selected="false">My reports</button>
+    <button class="tab" role="tab" id="tab-teacher" data-tab="teacher" aria-selected="false">Teacher</button>
+  </nav>
+</div></header>
+<main class="wrap" id="app">
+  <section class="loading" id="boot"><p class="label">Loading stations…</p></section>
+</main>
+<script src="js/core.js"></script>
+<script src="js/qr.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

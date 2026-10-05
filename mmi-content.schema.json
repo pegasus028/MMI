@@ -1,0 +1,727 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mmi-content.schema.json",
+  "title": "MMI Practice Circuit content pack",
+  "type": "object",
+  "required": [
+    "meta",
+    "settings",
+    "professionOrder",
+    "classList",
+    "groups",
+    "roles",
+    "interviewer",
+    "interviewee",
+    "observer",
+    "stations",
+    "professions",
+    "uiText"
+  ],
+  "$defs": {
+    "nonEmpty": {
+      "type": "string",
+      "minLength": 1
+    },
+    "criterion": {
+      "type": "object",
+      "required": [
+        "id",
+        "label",
+        "anchors",
+        "feedback"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z]+_[a-z]+$"
+        },
+        "label": {
+          "$ref": "#/$defs/nonEmpty"
+        },
+        "anchors": {
+          "type": "object",
+          "required": [
+            "1",
+            "4"
+          ],
+          "properties": {
+            "1": {
+              "$ref": "#/$defs/nonEmpty"
+            },
+            "4": {
+              "$ref": "#/$defs/nonEmpty"
+            }
+          }
+        },
+        "feedback": {
+          "type": "object",
+          "required": [
+            "whenLow",
+            "whenHigh",
+            "followUpAction"
+          ],
+          "properties": {
+            "whenLow": {
+              "$ref": "#/$defs/nonEmpty"
+            },
+            "whenHigh": {
+              "$ref": "#/$defs/nonEmpty"
+            },
+            "followUpAction": {
+              "$ref": "#/$defs/nonEmpty"
+            }
+          }
+        }
+      }
+    },
+    "phaseText": {
+      "type": "object",
+      "required": [
+        "before",
+        "read",
+        "interview",
+        "feedback",
+        "rotate",
+        "idle",
+        "done"
+      ],
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "scenario": {
+      "type": "object",
+      "required": [
+        "id",
+        "station",
+        "variant",
+        "difficulty",
+        "title",
+        "interviewee",
+        "interviewer",
+        "observer"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z]+-s[1-6]-[ABC]$"
+        },
+        "station": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 6
+        },
+        "variant": {
+          "enum": [
+            "A",
+            "B",
+            "C"
+          ]
+        },
+        "difficulty": {
+          "enum": [
+            "standard",
+            "hard"
+          ]
+        },
+        "title": {
+          "$ref": "#/$defs/nonEmpty"
+        },
+        "interviewee": {
+          "type": "object",
+          "required": [
+            "doorPrompt"
+          ],
+          "properties": {
+            "doorPrompt": {
+              "$ref": "#/$defs/nonEmpty"
+            },
+            "data": {
+              "type": "object",
+              "required": [
+                "caption",
+                "columns",
+                "rows",
+                "smallPrint"
+              ],
+              "properties": {
+                "caption": {
+                  "type": "string"
+                },
+                "columns": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "minItems": 2
+                },
+                "rows": {
+                  "type": "array",
+                  "minItems": 3,
+                  "maxItems": 6,
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "smallPrint": {
+                  "type": "string",
+                  "pattern": "^Illustrative data for practice only\\."
+                }
+              }
+            }
+          }
+        },
+        "interviewer": {
+          "type": "object",
+          "required": [
+            "openingQuestion",
+            "followUps",
+            "pressureProbe"
+          ],
+          "properties": {
+            "openingQuestion": {
+              "$ref": "#/$defs/nonEmpty"
+            },
+            "followUps": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 4,
+              "maxItems": 4
+            },
+            "pressureProbe": {
+              "$ref": "#/$defs/nonEmpty"
+            },
+            "actor": {
+              "type": "object",
+              "required": [
+                "role",
+                "brief",
+                "lines",
+                "howToReact"
+              ],
+              "properties": {
+                "role": {
+                  "type": "string"
+                },
+                "brief": {
+                  "type": "string"
+                },
+                "lines": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "minItems": 2,
+                  "maxItems": 3
+                },
+                "howToReact": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "observer": {
+          "type": "object",
+          "required": [
+            "keyPoints",
+            "warningSigns"
+          ],
+          "properties": {
+            "keyPoints": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 4,
+              "maxItems": 5
+            },
+            "warningSigns": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 2,
+              "maxItems": 3
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "station": {
+                "const": 4
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "interviewer": {
+                "required": [
+                  "actor"
+                ]
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "interviewer": {
+                "not": {
+                  "required": [
+                    "actor"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "station": {
+                "not": {
+                  "const": 5
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "interviewee": {
+                "not": {
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": [
+        "title",
+        "version",
+        "counts"
+      ]
+    },
+    "settings": {
+      "type": "object",
+      "required": [
+        "timingsDefault",
+        "ratingScale",
+        "globalScale",
+        "weights",
+        "bands",
+        "variants",
+        "clockHints",
+        "minimumRatings",
+        "calibration",
+        "lessonPresets"
+      ],
+      "properties": {
+        "timingsDefault": {
+          "type": "object",
+          "required": [
+            "readMin",
+            "interviewMin",
+            "feedbackMin",
+            "rotateSec"
+          ]
+        },
+        "ratingScale": {
+          "type": "object",
+          "required": [
+            "0",
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "globalScale": {
+          "type": "object",
+          "required": [
+            "prompt",
+            "levels"
+          ],
+          "properties": {
+            "levels": {
+              "type": "object",
+              "required": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7"
+              ]
+            }
+          }
+        },
+        "weights": {
+          "type": "object",
+          "required": [
+            "station",
+            "communication",
+            "presence"
+          ]
+        },
+        "bands": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "minPct",
+              "label",
+              "tone"
+            ]
+          }
+        },
+        "minimumRatings": {
+          "type": "object",
+          "required": [
+            "station",
+            "total"
+          ],
+          "properties": {
+            "station": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4
+            },
+            "total": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 13
+            }
+          }
+        },
+        "calibration": {
+          "type": "object",
+          "required": [
+            "raterGap",
+            "checklistHighPct",
+            "globalLowMax",
+            "checklistLowPct",
+            "globalHighMin",
+            "selfGap"
+          ]
+        },
+        "lessonPresets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "label",
+              "mode",
+              "station",
+              "set",
+              "rounds",
+              "read",
+              "interview",
+              "feedback"
+            ],
+            "properties": {
+              "mode": {
+                "enum": [
+                  "F",
+                  "C"
+                ]
+              },
+              "station": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 6
+              },
+              "set": {
+                "enum": [
+                  "A",
+                  "B",
+                  "C"
+                ]
+              },
+              "rounds": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 6
+              },
+              "read": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 3
+              },
+              "interview": {
+                "type": "integer",
+                "minimum": 2,
+                "maximum": 9
+              },
+              "feedback": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 5
+              }
+            }
+          }
+        }
+      }
+    },
+    "professionOrder": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 16,
+      "uniqueItems": true
+    },
+    "classList": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "groups": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "group",
+          "profession",
+          "size"
+        ]
+      }
+    },
+    "roles": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "summary",
+          "phaseInstructions"
+        ],
+        "properties": {
+          "phaseInstructions": {
+            "$ref": "#/$defs/phaseText"
+          }
+        }
+      }
+    },
+    "interviewer": {
+      "type": "object",
+      "required": [
+        "timingGuide"
+      ],
+      "properties": {
+        "timingGuide": {
+          "type": "object",
+          "required": [
+            "standard",
+            "roleplay"
+          ]
+        }
+      }
+    },
+    "interviewee": {
+      "type": "object",
+      "required": [
+        "generalRules"
+      ]
+    },
+    "observer": {
+      "type": "object",
+      "required": [
+        "communicationCriteria",
+        "presenceCriteria",
+        "redFlags",
+        "reflectionPrompts",
+        "commentFields",
+        "redoActionTemplate",
+        "feedbackGuide",
+        "scoringGuide"
+      ],
+      "properties": {
+        "communicationCriteria": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/criterion"
+          },
+          "minItems": 4,
+          "maxItems": 4
+        },
+        "presenceCriteria": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/criterion"
+          },
+          "minItems": 5,
+          "maxItems": 5
+        },
+        "redFlags": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6,
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "bit",
+              "label",
+              "followUpAction"
+            ]
+          }
+        },
+        "feedbackGuide": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "atFraction",
+              "who",
+              "text"
+            ]
+          }
+        },
+        "scoringGuide": {
+          "type": "object",
+          "required": [
+            "during",
+            "atBell",
+            "honesty"
+          ]
+        }
+      }
+    },
+    "stations": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "required": [
+          "number",
+          "name",
+          "skill",
+          "purpose",
+          "interviewee",
+          "observer"
+        ],
+        "properties": {
+          "interviewee": {
+            "type": "object",
+            "required": [
+              "framework",
+              "phraseBank",
+              "grammarFocus",
+              "traps"
+            ]
+          },
+          "observer": {
+            "type": "object",
+            "required": [
+              "stationCriteria"
+            ],
+            "properties": {
+              "stationCriteria": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/criterion"
+                },
+                "minItems": 4,
+                "maxItems": 4
+              }
+            }
+          }
+        }
+      }
+    },
+    "professions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "key",
+          "index",
+          "label",
+          "inClassList",
+          "vocabulary",
+          "scenarios"
+        ],
+        "properties": {
+          "vocabulary": {
+            "type": "array",
+            "minItems": 15,
+            "maxItems": 15,
+            "items": {
+              "type": "object",
+              "required": [
+                "term",
+                "pos",
+                "def",
+                "example"
+              ]
+            }
+          },
+          "scenarios": {
+            "type": "array",
+            "minItems": 18,
+            "maxItems": 18,
+            "items": {
+              "$ref": "#/$defs/scenario"
+            }
+          }
+        }
+      }
+    },
+    "uiText": {
+      "type": "object",
+      "required": [
+        "notScored",
+        "globalNotGiven",
+        "stationNotYet",
+        "noStrengths",
+        "noReportsYet",
+        "noGivenYet",
+        "rateMinimum",
+        "invalidSessionCode",
+        "invalidReportCode",
+        "concernBanner",
+        "storageNote",
+        "copyFailed",
+        "raterGap",
+        "checklistGlobalMismatch",
+        "selfPrompt",
+        "selfHigher",
+        "selfLower",
+        "selfClose",
+        "scanHint",
+        "reportReceived",
+        "deepLinkInvalid",
+        "lessonTooLong",
+        "readingTight",
+        "concernsHeading",
+        "concernsNote"
+      ],
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  }
+}
