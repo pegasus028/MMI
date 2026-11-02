@@ -230,3 +230,24 @@ details>div{padding:0 12px 12px;display:flex;flex-direction:column;gap:8px}
 .field input[type="checkbox"]{width:auto;margin:0}
 .codebox{font-size:clamp(1.3rem,6.6vw,2rem);white-space:nowrap;word-break:normal;overflow-x:auto}
 .fbguide{grid-template-columns:repeat(auto-fit,minmax(130px,1fr))}
+
+/* v1.2: scenario glossary and notes */
+.gloss{border-color:color-mix(in srgb,var(--sc) 45%,var(--line));background:color-mix(in srgb,var(--sc) 6%,var(--surface))}
+.gloss>summary{font-size:.95rem;color:var(--sc)}
+.gloss dl{margin:0;padding:0 12px 12px;display:grid;gap:6px}
+.gloss dl div{display:grid;grid-template-columns:minmax(90px,38%) 1fr;gap:8px;font-size:.95rem;line-height:1.4}
+.gloss dt{font-weight:600}
+.gloss dd{margin:0;color:var(--muted)}
+.note-sc{border-left-color:var(--signal);background:color-mix(in srgb,var(--signal) 10%,var(--surface));font-size:.95rem}
+
+/* v1.2: report lists as tappable rows (the old table pushed the Open button off a phone screen) */
+.replist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.rrow{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;gap:10px;align-items:center;width:100%;min-height:48px;padding:8px 10px;border:1.5px solid var(--line);border-radius:8px;background:var(--surface);color:inherit;text-align:left;font:inherit;cursor:pointer}
+.rrow:hover,.rrow:focus-visible{border-color:var(--ink)}
+.rrow .when{font-size:.85rem;color:var(--muted);white-space:nowrap}
+.rrow .what{display:flex;flex-direction:column;gap:2px;min-width:0}
+.rrow .what b{color:var(--sc);font-size:.95rem;line-height:1.25}.rrow .what b.codetxt{color:inherit;font-family:var(--f-sign);font-size:1.15rem;letter-spacing:.06em}
+.rrow .what .small{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rrow .score{display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+.rrow .chev{font-size:1.4rem;color:var(--muted);line-height:1}
+@media (max-width:420px){.card-door table{font-size:.88rem}.card-door th{font-size:.78rem;letter-spacing:.02em}.card-door th,.card-door td{padding:5px 5px}}

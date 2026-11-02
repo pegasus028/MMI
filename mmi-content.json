@@ -1,8 +1,8 @@
 {
  "meta": {
   "title": "MMI Practice Circuit — content pack",
-  "version": "1.1.0",
-  "date": "2026-10-05",
+  "version": "1.2.0",
+  "date": "2026-11-02",
   "audience": "Thai M6 students (female, 17–18, CEFR B2–C1) preparing for Multiple Mini Interviews in Thai university admissions",
   "language": "en",
   "contents": "Everything the app shows: station guidance for interviewees, prompts for interviewers, scoring criteria for observers, and 3 scenarios per station per profession.",
@@ -14,7 +14,8 @@
   "notes": [
    "Scenario data tables are illustrative practice data, not real statistics.",
    "professionOrder is fixed and FULL: report codes store the profession index in 4 bits (0–15). Never reorder. Adding a 17th profession requires a new report-code version.",
-   "v1.1 changes are listed in CHANGES.md. Report codes and session codes are unchanged from v1.0."
+   "v1.1 changes are listed in CHANGES.md. Report codes and session codes are unchanged from v1.0.",
+   "v1.2.0 (2 Nov 2026): B2 student walkthrough fixes — see QA-REPORT.md. Added optional scenario notes (interviewer.note, observer.note) and per-profession glossary for the class professions."
   ]
  },
  "settings": {
@@ -1411,7 +1412,7 @@
      "difficulty": "standard",
      "title": "Why Doctor, Not Nurse?",
      "interviewee": {
-      "doorPrompt": "You are applying to a six-year Doctor of Medicine programme. Many healthcare professionals help patients every day: nurses, pharmacists, physiotherapists, medical technologists and public health officers. The interviewer wants to understand why you have chosen to become a doctor specifically, what you have done to test this choice, and what you believe makes a good doctor in Thailand today."
+      "doorPrompt": "You are applying to a six-year Doctor of Medicine programme. Many healthcare professionals help patients every day: nurses, pharmacists, physiotherapists, medical technologists and public health officers. The interviewer wants to understand why you have chosen to become a doctor specifically, and what you have done to test this choice. You will also be asked what you believe makes a good doctor in Thailand today."
      },
      "interviewer": {
       "openingQuestion": "Why do you want to study medicine, rather than another healthcare profession such as nursing or pharmacy?",
@@ -1421,7 +1422,7 @@
        "What is one thing you saw or learned that surprised you, or made you doubt your choice?",
        "If you were not accepted into medicine this year, what would you do next, and why?"
       ],
-      "pressureProbe": "Your parents are both doctors. How do I know this is your choice and not theirs?"
+      "pressureProbe": "Most candidates tell me medicine was 'their own choice'. Convince me your family had nothing to do with it."
      },
      "observer": {
       "keyPoints": [
@@ -1649,7 +1650,7 @@
      "difficulty": "standard",
      "title": "Night Shift, Five Problems",
      "interviewee": {
-      "doorPrompt": "You are the only doctor on night duty at a 30-bed district hospital. At 2 a.m., five things happen at once: (1) a nurse reports a diabetic patient's blood sugar is very low; (2) a mother calls about a child with a mild rash; (3) a relative complains loudly about the noise on the ward; (4) the lab says a patient's potassium result is dangerously high; (5) the director's LINE message asks for tomorrow's bed report."
+      "doorPrompt": "You are the only doctor on night duty at a 30-bed district hospital. At 2 a.m., five things happen at once. (1) A nurse reports a diabetic patient's blood sugar is very low. (2) A mother calls about a child with a mild rash. (3) A relative complains loudly about the noise on the ward. (4) The lab says a patient's potassium result is dangerously high. (5) The director's LINE message asks for tomorrow's bed report."
      },
      "interviewer": {
       "openingQuestion": "Put these five tasks in order and explain your reasoning.",
@@ -1717,7 +1718,7 @@
      "difficulty": "standard",
      "title": "Results Not Yet Confirmed",
      "interviewee": {
-      "doorPrompt": "You are a final-year medical student on a hospital ward. Khun Fah, 34, had a breast biopsy last week. You saw on the computer that the report has just arrived and looks worrying, but the senior doctor has not yet reviewed it and will see Khun Fah tomorrow morning. Khun Fah stops you in the corridor and asks about her results. You have about five minutes."
+      "doorPrompt": "You are a final-year medical student on a hospital ward. Khun Fah, 34, had a breast biopsy last week. You saw on the computer that the report has just arrived and looks worrying, but the senior doctor, Dr Somchai, has not yet reviewed it and will see Khun Fah tomorrow morning. Khun Fah stops you in the corridor and asks about her results. You have about five minutes."
      },
      "interviewer": {
       "openingQuestion": "The interviewer will play Khun Fah. Please begin when you are ready.",
@@ -1761,7 +1762,7 @@
      "difficulty": "standard",
      "title": "Admit Me for Insurance",
      "interviewee": {
-      "doorPrompt": "You are a junior doctor in an outpatient clinic. Mr Prasert, 50, has a mild stomach upset. You have examined him, he is well hydrated, and he only needs medicine and rest at home. However, he insists on being admitted for two nights because his private insurance pays only for in-patient care, and he has already paid high premiums for years."
+      "doorPrompt": "You are a junior doctor in the outpatient clinic of a private hospital. Mr Prasert, 50, has a mild stomach upset. You have examined him, he is well hydrated, and he only needs medicine and rest at home. However, he insists on being admitted for two nights because his private insurance pays only for in-patient care, and he has already paid high premiums for years."
      },
      "interviewer": {
       "openingQuestion": "The interviewer will play Mr Prasert. Please begin when you are ready.",
@@ -1825,7 +1826,8 @@
         "I can't just leave my job and go back to Chiang Rai. What am I supposed to do?"
        ],
        "howToReact": "If the candidate is defensive, quotes test numbers or rushes you, become angrier and say you will complain to the provincial health office. If they listen, acknowledge your worry and guilt, and offer a realistic plan for your mother, slowly calm down and start to talk about how lonely she has been."
-      }
+      },
+      "note": "Phone role-play: sit back to back or turn away so the candidate cannot see your face. Tell the observer to rate 'Eye contact' as n/o."
      },
      "observer": {
       "keyPoints": [
@@ -1839,7 +1841,8 @@
        "Tells Nok her mother is 'wasting the hospital's time'",
        "Becomes defensive about the hospital's decisions",
        "Promises admission or further tests just to end the conflict"
-      ]
+      ],
+      "note": "This is a phone call. Rate 'Eye contact' as n/o; listen for tone of voice and pauses instead."
      }
     },
     {
@@ -1849,7 +1852,7 @@
      "difficulty": "standard",
      "title": "Antibiotic Resistance Survey",
      "interviewee": {
-      "doorPrompt": "A health news website published the table below under the headline: 'Antibiotic resistance is out of control in Hospital D – avoid it!' You have one minute to study the table before discussing it with the interviewer.",
+      "doorPrompt": "A health news website published the table below under the headline: 'Antibiotic resistance is out of control in Hospital D – avoid it!' Use your reading time to study the information before discussing it.",
       "data": {
        "caption": "E. coli samples resistant to a common antibiotic, four hospitals, 2025",
        "columns": [
@@ -1916,7 +1919,7 @@
      "interviewee": {
       "doorPrompt": "You are a junior doctor. A pharmaceutical representative gives you a brochure for 'Cardiolex', a new cholesterol drug, and invites you to a sponsored conference in Tokyo. The brochure includes the table below. Cardiolex costs about ten times more than the generic drug currently used in your hospital under the Universal Coverage Scheme.",
       "data": {
-       "caption": "Cardiolex vs generic statin: 12-month results",
+       "caption": "Brochure headline: 'Cardiolex cuts heart attacks by 33%!' — Cardiolex vs generic statin, 12-month results",
        "columns": [
         "Outcome",
         "Cardiolex (n=150)",
@@ -1960,7 +1963,7 @@
      "observer": {
       "keyPoints": [
        "Identifies the conflict of interest: manufacturer funding and analysis, and the sponsored trip",
-       "Notes small numbers of heart attacks (2 vs 3), so the '33% reduction' is a relative figure based on one patient",
+       "Notes that 2 vs 3 heart attacks is a difference of only one patient, so the '33% reduction' is a relative figure that could easily be chance",
        "Points out higher side-effect discontinuation and short study length",
        "Considers cost-effectiveness for a public system: money spent here cannot be spent on other patients",
        "Would look for independent evidence and national guidelines before changing practice"
@@ -1993,7 +1996,7 @@
      },
      "observer": {
       "keyPoints": [
-       "Identifies that a single anecdote cannot show cause and effect; we don't know the diagnosis, other treatments or follow-up",
+       "Identifies that a single anecdote cannot show cause and effect; we do not know the diagnosis, other treatments or follow-up",
        "Mentions selection bias: people whose cannabis treatment failed do not post videos",
        "Describes what proper evidence looks like (controlled trials, peer review, large samples)",
        "Distinguishes approved medical uses (e.g. symptom relief, nausea) from claims of curing cancer",
@@ -2011,31 +2014,31 @@
      "station": 6,
      "variant": "A",
      "difficulty": "standard",
-     "title": "The Group Member Who Disappears",
+     "title": "The Member Who Takes Over",
      "interviewee": {
-      "doorPrompt": "You are in a group of four preparing a science fair project on PM2.5 in Bangkok schools. The deadline is in one week. One member, Ton, has not attended the last three meetings, has not done his section, and replies to the LINE group only with stickers. The other two members want to tell the teacher and remove Ton's name from the project."
+      "doorPrompt": "You are in a group of four preparing a science fair project on PM2.5 in Bangkok schools. The deadline is in one week. One member, Praew, has rewritten everyone else's sections without asking, deleted two classmates' graphs and told the group chat, 'Just let me finish it, I know what the judges want.' The other two members are upset and have stopped replying."
      },
      "interviewer": {
-      "openingQuestion": "What would you do in this situation, and tell me about a real time you worked with someone who was not contributing.",
+      "openingQuestion": "What would you do in this situation?",
       "followUps": [
-       "What might be happening in Ton's life that you don't know about?",
-       "At what point, if any, would you go to the teacher?",
-       "Tell me about a real time you worked in a team where someone was not contributing. What did you do?",
+       "What might be behind Praew's behaviour, apart from arrogance?",
+       "How would you get the two silent members back into the project?",
+       "Tell me about a real time you worked in a team where one person tried to control everything. What did you do?",
        "Looking back, what would you do differently, and how would this experience help you on a hospital ward team?"
       ],
-      "pressureProbe": "You're being too soft. In a hospital, a team member who doesn't do their job could kill someone. Shouldn't you just report him immediately?"
+      "pressureProbe": "Praew's work is probably better than the others'. In a hospital, shouldn't the most competent person simply take charge?"
      },
      "observer": {
       "keyPoints": [
-       "Suggests speaking to Ton privately and kindly first, to find out the reason before judging",
-       "Considers possible causes such as family problems, illness, mental health or confusion about the task",
-       "Balances fairness to the other members with support for Ton, e.g. redistributing tasks, setting clear mini-deadlines",
+       "Suggests speaking to Praew privately first, acknowledging her effort before raising the problem",
+       "Considers possible causes such as anxiety about the result, a bad experience with group work or pressure at home",
+       "Proposes a practical reset, e.g. a short meeting with clear roles, agreed deadlines and a rule about changing others' work",
        "Gives a real STAR example with a specific action they personally took and an honest result",
-       "Links the lesson to clinical teamwork, safety and escalating concerns appropriately"
+       "Links the lesson to clinical teams: competence does not replace respect for roles, and silent colleagues are a safety risk"
       ],
       "warningSigns": [
-       "Wants to remove Ton immediately without talking to him",
-       "Does all the work themselves silently and resents it",
+       "Lets Praew finish the project alone because it is easier",
+       "Confronts Praew in the group chat in front of everyone",
        "Cannot give a real example, or the example makes them the hero with no reflection"
       ]
      }
@@ -2050,12 +2053,12 @@
       "doorPrompt": "You are a second-year medical student on a hospital visit with a small group. That evening you see that Mint, a classmate and close friend, has posted a TikTok video from the ward. It shows an elderly patient's face in the background and a caption joking about 'my first real patient lol'. The video already has 5,000 views."
      },
      "interviewer": {
-      "openingQuestion": "What would you do, and why? Then tell me about a real time you had to challenge a friend about something they did wrong.",
+      "openingQuestion": "What would you do, and why?",
       "followUps": [
        "Why is this a problem even if Mint meant no harm?",
+       "Tell me about a time you had to challenge a friend or peer about something they did wrong. How did it go?",
        "Mint says, 'Everyone posts stuff like this, chill.' What do you reply?",
-       "What if Mint deleted the video but you knew it had been screenshotted and shared?",
-       "Tell me about a time you had to challenge a friend or peer about something they did wrong. How did it go?"
+       "What if Mint deleted the video but you knew it had been screenshotted and shared?"
       ],
       "pressureProbe": "If you report your best friend, you'll lose her. Is a TikTok video really worth that?"
      },
@@ -2107,6 +2110,52 @@
        "Would hide the medication error because nobody noticed"
       ]
      }
+    }
+   ],
+   "glossary": [
+    {
+     "term": "biopsy",
+     "def": "taking a small piece of tissue from the body to test for disease"
+    },
+    {
+     "term": "paternalistic",
+     "def": "treating an adult like a child by deciding for them 'for their own good'"
+    },
+    {
+     "term": "dialysis",
+     "def": "a machine treatment that cleans the blood when the kidneys fail"
+    },
+    {
+     "term": "caesarean",
+     "def": "an operation to deliver a baby through the mother's abdomen"
+    },
+    {
+     "term": "potassium",
+     "def": "a mineral in the blood; a very high level can stop the heart"
+    },
+    {
+     "term": "statin",
+     "def": "a medicine that lowers cholesterol"
+    },
+    {
+     "term": "referral centre",
+     "def": "a big hospital that takes the most serious cases from smaller ones"
+    },
+    {
+     "term": "anecdote",
+     "def": "one person's story, not scientific evidence"
+    },
+    {
+     "term": "safety-netting",
+     "def": "telling a patient which warning signs mean they must come back"
+    },
+    {
+     "term": "comorbidity",
+     "def": "another illness a patient has at the same time"
+    },
+    {
+     "term": "RT-PCR",
+     "def": "a laboratory test that detects a virus's genetic material, e.g. for COVID-19"
     }
    ]
   },
@@ -2317,7 +2366,7 @@
      "difficulty": "standard",
      "title": "The Influencer's Whitening Deal",
      "interviewee": {
-      "doorPrompt": "You are a newly qualified dentist in a private clinic in Thonglor. Mint, a 20-year-old beauty influencer with 300,000 followers, wants 'the whitest teeth possible' before a brand event in five days. Her teeth already show some sensitivity and thin enamel. She asks for three strong whitening sessions this week and offers to promote the clinic for free. Your clinic manager is very excited about the publicity."
+      "doorPrompt": "You have been working for two years as a dentist at a private clinic in Thonglor. Mint, a 20-year-old beauty influencer with 300,000 followers, wants 'the whitest teeth possible' before a brand event in five days. Her teeth already show some sensitivity and thin enamel. She asks for three strong whitening sessions this week and offers to promote the clinic for free. Your clinic manager is very excited about the publicity."
      },
      "interviewer": {
       "openingQuestion": "How would you respond to Mint's request?",
@@ -2351,7 +2400,7 @@
      "difficulty": "standard",
      "title": "The Clinic's Sales Target",
      "interviewee": {
-      "doorPrompt": "You have just started working at a busy private dental chain in Bangkok. The owner holds a meeting and says each dentist must reach a monthly 'treatment value' target. He suggests recommending replacement of all old silver fillings with white ones and advising crowns 'whenever possible'. Your first patient, Mr Ton, 42, has several old fillings that are in good condition."
+      "doorPrompt": "After finishing your government service, you have just joined a busy private dental chain in Bangkok. The owner holds a meeting and says each dentist must reach a monthly 'treatment value' target. He suggests recommending replacement of all old silver fillings with white ones and advising crowns 'whenever possible'. Your first patient, Mr Ton, 42, has several old fillings that are in good condition."
      },
      "interviewer": {
       "openingQuestion": "What would you recommend to Mr Ton, and how would you handle the owner's instructions?",
@@ -2385,7 +2434,7 @@
      "difficulty": "hard",
      "title": "Your Mentor's Shaking Hands",
      "interviewee": {
-      "doorPrompt": "You are a junior dentist at a provincial hospital. Dr Somsak, 61, a senior dentist you admire and who trained you, has recently developed a visible tremor in his hands. You have noticed that several of his recent fillings have needed to be redone, and a patient complained of a cut on her lip. Dr Somsak jokes that it is 'just too much coffee' and plans to work for four more years."
+      "doorPrompt": "You are a junior dentist at a provincial hospital. Dr Somsak, 56, a senior dentist you admire and who trained you, has recently developed a visible tremor in his hands. You have noticed that several of his recent fillings have needed to be redone, and a patient complained of a cut on her lip. Dr Somsak jokes that it is 'just too much coffee' and plans to work for four more years."
      },
      "interviewer": {
       "openingQuestion": "What, if anything, would you do?",
@@ -2419,7 +2468,7 @@
      "difficulty": "standard",
      "title": "One Day, Two Hundred Children",
      "interviewee": {
-      "doorPrompt": "You are the only dentist on a one-day mobile dental unit visiting a primary school in Sakon Nakhon. There are about 200 children, two dental assistants, one portable chair, and limited materials. Teachers tell you some children have toothache, many have never seen a dentist, and the school canteen sells sweet drinks every day. The bus leaves at 4 p.m."
+      "doorPrompt": "You are the only dentist on your university's one-day mobile dental unit visiting a primary school in Sakon Nakhon. There are about 200 children, two dental assistants, one portable chair, and limited materials. Teachers tell you some children have toothache, many have never seen a dentist, and the school canteen sells sweet drinks every day. The bus leaves at 4 p.m."
      },
      "interviewer": {
       "openingQuestion": "How would you plan the day to help as many children as possible?",
@@ -2591,7 +2640,7 @@
       "keyPoints": [
        "Delivers the news clearly and honestly but without blame, recognising that many parents are not told about sugar and night bottles",
        "Explains why baby teeth matter: pain, infection, eating, speech, school, and the health of adult teeth",
-       "Gives specific, realistic advice: water instead of sweet milk at night, limiting sweets to mealtimes, fluoride toothpaste, adult brushing",
+       "Gives specific, realistic advice: water instead of sweet milk at night, limiting sweets to mealtimes, fluoride toothpaste, and a parent brushing the child's teeth",
        "Considers the grandmother's role and suggests involving her respectfully",
        "Checks understanding and arranges follow-up and preventive care"
       ],
@@ -2653,14 +2702,14 @@
      "difficulty": "standard",
      "title": "Sweet Drinks and Decay",
      "interviewee": {
-      "doorPrompt": "A health organisation has published the table below with the claim: 'Sugary drinks are the main cause of tooth decay in Thai children. Banning them in schools will solve the problem.' You have one minute to study the information before discussing it.",
+      "doorPrompt": "A health organisation has published the table below with the claim: 'Sugary drinks are the main cause of tooth decay in Thai children. Banning them in schools will solve the problem.' Use your reading time to study the information before discussing it.",
       "data": {
        "caption": "12-year-old children: sugary drink intake and tooth decay, by region",
        "columns": [
         "Region",
-        "Sugary drinks per day (avg)",
-        "Children with decay (%)",
-        "Dentists per 10,000 people"
+        "Sugary drinks/day",
+        "Decay (%)",
+        "Dentists per 10,000"
        ],
        "rows": [
         [
@@ -2704,7 +2753,7 @@
      "observer": {
       "keyPoints": [
        "Notes the correlation but explains it does not prove sugary drinks are the 'main' cause",
-       "Identifies confounding factors, especially access to dentists, income, fluoride toothpaste and brushing habits",
+       "Identifies other factors that could explain the pattern (confounders): access to dentists, income, fluoride toothpaste, brushing habits",
        "Points out limitations: self-reported one-day data, regional averages hide individual differences",
        "Suggests better evidence such as following children over time or comparing schools before and after a policy",
        "Concludes carefully: reducing sugar is sensible, but 'will solve the problem' is overstated"
@@ -2821,12 +2870,12 @@
      "difficulty": "standard",
      "title": "Conflict at the Dental Camp",
      "interviewee": {
-      "doorPrompt": "You are volunteering with a team of six students at a weekend dental camp in a temple in Suphan Buri. Two team members, Fah and Krit, are arguing loudly about how to organise the patient queue. Elderly patients are waiting in the heat and some are starting to leave. The teacher in charge is busy treating patients."
+      "doorPrompt": "You are volunteering with a team of six students at a weekend dental camp in a temple in Suphan Buri. Two team members, Fah and Nan, are arguing loudly about how to organise the patient queue. Elderly patients are waiting in the heat and some are starting to leave. The teacher in charge is busy treating patients."
      },
      "interviewer": {
-      "openingQuestion": "What would you do right now and after the camp? Then tell me about a real time you helped people in a team who disagreed.",
+      "openingQuestion": "What would you do right now and after the camp?",
       "followUps": [
-       "How would you decide whose idea to follow, Fah's or Krit's?",
+       "How would you decide whose idea to follow, Fah's or Nan's?",
        "What if both of them were angry at you for getting involved?",
        "Tell me about a time you helped resolve a disagreement in a team. What did you do and what happened?",
        "What did that experience teach you about yourself as a team member?"
@@ -2858,7 +2907,7 @@
       "doorPrompt": "In first-year dental school, students practise on plastic teeth before treating real patients. Imagine you have failed your tooth-carving practical test twice, while most of your friends have passed. The instructor says your work is 'not precise enough'. You are starting to wonder whether you are suited to dentistry."
      },
      "interviewer": {
-      "openingQuestion": "How would you respond to this situation, and tell me about a real time you failed at something and had to try again.",
+      "openingQuestion": "How would you respond to this situation?",
       "followUps": [
        "What specific steps would you take to improve?",
        "Who would you ask for help, and how would you ask?",
@@ -2873,7 +2922,7 @@
        "Describes specific improvement strategies: extra lab practice, asking for detailed feedback, watching skilled seniors, breaking the skill into steps",
        "Seeks help appropriately from instructors, peers or tutors",
        "Gives a real personal example of learning a hands-on skill (music, art, sport, cooking) with honest reflection",
-       "Shows mature thinking about persistence and self-awareness"
+       "Says what would tell them it was time to change direction, e.g. an agreed number of attempts, honest advice from a tutor, a fixed deadline"
       ],
       "warningSigns": [
        "Blames the instructor or the test as unfair",
@@ -2892,7 +2941,7 @@
       "doorPrompt": "This station uses a strict examiner. Imagine you are a dental student treating a patient. Your supervisor looks at your work and says loudly, in front of the patient and other students, 'This is careless. Do it again.' You believe the supervisor misunderstood what you were doing. The examiner will then ask about your own experiences of feedback."
      },
      "interviewer": {
-      "openingQuestion": "How would you react at that moment and afterwards? Then tell me about a real time you were criticised in front of others.",
+      "openingQuestion": "How would you react at that moment and afterwards?",
       "followUps": [
        "How do you think the patient felt watching this?",
        "How would you raise your disagreement with the supervisor, if at all?",
@@ -2915,6 +2964,48 @@
        "Shows resentment or wants to complain formally as a first step"
       ]
      }
+    }
+   ],
+   "glossary": [
+    {
+     "term": "veneers",
+     "def": "thin covers glued to the front of teeth to change their shape or colour"
+    },
+    {
+     "term": "tremor",
+     "def": "shaking of the hands that a person cannot control"
+    },
+    {
+     "term": "abrasive",
+     "def": "rough; wears away a surface when rubbed"
+    },
+    {
+     "term": "enamel",
+     "def": "the hard outer layer of a tooth"
+    },
+    {
+     "term": "shade",
+     "def": "the exact colour of a tooth, measured on a dentist's colour scale"
+    },
+    {
+     "term": "confounding factor",
+     "def": "a hidden factor that could explain a pattern"
+    },
+    {
+     "term": "rip someone off",
+     "def": "charge far too much"
+    },
+    {
+     "term": "general anaesthetic",
+     "def": "medicine that makes a patient fully unconscious for treatment"
+    },
+    {
+     "term": "CAD/CAM",
+     "def": "computer design and machine-made crowns in the clinic"
+    },
+    {
+     "term": "sealant",
+     "def": "a protective coating painted on back teeth"
     }
    ]
   },
@@ -3037,7 +3128,7 @@
      },
      "observer": {
       "keyPoints": [
-       "Gives a specific reason for veterinary science beyond 'I love animals', such as interest in comparative medicine, problem-solving without verbal history, or public health",
+       "Gives a specific reason beyond 'I love animals', such as working out what is wrong when the patient cannot speak, how diseases differ between species, or public health",
        "Describes real experience: clinic observation, a shelter, a farm, a zoo or wildlife project, with reflection",
        "Shows awareness of difficult realities: euthanasia, bites and scratches, owners who cannot pay, emotional stress",
        "Recognises the importance of communication with owners and farmers",
@@ -3176,7 +3267,7 @@
        "Recognises the welfare conflict: Lucky is healthy and has good quality of life",
        "Explores Mrs Wanpen's reasons with empathy and treats her concern for Lucky as genuine",
        "Suggests realistic alternatives: rehoming through networks, breed groups, foundations, social media, relatives, foster care",
-       "Takes the abandonment threat seriously, explaining the risks to the dog and the community (traffic, rabies, conflict)",
+       "Takes the abandonment threat seriously, explaining the risks to the dog and the community (traffic, rabies, conflict), and notes that abandoning a pet is already an offence under the 2014 Animal Welfare Act",
        "Knows a vet may decline a procedure they find unethical but should still help the client find a humane solution"
       ],
       "warningSigns": [
@@ -3271,11 +3362,11 @@
        "The puppy's owner is shouting that they have been waiting the longest. How would you handle it?",
        "What if both the dog and the cat needed surgery immediately and you could only do one?"
       ],
-      "pressureProbe": "You've put the rabbit third. Most people think rabbits are less important than dogs. Are you just following that bias?"
+      "pressureProbe": "You did not treat the rabbit as an emergency. Most people think rabbits matter less than dogs. Are you just following that bias?"
      },
      "observer": {
       "keyPoints": [
-       "Identifies the dog with a swollen stomach (possible gastric dilatation-volvulus) and the blocked cat as life-threatening emergencies",
+       "Identifies the dog with a swollen stomach (possibly twisted) and the cat that cannot urinate (blocked bladder) as life-threatening emergencies",
        "Recognises a rabbit that stops eating can deteriorate quickly and should be seen soon",
        "Delegates: the nurse takes vital signs, starts fluids under instruction, and communicates with waiting owners",
        "Communicates honestly with waiting owners about triage and offers rebooking for non-urgent cases",
@@ -3353,7 +3444,7 @@
      },
      "observer": {
       "keyPoints": [
-       "Prepares her with a warning shot and checks what she already understands before giving the news",
+       "Prepares her with a warning sentence such as 'I'm afraid the news is not good' and checks what she already understands",
        "Explains the cancer and Bua's quality of life in clear, gentle language without jargon",
        "Acknowledges her grief and the link to her late husband, allowing silence and emotion",
        "Explains euthanasia honestly and kindly (peaceful, painless, she can be present) and gives her time to decide",
@@ -3461,13 +3552,13 @@
      "difficulty": "standard",
      "title": "Rabies Cases by Province",
      "interviewee": {
-      "doorPrompt": "A national newspaper prints this table with the headline: 'Province C is Thailand's rabies hotspot. Tourists should avoid it!' You are asked to comment on the data as a future vet. You have one minute to study it.",
+      "doorPrompt": "A national newspaper prints this table with the headline: 'Province C is Thailand's rabies hotspot. Tourists should avoid it!' You are asked to comment on the data as a future vet. Use your reading time to study the information before discussing it.",
       "data": {
        "caption": "Animal rabies results and dog vaccination coverage, four provinces, 2025",
        "columns": [
         "Province",
-        "Animal brain samples tested",
-        "Positive for rabies",
+        "Samples tested",
+        "Rabies positive",
         "Dogs vaccinated (est.)"
        ],
        "rows": [
@@ -3511,7 +3602,7 @@
      },
      "observer": {
       "keyPoints": [
-       "Calculates positivity rates: Province C 4% vs Province D about 12% and Province A 10%",
+       "Works out the share of samples that were positive: Province C 4% vs Province D about 12% and Province A 10%",
        "Explains that more testing in Province C finds more cases; low testing elsewhere may hide the true problem",
        "Notes that vaccination coverage is estimated, not verified, and links low coverage with higher positivity",
        "Calls the headline misleading and unfair to Province C, which may be doing the best surveillance",
@@ -3628,7 +3719,7 @@
       "doorPrompt": "You and five friends started a school volunteer project at a dog shelter in Pathum Thani, visiting every Saturday. After two months, only you and one other person still go. The others say they are busy with tutoring, but they still post photos from the first visits on Instagram as 'volunteering'. The shelter is counting on your group."
      },
      "interviewer": {
-      "openingQuestion": "What would you do about this situation, and tell me about a real time a team project lost its commitment.",
+      "openingQuestion": "What would you do about this situation?",
       "followUps": [
        "How would you approach the friends who have stopped coming?",
        "Is it dishonest for them to post the old photos? Would you say anything?",
@@ -3662,7 +3753,7 @@
       "doorPrompt": "Imagine you are doing a summer internship at an animal hospital. During one difficult week, three animals you helped care for die, including a puppy you had grown attached to. You find it hard to sleep, and you begin to wonder whether you can handle this career. Vets regularly face loss and emotional strain."
      },
      "interviewer": {
-      "openingQuestion": "How would you cope with this situation, and tell me about a real time you coped with a sad or stressful experience.",
+      "openingQuestion": "How would you cope with this situation?",
       "followUps": [
        "Who would you talk to, and what would you say?",
        "How can you care about animals deeply without being overwhelmed by sadness?",
@@ -3696,14 +3787,14 @@
       "doorPrompt": "This station has a demanding examiner. Imagine you led a team of students organising a free rabies vaccination day in a village. Because of your planning mistake, the vaccines arrived late and half the dog owners went home. The village head is disappointed. The examiner will ask about this situation and about a real time when something you led went wrong."
      },
      "interviewer": {
-      "openingQuestion": "What would you do now, and what would you say to the village head? Then tell me about a real time your plan or mistake let other people down.",
+      "openingQuestion": "What would you do now, and what would you say to the village head?",
       "followUps": [
        "How would you take responsibility without just apologising?",
        "How would you rebuild trust with the villagers who went home?",
        "Tell me about a real time something you were responsible for went wrong. What happened?",
        "What specifically have you done differently since then?"
       ],
-      "pressureProbe": "It sounds like you're blaming the delivery company, not yourself. Whose fault was it really?"
+      "pressureProbe": "You have explained the circumstances very well. But whose fault was it really?"
      },
      "observer": {
       "keyPoints": [
@@ -3719,6 +3810,48 @@
        "Offers a fake failure that is really a success"
       ]
      }
+    }
+   ],
+   "glossary": [
+    {
+     "term": "slaughterhouse",
+     "def": "a place where farm animals are killed for meat"
+    },
+    {
+     "term": "residue",
+     "def": "a small amount of a substance, e.g. a drug, left behind in meat"
+    },
+    {
+     "term": "surveillance",
+     "def": "organised, continuous checking and recording of disease cases"
+    },
+    {
+     "term": "straining",
+     "def": "pushing hard with effort"
+    },
+    {
+     "term": "rota",
+     "def": "a timetable of who does what, when"
+    },
+    {
+     "term": "resuscitation",
+     "def": "trying to restart breathing and the heart"
+    },
+    {
+     "term": "euthanasia",
+     "def": "ending an animal's life painlessly to stop suffering"
+    },
+    {
+     "term": "euphemism",
+     "def": "a soft word used instead of a direct one, e.g. 'put to sleep'"
+    },
+    {
+     "term": "zoonosis",
+     "def": "a disease that passes from animals to people"
+    },
+    {
+     "term": "biosecurity",
+     "def": "rules that stop disease entering or leaving a farm"
     }
    ]
   },
@@ -4265,13 +4398,13 @@
      "difficulty": "standard",
      "title": "Social Media and Anxiety",
      "interviewee": {
-      "doorPrompt": "A news website publishes the table below with the headline: 'Science proves TikTok makes Thai teens anxious. Ban it for under-18s!' The data comes from an online survey of secondary school students. You have one minute to read it.",
+      "doorPrompt": "A news website publishes the table below with the headline: 'Science proves TikTok makes Thai teens anxious. Ban it for under-18s!' The data comes from an online survey of secondary school students. Use your reading time to study the information before discussing it.",
       "data": {
        "caption": "Daily social media use and anxiety scores, Thai secondary students",
        "columns": [
-        "Hours per day (self-reported)",
+        "Hours/day (self-reported)",
         "Students",
-        "High anxiety score (%)"
+        "High anxiety (%)"
        ],
        "rows": [
         [
@@ -4431,7 +4564,7 @@
       "doorPrompt": "You are in a group of five doing a school research project on sleep and screen use. One member, Nat, is very confident and keeps rewriting everyone's sections without asking, saying, 'Mine is better.' Two quieter members have stopped contributing ideas. The presentation is in ten days and Nat is doing a lot of good work."
      },
      "interviewer": {
-      "openingQuestion": "What would you do in this situation, and tell me about a real time one person dominated a group you were in.",
+      "openingQuestion": "What would you do in this situation?",
       "followUps": [
        "How would you speak to Nat without making him defensive?",
        "How could you help the quieter members to contribute?",
@@ -4465,7 +4598,7 @@
       "doorPrompt": "Your close friend Beam has been going through a difficult time since his parents separated. For the past month he has messaged you late every night to talk, sometimes for two hours. You want to support him, but you are exhausted, your own grades are falling, and you feel you don't know how to help him properly."
      },
      "interviewer": {
-      "openingQuestion": "What would you do? Then tell me about a real time you supported a friend and had to look after yourself too.",
+      "openingQuestion": "What would you do?",
       "followUps": [
        "How can you keep supporting Beam while also looking after yourself?",
        "How would you suggest professional support without making him feel rejected?",
@@ -4630,7 +4763,7 @@
      "difficulty": "standard",
      "title": "Why Study Business?",
      "interviewee": {
-      "doorPrompt": "You are applying to an international BBA programme at a leading Thai university. Business is one of the most competitive programmes, and many applicants say it 'keeps their options open'. The interviewer wants to understand what genuinely draws you to business and management, what you have done to explore it, and how realistic your picture of a manager's working life in Thailand is."
+      "doorPrompt": "You are applying to a Faculty of Business or Management in Bangkok. Many applicants say they want to be 'an entrepreneur' or 'a CEO' without knowing what managers actually do. The interviewer wants to understand what genuinely draws you to business and management, and what you have done to explore it. She will also ask how realistic your picture of a manager's working life in Thailand is."
      },
      "interviewer": {
       "openingQuestion": "Why do you want to study business, and what do you think a manager actually does on a normal working day?",
@@ -4706,7 +4839,7 @@
        "Is studying business your decision or your family's? How do you know?",
        "Tell me one thing about yourself that I would not learn from your portfolio.",
        "What if you are rejected today? What would you do next year?",
-       "You said you are good at leadership. Prove it with one example, in one minute."
+       "Most applicants claim to be good leaders. Prove that you are, with one example, in one minute."
       ],
       "pressureProbe": "Everything you've said so far sounds rehearsed. Tell me something you genuinely haven't prepared."
      },
@@ -4715,7 +4848,7 @@
        "Stays calm and polite under interruption, and does not become defensive",
        "Gives concrete evidence (a project, a result, a lesson) rather than adjectives like 'hard-working' or 'passionate'",
        "Answers the family-expectation question honestly, acknowledging influence while showing personal ownership of the decision",
-       "Turns the comparison into a strength, e.g. what university can give them that a person running a shop already does not need",
+       "Turns the comparison into a strength, e.g. explains what a degree offers (theory, a network, feedback) that running a shop alone cannot",
        "Has a mature 'plan B' that shows resilience rather than panic"
       ],
       "warningSigns": [
@@ -4855,7 +4988,7 @@
        "Sets simple measures of success, such as daily orders, new versus returning customers, profit per day"
       ],
       "warningSigns": [
-       "Spends most of her savings immediately on ads or equipment",
+       "Spends most of Aunt Somsri's savings immediately on ads or equipment",
        "Builds a complicated system that only the candidate can operate",
        "Ignores what Aunt Somsri actually wants"
       ]
@@ -4939,7 +5072,7 @@
       "doorPrompt": "You are a junior purchasing officer at a Bangkok café chain. For eight years, the chain has bought coffee beans from Mr Wichai, who runs a small family farm in Chiang Rai. Head office has decided to buy most beans from a cheaper importer, so orders from Mr Wichai will fall by 60% from next month. Your manager has asked you to tell him in person today."
      },
      "interviewer": {
-      "openingQuestion": "Please go in and speak to Mr Wichai.",
+      "openingQuestion": "The interviewer will play Mr Wichai. Please begin when you are ready.",
       "followUps": [
        "How did you decide what to say first?",
        "What could you honestly offer Mr Wichai, and what should you not promise?",
@@ -4983,7 +5116,7 @@
       "doorPrompt": "You are the shift manager at a busy bubble-tea shop in Siam Square. A customer, Fah, comes to the counter angry. Her online order of 15 drinks arrived 90 minutes late and several drinks had melted. She is holding up her phone and appears to be filming. The shop was short of two staff today. You need to handle the situation."
      },
      "interviewer": {
-      "openingQuestion": "Please speak to the customer.",
+      "openingQuestion": "The interviewer will play Fah. Please speak to the customer.",
       "followUps": [
        "Why did you choose to apologise or not apologise in the way you did?",
        "What would you offer her, and how did you decide what was fair?",
@@ -5027,7 +5160,7 @@
       "doorPrompt": "You are 25 and have just become operations manager at your family's distribution company. You want to replace the paper-based stock records with a simple barcode inventory system. Khun Nok, 50, has managed the warehouse for 20 years using her own notebooks. She is respected by the staff. You need her support or the new system will fail. You have asked to meet her."
      },
      "interviewer": {
-      "openingQuestion": "Please speak to Khun Nok and try to get her support.",
+      "openingQuestion": "The interviewer will play Khun Nok. Please speak to Khun Nok and try to get her support.",
       "followUps": [
        "How did you show respect for her experience while still pushing for change?",
        "What if she agrees in this meeting but then quietly keeps using her notebooks?",
@@ -5039,7 +5172,7 @@
        "role": "Khun Nok, 50, warehouse supervisor for 20 years",
        "brief": "You knew the candidate as a child and are polite but sceptical. You think your system works perfectly and you have seen 'modern' ideas fail before. Hidden concern: you are not confident with technology and fear that if the system works, the company will not need you any more.",
        "lines": [
-        "Khun, it's nice to see you in the office now. So, what is this meeting about?",
+        "Nong, it's nice to see you in the office now. So, what is this meeting about?",
         "My notebooks have worked for twenty years. We've never lost a single delivery. Why change?",
         "If a computer can do it, what will I do here? Will I still have a job?"
        ],
@@ -5073,9 +5206,9 @@
        "caption": "Thai family businesses after the founder steps back: performance over 10 years",
        "columns": [
         "Leadership after founder",
-        "Number of firms",
-        "Avg yearly revenue growth",
-        "Still operating after 10 years"
+        "Firms",
+        "Yearly growth",
+        "Still open after 10 yrs"
        ],
        "rows": [
         [
@@ -5137,9 +5270,9 @@
        "caption": "International visitors to Thailand and their spending",
        "columns": [
         "Year",
-        "Visitor arrivals (millions)",
-        "Avg spending per visitor (baht)",
-        "Total spending (billion baht)"
+        "Arrivals (m)",
+        "Spend per visitor (baht)",
+        "Total spend (bn baht)"
        ],
        "rows": [
         [
@@ -5331,6 +5464,48 @@
       ]
      }
     }
+   ],
+   "glossary": [
+    {
+     "term": "stern",
+     "def": "strict and serious"
+    },
+    {
+     "term": "conglomerate",
+     "def": "a very large company that owns many different businesses, e.g. CP or ThaiBev"
+    },
+    {
+     "term": "consultancy",
+     "def": "a company that gives expert advice to other businesses"
+    },
+    {
+     "term": "survivorship bias",
+     "def": "judging only by the people who succeeded, because the ones who failed are not counted"
+    },
+    {
+     "term": "selection effect",
+     "def": "the people in a group were chosen in a way that makes the result unfair"
+    },
+    {
+     "term": "greenwashing",
+     "def": "making a business look more environmentally friendly than it really is"
+    },
+    {
+     "term": "confidentiality agreement",
+     "def": "a signed promise not to share a company's private information"
+    },
+    {
+     "term": "proportionate",
+     "def": "the right size for the situation, not too much or too little"
+    },
+    {
+     "term": "commission",
+     "def": "a percentage of each sale that the seller pays to the platform or agent"
+    },
+    {
+     "term": "profit margin",
+     "def": "the share of the price that is profit after costs"
+    }
    ]
   },
   {
@@ -5438,7 +5613,7 @@
      "difficulty": "standard",
      "title": "Why Choose Accountancy?",
      "interviewee": {
-      "doorPrompt": "You are applying to a Faculty of Commerce and Accountancy in Bangkok. Many teenagers see accounting as 'boring number-crunching', and some people believe AI will soon do most bookkeeping. The interviewer wants to know why you have chosen this field, what you understand about an accountant's working life in Thailand, and what you have done to explore it."
+      "doorPrompt": "You are applying to a Faculty of Commerce and Accountancy in Bangkok. Many teenagers see accounting as 'boring number-crunching', and few know what accountants do beyond bookkeeping. The interviewer wants to know why you have chosen this field, what you understand about an accountant's working life in Thailand, and what you have done to explore it."
      },
      "interviewer": {
       "openingQuestion": "Why do you want to study accounting, and what do you think accountants actually spend their days doing?",
@@ -5625,7 +5800,7 @@
        "Distinguishes between legal tax planning (deductions, correct expenses) and illegal non-declaration of income",
        "Responds to her fear and financial stress with empathy rather than a lecture",
        "Explains real risks to the family: bank records can be traced, penalties and interest, stress later",
-       "Offers practical help: claiming legitimate expenses, checking whether she qualifies for lower rates, getting advice from a professional",
+       "Offers practical help: claiming legitimate expenses or the flat-rate expense deduction, checking the tax-free threshold, getting advice from a professional",
        "Holds a clear personal line about not signing or preparing a false return, while staying loyal and kind"
       ],
       "warningSigns": [
@@ -5747,7 +5922,7 @@
       "doorPrompt": "You are volunteering at a free university tax clinic for small business owners. Mrs Ratana, who sells handmade bags at Chatuchak Market and on Instagram, arrives holding a letter from the Revenue Department asking her to explain her income. She has never filed a business tax return. You need to help her understand what the letter means and what she should do next."
      },
      "interviewer": {
-      "openingQuestion": "Please speak to Mrs Ratana.",
+      "openingQuestion": "The interviewer will play Mrs Ratana. Please begin when you are ready.",
       "followUps": [
        "How did you check that she understood what you explained?",
        "What did you choose NOT to explain today, and why?",
@@ -5788,10 +5963,10 @@
      "difficulty": "standard",
      "title": "The 5% Monthly Investment",
      "interviewee": {
-      "doorPrompt": "You are a customer-service officer at a bank branch. Mr Prasert, a retired teacher, wants to withdraw his entire savings of 1.2 million baht in cash. He tells you a friend from a Facebook group has introduced him to an investment that pays 5% every month. You strongly suspect a scam. You cannot legally refuse to give him his own money."
+      "doorPrompt": "You are a customer-service officer at a bank branch. Mr Prasert, a retired teacher, wants to withdraw his entire savings of 1.2 million baht in cash. He tells you a friend from a Facebook group has introduced him to an investment that pays 5% every month. You strongly suspect a scam. You cannot refuse to give him his own money, although the branch can ask for one day's notice for a cash withdrawal this large."
      },
      "interviewer": {
-      "openingQuestion": "Please speak to Mr Prasert.",
+      "openingQuestion": "The interviewer will play Mr Prasert. Please begin when you are ready.",
       "followUps": [
        "How did you try to persuade him without making him feel foolish?",
        "Why is 5% per month a warning sign? How would you explain this in simple numbers?",
@@ -5813,7 +5988,7 @@
      "observer": {
       "keyPoints": [
        "Respects his autonomy and age while clearly expressing concern",
-       "Explains the risk with simple numbers, e.g. 5% a month is about 80% a year, far above any safe investment",
+       "Explains the risk with simple numbers, e.g. 5% a month is 60% a year, or about 80% if the profits are reinvested, far above any safe investment",
        "Asks questions that help him notice the warning signs himself (pressure, secrecy, online-only contact)",
        "Discovers his hidden motivation (loneliness and wanting to help his grandchildren) and responds with empathy",
        "Suggests practical steps: waiting 24 hours, checking with family or the SEC's list of licensed firms, reporting if money has already been sent"
@@ -5832,10 +6007,10 @@
      "difficulty": "hard",
      "title": "No Clean Audit Report",
      "interviewee": {
-      "doorPrompt": "This is a pressure station. You are a junior auditor. The audit of a family-owned furniture company has found that its inventory records are unreliable; stock worth around 8 million baht could not be verified. Your firm has decided it cannot give a 'clean' audit opinion. You have been sent to explain this to the managing director, Khun Nat, who needs the report for a bank loan next week."
+      "doorPrompt": "This is a pressure station. You are a junior auditor. The audit of a family-owned furniture company has found that its inventory records are unreliable; stock worth around 8 million baht could not be verified. Your firm has decided it cannot give a 'clean' audit opinion. Your audit manager is delayed, so you must start the meeting with the managing director, Khun Nat, who needs the report for a bank loan next week."
      },
      "interviewer": {
-      "openingQuestion": "Please explain the situation to Khun Nat.",
+      "openingQuestion": "The interviewer will play Khun Nat. Please explain the situation to Khun Nat.",
       "followUps": [
        "How did you explain a qualified audit opinion to someone who is not an accountant?",
        "What if Khun Nat offers to 'make it worth your while' if the report is clean?",
@@ -5857,7 +6032,7 @@
      "observer": {
       "keyPoints": [
        "States the outcome clearly and early, with a brief reason, without hiding behind jargon",
-       "Stays calm and respectful while being firm that the opinion will not change without evidence",
+       "Stays calm and respectful while being firm that the opinion will not change without evidence, and leaves detailed negotiation to the manager",
        "Explains what the opinion means for the bank and what evidence could resolve the problem in future, such as a proper stock count",
        "Refuses any inducement immediately and professionally",
        "Shows understanding of his stress and the consequences for his staff and business"
@@ -5881,9 +6056,9 @@
        "caption": "Use of AI tools in accounting firms (survey of firm managers)",
        "columns": [
         "Task",
-        "Firms already using AI",
-        "Firms planning to use AI by 2028",
-        "Avg time saved on task"
+        "Using AI now",
+        "Plan by 2028",
+        "Time saved"
        ],
        "rows": [
         [
@@ -5957,9 +6132,9 @@
        "caption": "Reported online scam cases and losses, Thailand",
        "columns": [
         "Year",
-        "Reported cases",
-        "Total losses (million baht)",
-        "Average loss per case (baht)"
+        "Cases",
+        "Total lost (m baht)",
+        "Avg loss (baht)"
        ],
        "rows": [
         [
@@ -5989,7 +6164,7 @@
       "followUps": [
        "What is the difference between the number of cases and the total amount lost? Which tells us more?",
        "Why might the number of REPORTED cases be different from the real number of scams?",
-       "What if the method of counting cases changed in 2025? How would that affect your conclusion?",
+       "The small print says the way cases are counted changed in 2025. How does that affect your conclusion?",
        "What other explanations could there be for the change in 2025, apart from the new measures?"
       ],
       "pressureProbe": "Cases went down. Losses went down. What more evidence do you need?"
@@ -6022,7 +6197,7 @@
        "columns": [
         "Year",
         "Fund return",
-        "Bank 12-month deposit rate"
+        "Bank deposit rate"
        ],
        "rows": [
         [
@@ -6067,7 +6242,7 @@
      "observer": {
       "keyPoints": [
        "Identifies cherry-picking: the advert shows the best year and hides two years of losses",
-       "Works out that 1,000 baht invested at the start of 2021 would be worth only about 1,030 baht after five years, before the 2% yearly fee",
+       "Points out that after the two losing years, 1,000 baht invested in 2021 would be roughly back where it started by 2025 (about 1,030 baht), before the 2% yearly fee",
        "Compares risk, not just return: bank deposits are protected and stable, funds can lose money",
        "Advises diversification and an emergency fund rather than 'all savings', tailored to her age and goals",
        "Notes missing information, such as fees and how the fund compares with similar funds"
@@ -6100,7 +6275,7 @@
      },
      "observer": {
       "keyPoints": [
-       "Chooses to tell the group first, then the teacher, and explains the reasoning",
+       "Decides to report the error, says who they would tell (group and/or teacher) and gives a reason for the order",
        "Takes clear personal responsibility without making excuses",
        "Gives a real example with specific actions and outcome, not a vague story",
        "Shows a concrete change, such as a checking routine or asking someone to review their work",
@@ -6180,6 +6355,48 @@
        "Becomes defensive or upset when pushed"
       ]
      }
+    }
+   ],
+   "glossary": [
+    {
+     "term": "reconcile",
+     "def": "check that the company's own records match the bank's records and explain any difference"
+    },
+    {
+     "term": "qualified opinion",
+     "def": "an audit report saying the auditor could not confirm part of the accounts"
+    },
+    {
+     "term": "clean opinion",
+     "def": "an audit report saying the accounts are fair"
+    },
+    {
+     "term": "diversified portfolio",
+     "def": "investments spread across many companies or types so one failure does not lose everything"
+    },
+    {
+     "term": "CFO",
+     "def": "the company's most senior finance manager"
+    },
+    {
+     "term": "VAT return",
+     "def": "the monthly form reporting sales tax to the Revenue Department"
+    },
+    {
+     "term": "cherry-picking",
+     "def": "showing only the figures that support your claim"
+    },
+    {
+     "term": "Revenue Department",
+     "def": "the Thai government tax office"
+    },
+    {
+     "term": "inventory",
+     "def": "the stock of goods a company holds"
+    },
+    {
+     "term": "inducement",
+     "def": "money or a favour offered to make someone break a rule"
     }
    ]
   },
@@ -6306,7 +6523,7 @@
        "Distinguishes clearly between branches, e.g. civil versus electrical versus industrial engineering",
        "Shows realistic knowledge: teamwork, documentation, site work, licensing requirements, responsibility for public safety",
        "Describes concrete exploration and what they learned from it",
-       "Shows flexibility and maturity about branch allocation"
+       "Says they would accept another branch and gives one concrete way they would make it work"
       ],
       "warningSigns": [
        "Only reasons are good grades, salary or parental choice",
@@ -6424,7 +6641,7 @@
      "difficulty": "standard",
      "title": "Changing the Test Conditions",
      "interviewee": {
-      "doorPrompt": "You are an intern at a company making battery packs for electric motorbikes, popular with delivery riders. A battery pack fails a safety test at 45°C by a small margin; it overheats faster than allowed. Your manager tells you to rerun the test at 40°C, which is the minimum required by the official standard, and report only that result. The product launch is next month."
+      "doorPrompt": "You are an intern at a company making battery packs for electric motorbikes, popular with delivery riders. A battery pack fails a safety test at 45°C by a small margin; it overheats faster than allowed. Your manager tells you to rerun the test at 40°C, which is the lowest test temperature the official standard requires, and report only that result. The product launch is next month."
      },
      "interviewer": {
       "openingQuestion": "How would you respond to your manager?",
@@ -6472,7 +6689,7 @@
      },
      "observer": {
       "keyPoints": [
-       "Takes the environmental and health harm to farmers and the community seriously",
+       "Names specific harm to the farmers: crops, water, health and lost income",
        "Gathers facts first (how often, what pollutants, what the law requires) before acting",
        "Raises the issue internally first, through the supervisor and then senior management, with possible solutions such as phased upgrades",
        "Understands when external reporting to the environmental authority becomes necessary if internal action fails",
@@ -6492,7 +6709,7 @@
      "difficulty": "standard",
      "title": "Six Hours Before Flooding",
      "interviewee": {
-      "doorPrompt": "You are a junior engineer at a district office in eastern Bangkok. Heavy rain, around 100 mm, is forecast to begin in six hours. One of the three pumps at the local pumping station is broken, and a replacement part will take two days. The low-lying area includes a community hospital, a primary school and 400 homes. You have a team of six workers."
+      "doorPrompt": "You are a junior engineer at a district office in eastern Bangkok. Heavy rain, around 100 mm in three hours, is forecast to begin in six hours. One of the three pumps at the local pumping station is broken, and a replacement part will take two days. The low-lying area includes a community hospital, a primary school and 400 homes. You have a team of six workers."
      },
      "interviewer": {
       "openingQuestion": "What would you do in the next six hours, and in what order?",
@@ -6560,7 +6777,7 @@
      "difficulty": "hard",
      "title": "Bypass the Safety Sensor?",
      "interviewee": {
-      "doorPrompt": "This is a pressure station. You are the only engineer on night shift at a car-parts factory. A big export order must ship in 48 hours or the company pays a large penalty. A safety light-curtain on a stamping press keeps failing, stopping the line every few minutes. The production supervisor wants you to bypass the sensor 'just for two nights' and assign an experienced worker to watch the machine."
+      "doorPrompt": "This is a pressure station. You are the only engineer on night shift at a car-parts factory. A big export order must ship in 48 hours or the company pays a large penalty. A safety light-curtain on a stamping press keeps failing, stopping the line every few minutes. The production supervisor wants you to bypass the sensor 'just for two nights' and assign an experienced worker to watch the machine. Meanwhile a forklift has leaked oil across the loading bay, where two trucks are waiting."
      },
      "interviewer": {
       "openingQuestion": "What will you do, and how will you prioritise?",
@@ -6578,7 +6795,7 @@
        "Approaches the fault systematically: checks wiring, alignment, dirt, logs of when it fails",
        "Looks for safe alternatives: moving work to another press, a temporary approved guard, calling a technician or the supplier",
        "Escalates to the production manager and safety officer with a clear summary of risk and options",
-       "Documents the decision and the instructions given"
+       "Deals with the oil slip hazard and the waiting trucks as well as the press, in a stated order, and documents the decision"
       ],
       "warningSigns": [
        "Agrees to the bypass because a worker will be watching",
@@ -6597,7 +6814,7 @@
       "doorPrompt": "You are the site engineer for a new 30-storey condominium being built in an old Bangkok neighbourhood. Piling work started two weeks ago. Aunt Somsri, who lives in a 60-year-old shophouse next to the site, has come to the site office. She says new cracks have appeared in her walls. You do not yet know whether the construction caused them."
      },
      "interviewer": {
-      "openingQuestion": "Please speak to Aunt Somsri.",
+      "openingQuestion": "The interviewer will play Aunt Somsri. Please begin when you are ready.",
       "followUps": [
        "What did you promise her, and was it a promise you can keep?",
        "How would you find out whether the construction caused the cracks?",
@@ -6607,7 +6824,7 @@
       "pressureProbe": "You were very kind, but you didn't actually admit anything. Isn't that just protecting your company?",
       "actor": {
        "role": "Aunt Somsri, 67, has lived in her family's shophouse for 40 years",
-       "brief": "You are worried and angry. The noise has been terrible, and now there are cracks. You feel big companies never listen to ordinary people. Hidden concern: you live alone with your grandson and are frightened the house might collapse at night.",
+       "brief": "You are worried and angry. The noise has been terrible, and now there are cracks. You feel big companies never listen to ordinary people. Hidden concern: you live with only your eight-year-old grandson and are frightened the house might collapse at night.",
        "lines": [
         "Are you the engineer? Come and look at my wall. These cracks were not there two weeks ago.",
         "Every day, bang, bang, bang. Now my house is breaking. Who is going to pay?",
@@ -6619,7 +6836,7 @@
      "observer": {
       "keyPoints": [
        "Listens fully and acknowledges her fear before explaining anything technical",
-       "Explains clearly what will happen next, e.g. an inspection of her house, measuring cracks, checking vibration records",
+       "Explains clearly what will happen next, e.g. an inspection of her house, measuring cracks, checking vibration records and the pre-construction survey photos of neighbouring houses",
        "Is honest that they do not yet know the cause, without dismissing her or admitting liability prematurely",
        "Addresses her hidden concern about safety at night and offers interim reassurance or support",
        "Gives her a named contact and a timeline for follow-up"
@@ -6641,7 +6858,7 @@
       "doorPrompt": "You are an engineering student working part-time at an electric-vehicle showroom. Mr Somchai, a taxi driver, is thinking about switching from his old car to an electric car. He has read worrying things online about battery fires, driving through floods and charging problems. Your job is to answer his questions honestly; you are not paid commission."
      },
      "interviewer": {
-      "openingQuestion": "Please speak to Mr Somchai.",
+      "openingQuestion": "The interviewer will play Mr Somchai. Please begin when you are ready.",
       "followUps": [
        "How did you decide which of his worries to address first?",
        "Did you mention any real disadvantages of electric vehicles? Why or why not?",
@@ -6685,7 +6902,7 @@
       "doorPrompt": "This is a pressure station. You are a junior structural engineer. You have just discovered that a calculation error in your design means the steel beams ordered for a warehouse roof are too small. The steel was ordered three days ago. Correcting it will delay the project by about two weeks. Nobody else has noticed. You must tell your project manager, Khun Nok, now."
      },
      "interviewer": {
-      "openingQuestion": "Please go and speak to Khun Nok.",
+      "openingQuestion": "The interviewer will play Khun Nok. Please begin when you are ready.",
       "followUps": [
        "Why did you choose to tell her immediately rather than trying to fix it quietly first?",
        "What options did you bring to the conversation?",
@@ -6701,7 +6918,7 @@
         "Two weeks? Are you serious? The client is already shouting at me.",
         "Do we really need to change them? There's a safety factor, isn't there? Can't we just use what we've ordered?"
        ],
-       "howToReact": "If the candidate hesitates, gives a long technical explanation or blames others, become impatient and angry. If they agree to use the smaller beams, accept it quickly (an examiner should note this). If they are clear, honest and come with solutions, calm down and start discussing next steps with them."
+       "howToReact": "If the candidate hesitates, gives a long technical explanation or blames others, become impatient and angry. If they agree to use the smaller beams, accept it quickly, then tell the observer afterwards: agreeing to the unsafe beams is a red flag. If they are clear, honest and come with solutions, calm down and start discussing next steps with them."
       }
      },
      "observer": {
@@ -6731,8 +6948,8 @@
        "caption": "PM2.5 reduction test for 'PureAir X' purifier",
        "columns": [
         "Room size",
-        "Room condition",
-        "PM2.5 reduction after 10 min",
+        "Condition",
+        "Cut after 10 min",
         "After 60 min"
        ],
        "rows": [
@@ -6795,8 +7012,8 @@
        "caption": "New EV registrations and average PM2.5 in Bangkok",
        "columns": [
         "Year",
-        "New EVs registered in Bangkok",
-        "Avg dry-season PM2.5 (µg/m³)"
+        "New EVs (Bangkok)",
+        "Dry-season PM2.5 (µg/m³)"
        ],
        "rows": [
         [
@@ -6831,7 +7048,7 @@
        "What if PM2.5 rose sharply in 2026 even though EV numbers kept rising? What would that tell you?",
        "How could you design a better study to measure the effect of EVs on air quality?"
       ],
-      "pressureProbe": "Both lines go in the right direction. That's good enough for a social-media post, isn't it?"
+      "pressureProbe": "Both columns move in the right direction. That's good enough for a social-media post, isn't it?"
      },
      "observer": {
       "keyPoints": [
@@ -6928,9 +7145,9 @@
      "interviewer": {
       "openingQuestion": "Tell me about a time something you designed, built or planned did not work.",
       "followUps": [
-       "In the bridge example, how would you find out why it failed?",
        "In your real example, how did you feel, and how did you deal with those feelings?",
        "What did you change afterwards, and did it work?",
+       "In the bridge example, how would you find out why it failed?",
        "What if you had no time to rebuild before the next deadline?"
       ],
       "pressureProbe": "Isn't it better to be careful and avoid failure altogether? Why should we celebrate failing?"
@@ -6983,6 +7200,48 @@
        "Would ignore safety requirements to keep the foreman happy"
       ]
      }
+    }
+   ],
+   "glossary": [
+    {
+     "term": "light-curtain",
+     "def": "an invisible beam across a machine opening that stops the machine if a hand passes through"
+    },
+    {
+     "term": "subsidence",
+     "def": "the ground slowly sinking, in Bangkok mainly because groundwater was pumped out"
+    },
+    {
+     "term": "bypass",
+     "def": "sending something around a safety or treatment step so that the step is skipped"
+    },
+    {
+     "term": "stern",
+     "def": "strict and serious"
+    },
+    {
+     "term": "idling",
+     "def": "the engine running while the car is not moving"
+    },
+    {
+     "term": "foreman",
+     "def": "the worker in charge of a group of workers on site"
+    },
+    {
+     "term": "stamping press",
+     "def": "a machine that cuts and shapes metal sheets with great force"
+    },
+    {
+     "term": "piling",
+     "def": "driving long concrete or steel posts into the ground to hold up a building"
+    },
+    {
+     "term": "safety factor",
+     "def": "the extra strength added to a design beyond the expected load"
+    },
+    {
+     "term": "root cause",
+     "def": "the real reason a problem keeps happening"
     }
    ]
   },
@@ -7400,7 +7659,7 @@
       "doorPrompt": "You are volunteering at a community digital-skills centre. Aunt Somsri, who is 70, arrives very upset. Yesterday, she clicked a link in an SMS saying she had a parcel waiting and typed in some details. Now she thinks her phone has been 'hacked' and is afraid to use it. She does not know much about technology. You need to help her."
      },
      "interviewer": {
-      "openingQuestion": "Please speak to Aunt Somsri.",
+      "openingQuestion": "The interviewer will play Aunt Somsri. Please begin when you are ready.",
       "followUps": [
        "How did you find out exactly what she clicked and what information she typed?",
        "What were the most urgent steps, and why?",
@@ -7444,7 +7703,7 @@
       "doorPrompt": "You are a junior developer at a small software company. A client, Mr Somchai, owns a chain of tutoring schools and wants an app built in two weeks. He wants students' attendance recorded by face scanning, with photos stored and shared with parents in a LINE group. Your team believes the timeline is impossible and is worried about children's personal data. You must explain this to him."
      },
      "interviewer": {
-      "openingQuestion": "Please speak to Mr Somchai.",
+      "openingQuestion": "The interviewer will play Mr Somchai. Please begin when you are ready.",
       "followUps": [
        "How did you explain the privacy concerns without sounding like you were refusing his business?",
        "What alternatives did you offer?",
@@ -7488,7 +7747,7 @@
       "doorPrompt": "This is a pressure station. You are a junior developer at an online shopping company. A misconfigured server exposed the names, phone numbers and addresses of 50,000 customers for two weeks before your team found it. No passwords or card numbers were exposed. A customer, Praew, has called the company very angry, and you have been asked to speak with her."
      },
      "interviewer": {
-      "openingQuestion": "Please speak to Praew.",
+      "openingQuestion": "The interviewer will play Praew. Please begin when you are ready.",
       "followUps": [
        "How much detail about the cause did you share, and why?",
        "What did you offer her, and what could you not promise?",
@@ -8204,7 +8463,7 @@
       "doorPrompt": "You are a junior architect. Your client, Mrs Wanpen, is building a new family house in Nonthaburi. She has shown you photos of a European château and wants large, dark-tinted glass walls facing west, a black roof and no roof overhangs, because she thinks overhangs look 'old-fashioned'. You are worried the house will be extremely hot and expensive to cool. You must discuss this with her."
      },
      "interviewer": {
-      "openingQuestion": "Please speak to Mrs Wanpen about her design ideas.",
+      "openingQuestion": "The interviewer will play Mrs Wanpen. Please speak to Mrs Wanpen about her design ideas.",
       "followUps": [
        "How did you show respect for her taste while raising your concerns?",
        "How did you explain the heat problem without technical jargon?",
@@ -8248,7 +8507,7 @@
       "doorPrompt": "You are a junior architect on a small community health centre in a province. Your design uses deep roof overhangs and timber louvres to keep the building cool without air-conditioning. The experienced contractor, Mr Prasert, says the overhangs are 'difficult to build and a waste of money'. He wants to make them much shorter and replace the louvres with tinted glass. You need his cooperation."
      },
      "interviewer": {
-      "openingQuestion": "Please speak to Mr Prasert.",
+      "openingQuestion": "The interviewer will play Mr Prasert. Please begin when you are ready.",
       "followUps": [
        "How did you show respect for his practical experience?",
        "Which part of the design did you hold firm on, and which part were you willing to change?",
@@ -8292,7 +8551,7 @@
       "doorPrompt": "This is a pressure station. You are a junior architect. The building permit for a client's new restaurant has been refused because the design breaks the required setback from the road by 1.5 metres. Your firm misread the regulation. Redesigning and resubmitting will delay the opening by about three months. You must tell the client, Khun Krit, today."
      },
      "interviewer": {
-      "openingQuestion": "Please speak to Khun Krit.",
+      "openingQuestion": "The interviewer will play Khun Krit. Please begin when you are ready.",
       "followUps": [
        "How did you take responsibility without making the situation worse legally for your firm?",
        "What solutions did you bring to the conversation?",
@@ -8795,7 +9054,7 @@
        "Identifies human strengths: understanding clients and users, research, judgement, cultural context, ethics, strategy",
        "Describes a responsible way to use AI as a tool (e.g. quick ideas, mock-ups) while being transparent with clients",
        "Shows adaptability with a realistic plan B or a broader view of design skills",
-       "Stays calm and reasoned under the examiner's direct tone"
+       "Names something specific this faculty offers that YouTube and AI cannot: studio critique, mentors, industry projects, peers"
       ],
       "warningSigns": [
        "Claims AI 'can never be creative' with no reasoning",
@@ -8845,7 +9104,7 @@
      "difficulty": "standard",
      "title": "The AI Competition Entry",
      "interviewee": {
-      "doorPrompt": "You and your friend Mint enter a national poster competition on PM2.5 awareness. The rules say 'original work'. Mint secretly generated the main image with an AI tool, then edited it by hand. Your poster is shortlisted for the final, and the prize includes a scholarship. Nobody else knows how the image was made."
+      "doorPrompt": "You and your friend Mint enter a national poster competition on PM2.5 awareness together. The rules say 'original work'. Mint secretly generated the main image with an AI tool, then edited it by hand. Your joint poster is shortlisted for the final, and the prize includes a scholarship. Nobody else knows how the image was made."
      },
      "interviewer": {
       "openingQuestion": "What would you do in this situation?",
@@ -8853,7 +9112,7 @@
        "Is an AI-generated image that has been edited by hand 'original work'? Argue both sides.",
        "How would you talk to Mint about this without destroying your friendship?",
        "What if Mint says the rules do not mention AI at all, so you are not breaking them?",
-       "What if the image was trained on artworks by real Thai illustrators who were never asked or paid?"
+       "What if the AI tool was trained on artworks by real Thai illustrators who were never asked or paid?"
       ],
       "pressureProbe": "If you tell the organisers, you both lose a scholarship over a rule that isn't even clear. Isn't that just foolish?"
      },
@@ -8947,7 +9206,7 @@
      "difficulty": "standard",
      "title": "Exhibition Day Disaster",
      "interviewee": {
-      "doorPrompt": "You are leading a student team setting up a product-design exhibition at a Bangkok mall. It opens in three hours. The printer has jammed and half the posters are missing, one prototype has broken in transport, a teammate is stuck in traffic with the projector, and a journalist has asked to interview you in one hour."
+      "doorPrompt": "You are leading a student team setting up a product-design exhibition at a Bangkok mall. It opens in three hours. The printer has jammed and half the posters are missing. One prototype has broken in transport, and a teammate is stuck in traffic with the projector. A journalist has asked to interview you in one hour."
      },
      "interviewer": {
       "openingQuestion": "What do you do first, and how do you prioritise everything else?",
@@ -8996,8 +9255,8 @@
      "observer": {
       "keyPoints": [
        "Begins with observation and talking to real users, especially elderly patients and front-desk staff",
-       "Identifies likely issues: small text, English-only or complex language, too many steps, no audio, poor placement",
-       "Suggests cheap fixes that can be tested quickly: bigger buttons, Thai-first simple wording, a volunteer helper, paper backup",
+       "Identifies likely issues: small text, formal or complex Thai wording, too many steps, no audio, poor placement",
+       "Suggests cheap fixes that can be tested quickly: bigger buttons, simpler Thai wording, a volunteer helper, paper backup",
        "Uses evidence (queue times, observation notes) to persuade the director",
        "Is willing to report an uncomfortable finding honestly"
       ],
@@ -9018,7 +9277,7 @@
       "doorPrompt": "You are a junior graphic designer. Khun Ton, the owner of a new skincare brand, has just seen your third logo design. Your art director approved it, but Khun Ton looks unhappy. You have time for only one more round of changes before printing. Speak to Khun Ton."
      },
      "interviewer": {
-      "openingQuestion": "Please begin the conversation with Khun Ton.",
+      "openingQuestion": "The interviewer will play Khun Ton. Please begin when you are ready.",
       "followUps": [
        "How did you find out what Khun Ton really wanted?",
        "How would you explain a design decision without sounding defensive?",
@@ -9062,7 +9321,7 @@
       "doorPrompt": "You are a UX design student volunteering at a community centre. Aunt Somsri, 72, has been told by her son to use a new app to book doctor's appointments, but she is confused and upset. You helped design a simpler version of the app for older users. Help her."
      },
      "interviewer": {
-      "openingQuestion": "Please go and speak to Aunt Somsri.",
+      "openingQuestion": "The interviewer will play Aunt Somsri. Please begin when you are ready.",
       "followUps": [
        "What did you notice about how Aunt Somsri was feeling?",
        "What did you learn from this conversation that you would feed back to the design team?",
@@ -9078,7 +9337,7 @@
         "Everything is so small. And what does this button do? I'm afraid to touch it.",
         "My friend lost all her savings on her phone. What if this happens to me?"
        ],
-       "howToReact": "If the candidate rushes, uses English words or grabs the phone, become flustered and say, 'Forget it, I'm too old for this.' If they are patient, reassure you about scams and let you try, relax and start trying the steps."
+       "howToReact": "If the candidate rushes, uses technical app words or grabs the phone, become flustered and say, 'Forget it, I'm too old for this.' If they are patient, reassure you about scams and let you try, relax and start trying the steps."
       }
      },
      "observer": {
@@ -9106,7 +9365,7 @@
       "doorPrompt": "You are a design intern at a Bangkok fashion brand that has used a traditional woven pattern from a village weaving cooperative in Nan in its new collection. The brand paid the cooperative for fabric, but not for the pattern. Mr Krit, the cooperative's leader, has come to the office upset. Your manager is out. Speak to him."
      },
      "interviewer": {
-      "openingQuestion": "Please begin the conversation with Mr Krit.",
+      "openingQuestion": "The interviewer will play Mr Krit. Please begin when you are ready.",
       "followUps": [
        "What do you think Mr Krit really wants from this meeting?",
        "What can you promise as an intern, and what can you not promise?",
@@ -9131,7 +9390,7 @@
        "Does not make promises beyond an intern's authority but commits to a concrete next step (meeting with the manager, written record)",
        "Understands the difference between legal ownership and ethical respect for cultural heritage",
        "Explores fair solutions: credit, profit sharing, collaboration, consent before using patterns",
-       "Stays calm and respectful under pressure"
+       "Asks what the community actually wants before proposing solutions"
       ],
       "warningSigns": [
        "Says 'It's legal, so there is nothing we can do'",
@@ -9216,9 +9475,9 @@
       "data": {
        "caption": "Average annual sales growth of Thai SMEs by design spending",
        "columns": [
-        "Design spending per year",
-        "Number of companies",
-        "Average sales growth"
+        "Design spend/year",
+        "Companies",
+        "Sales growth"
        ],
        "rows": [
         [
@@ -9311,7 +9570,7 @@
      "difficulty": "standard",
      "title": "Group Project Clash",
      "interviewee": {
-      "doorPrompt": "Design work is almost always team work: designers work with clients, engineers, marketers and other designers who may have very different ideas. Imagine a group project where two teammates strongly disagree about the visual direction and the deadline is close."
+      "doorPrompt": "Design work is almost always team work: designers work with clients, engineers, marketers and other designers who may have very different ideas. Imagine a group project where two teammates strongly disagree about the visual direction and the deadline is close. You will be asked for a real example from your own experience."
      },
      "interviewer": {
       "openingQuestion": "Tell me about a time when you worked in a team where people disagreed. What happened and what did you do?",
@@ -9329,7 +9588,7 @@
        "Describes personal actions, not just what 'we' did",
        "Shows how ideas were tested or compared fairly, e.g. by prototyping both options or asking users",
        "Reflects honestly on mistakes and what they learned",
-       "Values others' ideas and can separate their ego from their work"
+       "Says what was good about the other person's idea, in their own words"
       ],
       "warningSigns": [
        "Gives a vague or obviously invented story",
@@ -9377,34 +9636,76 @@
      "station": 6,
      "variant": "C",
      "difficulty": "hard",
-     "title": "The Teammate Who Copied",
+     "title": "The Teammate Who Delivered Nothing",
      "interviewee": {
-      "doorPrompt": "You are the leader of a four-person team creating a campaign for a university design competition. Two days before submission, you realise that your teammate Fah's illustrations, the strongest part of your project, are very close copies of a Korean illustrator's work found on Pinterest. Fah is your close friend."
+      "doorPrompt": "You are the leader of a four-person team creating a campaign for a university design competition. Two days before submission, your teammate Fah, who was responsible for the illustrations, has delivered almost nothing and keeps saying 'tomorrow'. The other two members want her name removed from the entry. Fah is your close friend."
      },
      "interviewer": {
-      "openingQuestion": "As team leader, what would you do? Then tell me about a real time you had to say something uncomfortable to a teammate.",
+      "openingQuestion": "As team leader, what would you do?",
       "followUps": [
        "How would you start the conversation with Fah?",
+       "Tell me about a real time you had to say something uncomfortable to a friend or teammate.",
        "What do you tell the other two team members?",
-       "What if Fah denies it, or says 'I only used it as a reference'?",
-       "Tell me about a real time you had to say something uncomfortable to a friend or teammate."
+       "What if Fah says she has been ill all week and begs you to keep her name on the entry?"
       ],
-      "pressureProbe": "There are only two days left. Wouldn't a good leader just quietly redraw the illustrations without making a fuss?"
+      "pressureProbe": "There are only two days left. Wouldn't a good leader just quietly do the illustrations herself without making a fuss?"
      },
      "observer": {
       "keyPoints": [
-       "Checks the evidence carefully before accusing anyone",
+       "Checks the facts first: what Fah has actually produced and how much illustration work remains",
        "Speaks to Fah privately and gives her the chance to explain",
-       "Plans practical action for the deadline: redrawing, simplifying, asking for an extension, honest declaration",
-       "Balances loyalty with fairness to the team, the original illustrator and other entrants",
+       "Plans practical action for the deadline: splitting the illustration work, simplifying the campaign, asking for an extension",
+       "Balances loyalty to a friend with fairness to the two members who did the work",
        "Links the hypothetical to a real personal experience with honest reflection"
       ],
       "warningSigns": [
-       "Ignores the copying to protect the friendship or the result",
-       "Publicly shames Fah in front of the team",
+       "Does all the illustrations herself and says nothing to protect the friendship",
+       "Removes Fah's name without speaking to her",
        "Cannot give any real example in the final follow-up"
       ]
      }
+    }
+   ],
+   "glossary": [
+    {
+     "term": "kiosk",
+     "def": "a small self-service machine or booth, e.g. a touch-screen for hospital check-in"
+    },
+    {
+     "term": "cooperative",
+     "def": "a business owned and run jointly by its members, who share the profits"
+    },
+    {
+     "term": "privileged position",
+     "def": "having advantages, e.g. money, that others do not"
+    },
+    {
+     "term": "non-negotiable",
+     "def": "cannot be changed or discussed"
+    },
+    {
+     "term": "generative AI",
+     "def": "software that creates images or text from a written request"
+    },
+    {
+     "term": "UX/UI",
+     "def": "user experience / user interface: how a product feels and looks to use"
+    },
+    {
+     "term": "crit",
+     "def": "a session where designers' work is criticised by tutors and peers"
+    },
+    {
+     "term": "trademark",
+     "def": "a legally protected name, logo or symbol"
+    },
+    {
+     "term": "prototype",
+     "def": "an early working model of a product"
+    },
+    {
+     "term": "brief",
+     "def": "the client's written description of what a design must do"
     }
    ]
   },
@@ -9822,7 +10123,7 @@
       "doorPrompt": "You are a law student volunteering at a legal-aid clinic. Ploy, a young worker from a northeastern province, rents a small room in Bangkok. Her landlord has told her to leave by Friday and says she will lose her 6,000-baht deposit. She is frightened. Explain her options clearly."
      },
      "interviewer": {
-      "openingQuestion": "Please begin speaking with Ploy.",
+      "openingQuestion": "The interviewer will play Ploy. Please begin when you are ready.",
       "followUps": [
        "What did you learn about Ploy's situation that she did not say at first?",
        "How did you make sure she understood her options?",
@@ -9866,7 +10167,7 @@
       "doorPrompt": "You are a junior legal officer at a district office. Mr Somchai is angry because his neighbour has built an extension that blocks his light and drains rainwater into his garden. He wants the extension demolished immediately. The office cannot do this without an investigation. Speak to Mr Somchai."
      },
      "interviewer": {
-      "openingQuestion": "Please begin the conversation with Mr Somchai.",
+      "openingQuestion": "The interviewer will play Mr Somchai. Please begin when you are ready.",
       "followUps": [
        "How did you manage Mr Somchai's anger?",
        "Why can't the office act immediately, even if he is probably right?",
@@ -9910,7 +10211,7 @@
       "doorPrompt": "You are a junior lawyer. Your client, Aunt Fah, sued a construction company after her small shop was damaged during roadworks. The court has just ruled against her, partly because some important receipts were missing. She also has to pay part of the legal costs. Tell her the result."
      },
      "interviewer": {
-      "openingQuestion": "Please begin the conversation with Aunt Fah.",
+      "openingQuestion": "The interviewer will play Aunt Fah. Please begin when you are ready.",
       "followUps": [
        "How did you decide how much detail to give her about the reasons?",
        "What options does she still have?",
@@ -10017,7 +10318,7 @@
        "columns": [
         "Period",
         "Reported cases",
-        "Average loss per case (baht)"
+        "Avg loss per case (baht)"
        ],
        "rows": [
         [
@@ -10181,12 +10482,12 @@
       "doorPrompt": "You and three classmates wrote a research project on legal rights for gig-economy workers. It won a competition. At the award ceremony, the presenter names only you and praises 'your' research. In fact, Krit did most of the interviews and data analysis. A journalist wants to interview you."
      },
      "interviewer": {
-      "openingQuestion": "What would you do at the ceremony and afterwards? Then tell me about a real time you had to share credit, or someone took credit for your work.",
+      "openingQuestion": "What would you do at the ceremony and afterwards?",
       "followUps": [
        "Why does giving credit fairly matter, especially in law?",
+       "Tell me about a real time when you had to share credit or when someone took credit for your work.",
        "How would you correct the mistake without embarrassing the organisers?",
-       "What if Krit says he doesn't care and you should just enjoy it?",
-       "Tell me about a real time when you had to share credit or when someone took credit for your work."
+       "What if Krit says he doesn't care and you should just enjoy it?"
       ],
       "pressureProbe": "You'll be applying to universities with this award. Wouldn't it be smarter to stay quiet?"
      },
@@ -10621,7 +10922,7 @@
       "doorPrompt": "You are an assistant at a Thai lifestyle website. A reader, Khun Mint, bought an expensive skincare product after reading an article called 'My Honest Review'. The article was actually paid for by the brand, but this was not clearly labelled. The product gave her a rash. She calls the office, very upset."
      },
      "interviewer": {
-      "openingQuestion": "Please begin speaking with Khun Mint.",
+      "openingQuestion": "The interviewer will play Khun Mint. Please begin when you are ready.",
       "followUps": [
        "What did Khun Mint want most from this conversation?",
        "What can you honestly say about the article without blaming individual colleagues?",
@@ -10665,7 +10966,7 @@
       "doorPrompt": "You are a junior content writer at an agency. Your senior colleague, Khun Krit, has written a post for a hotel client that uses a Thai festival in a way that some readers find disrespectful. Comments are getting angry. Your manager asks you to talk to Khun Krit about changing the post."
      },
      "interviewer": {
-      "openingQuestion": "Please begin speaking with Khun Krit.",
+      "openingQuestion": "The interviewer will play Khun Krit. Please begin when you are ready.",
       "followUps": [
        "How did you raise the problem without making Khun Krit defensive?",
        "How did you explain why the readers were offended?",
@@ -10709,7 +11010,7 @@
       "doorPrompt": "You manage social media for a private school. A parent, Khun Nok, who has 200,000 followers, posted that the school ignored her daughter being bullied. The post is going viral. She has come to the school demanding a public apology. The school is still investigating and cannot share details about other students."
      },
      "interviewer": {
-      "openingQuestion": "Please begin speaking with Khun Nok.",
+      "openingQuestion": "The interviewer will play Khun Nok. Please begin when you are ready.",
       "followUps": [
        "How did you balance the school's reputation with Khun Nok's concerns?",
        "What can you tell her, and what must stay confidential?",
@@ -10949,12 +11250,12 @@
       "doorPrompt": "You are in a group of four producing a short documentary for a class assignment. One member, Ton, has not contributed anything for three weeks and does not reply in the LINE group. The deadline is in ten days. Your other teammates want to remove his name from the project."
      },
      "interviewer": {
-      "openingQuestion": "How would you handle this situation, and tell me about a real time you worked with someone who was not contributing.",
+      "openingQuestion": "How would you handle this situation?",
       "followUps": [
        "What might be the reasons for Ton's silence?",
+       "Tell me about a real time you worked with someone who was not contributing.",
        "When, if ever, would it be right to tell the teacher?",
-       "What if you discover Ton is dealing with a serious family problem?",
-       "Tell me about a real time you worked with someone who was not contributing."
+       "What if you discover Ton is dealing with a serious family problem?"
       ],
       "pressureProbe": "Isn't it unfair on the rest of you to protect Ton?"
      },
@@ -11423,7 +11724,7 @@
       "doorPrompt": "You are a music student. Mr Somchai, father of your 16-year-old piano student Ton, has asked to speak to you. Ton wants to study music at university. Mr Somchai believes it is a waste of money and wants Ton to study engineering. He asks for your honest opinion."
      },
      "interviewer": {
-      "openingQuestion": "Please begin speaking with Mr Somchai.",
+      "openingQuestion": "The interviewer will play Mr Somchai. Please begin when you are ready.",
       "followUps": [
        "What were Mr Somchai's real worries?",
        "How did you give your honest opinion without disrespecting him?",
@@ -11467,7 +11768,7 @@
       "doorPrompt": "You are a music student helping at a school concert. Fah, a 15-year-old violinist, is backstage, shaking and crying ten minutes before her solo. She says she cannot go on. Her teacher is busy on stage. Speak to Fah."
      },
      "interviewer": {
-      "openingQuestion": "Please go and speak to Fah.",
+      "openingQuestion": "The interviewer will play Fah. Please begin when you are ready.",
       "followUps": [
        "How did you help Fah feel calmer?",
        "How did you decide whether she should perform or not?",
@@ -11511,7 +11812,7 @@
       "doorPrompt": "You are a music student living in a Bangkok condo. You practise saxophone for two hours each evening because you have an important exam next week. Aunt Somsri, your elderly neighbour, knocks on your door. She looks tired and angry. Speak to her."
      },
      "interviewer": {
-      "openingQuestion": "Please begin the conversation with Aunt Somsri.",
+      "openingQuestion": "The interviewer will play Aunt Somsri. Please begin when you are ready.",
       "followUps": [
        "What did you learn about Aunt Somsri's situation?",
        "What compromise did you reach, and was it fair to both of you?",
@@ -11622,7 +11923,7 @@
        "columns": [
         "Monthly listeners",
         "Share of artists",
-        "Estimated monthly streaming income"
+        "Est. monthly income"
        ],
        "rows": [
         [
@@ -11786,12 +12087,12 @@
       "doorPrompt": "You are asked to lead a small community choir of older people and children in your neighbourhood for a temple fair performance. The singers have very different levels, two members argue constantly, and some want to sing only luk thung while others want pop songs. You have six weeks."
      },
      "interviewer": {
-      "openingQuestion": "How would you lead this group, and tell me about a real time you led or taught others.",
+      "openingQuestion": "How would you lead this group?",
       "followUps": [
        "How would you choose the songs?",
+       "Tell me about a real time you led or taught others.",
        "How would you deal with the two members who argue?",
-       "What if the group is not good enough to perform well at the fair?",
-       "Tell me about a real time you led or taught others."
+       "What if the group is not good enough to perform well at the fair?"
       ],
       "pressureProbe": "Older people won't listen to a teenager. Why would they follow you?"
      },
@@ -12226,7 +12527,7 @@
       "doorPrompt": "You are an intern at an international NGO in Bangkok. A new foreign colleague, Sam, is upset because Thai colleagues keep saying 'yes' in meetings but then do not follow his plans. He thinks they are lazy or dishonest. Your manager asks you to talk to him."
      },
      "interviewer": {
-      "openingQuestion": "Please begin speaking with Sam.",
+      "openingQuestion": "The interviewer will play Sam. Please begin when you are ready.",
       "followUps": [
        "How did you explain the cultural differences without stereotyping Thai people?",
        "What might be the real reasons behind the Thai colleagues' behaviour?",
@@ -12270,7 +12571,7 @@
       "doorPrompt": "You are a university student starting a research project in a village. Uncle Somchai, a respected elder, approaches you. He is suspicious because previous researchers came, took photos and information, and never returned. He wants to know why the village should help you."
      },
      "interviewer": {
-      "openingQuestion": "Please begin speaking with Uncle Somchai.",
+      "openingQuestion": "The interviewer will play Uncle Somchai. Please begin when you are ready.",
       "followUps": [
        "How did you build trust with Uncle Somchai?",
        "What did you promise, and can you keep those promises?",
@@ -12314,7 +12615,7 @@
       "doorPrompt": "You are a guide on a community-based tourism trip in a Mon village. A tourist, Mr Lee, has walked into a sacred area that villagers asked visitors not to enter, and is now arguing with a villager. You must speak to Mr Lee calmly."
      },
      "interviewer": {
-      "openingQuestion": "Please begin speaking with Mr Lee.",
+      "openingQuestion": "The interviewer will play Mr Lee. Please begin when you are ready.",
       "followUps": [
        "How did you protect the community's rules without humiliating the tourist?",
        "How did you explain the cultural meaning?",
@@ -12590,12 +12891,12 @@
       "doorPrompt": "You are in a four-person team researching street vendors in Bangkok. Two team members do all the interviews in hot markets, while one member only edits slides from home and says interviewing is 'not her strength'. The final presentation is next week and tension is rising."
      },
      "interviewer": {
-      "openingQuestion": "How would you handle this team situation, and tell me about a real time when the work in your team was unequal.",
+      "openingQuestion": "How would you handle this team situation?",
       "followUps": [
        "How would you start the conversation with the member working from home?",
+       "Tell me about a real time when work in your team was unequal.",
        "Is it fair for team members to contribute in different ways?",
-       "What if she says she has social anxiety and cannot do interviews?",
-       "Tell me about a real time when work in your team was unequal."
+       "What if she says she has social anxiety and cannot do interviews?"
       ],
       "pressureProbe": "Isn't she just avoiding the hard work? Why not report her to the teacher?"
      },
@@ -13159,13 +13460,13 @@
      "difficulty": "standard",
      "title": "Which Degree Pays Most?",
      "interviewee": {
-      "doorPrompt": "A popular education page on Facebook posts the table below with the caption: 'Want to be rich? Study Engineering. Arts graduates earn the least!' Your younger cousin has seen it and says she will now choose engineering, even though she loves languages. You have one minute to study the table.",
+      "doorPrompt": "A popular education page on Facebook posts the table below with the caption: 'Want to be rich? Study Engineering. Arts graduates earn the least!' Your younger cousin has seen it and says she will now choose engineering, even though she loves languages. Use your reading time to study the information before discussing it.",
       "data": {
        "caption": "Average first-job monthly salary by faculty, one Bangkok university, 2025 graduates",
        "columns": [
         "Faculty",
         "Graduates who replied",
-        "Average starting salary (baht)"
+        "Avg starting salary (baht)"
        ],
        "rows": [
         [
@@ -13229,9 +13530,9 @@
        "caption": "GPA of students who did and did not use the AI study assistant",
        "columns": [
         "Group",
-        "Number of students",
+        "Students",
         "Average GPA",
-        "Hours studied per week (self-reported)"
+        "Study hrs/week (reported)"
        ],
        "rows": [
         [
@@ -13325,7 +13626,7 @@
       "doorPrompt": "You are one of the leaders of your colour team for school Sports Day. Two weeks before the event, the cheerleading group and the parade group are arguing over the shared budget and practice space. Some members have stopped coming, and people are complaining about each other in the team LINE group. The teacher adviser says, 'Sort it out yourselves.'"
      },
      "interviewer": {
-      "openingQuestion": "How would you handle this situation, and tell me about a real time you helped two groups who disagreed.",
+      "openingQuestion": "How would you handle this situation?",
       "followUps": [
        "How would you decide how to divide the budget and the practice time fairly?",
        "What would you do about the negative messages in the LINE group?",
@@ -13359,7 +13660,7 @@
       "doorPrompt": "Imagine you prepared for three months to be selected for a national English debate competition. You were confident, but the teacher chose another student instead, saying your arguments were 'strong but not well organised'. Everyone in your class knows you were not chosen. The examiner will then ask about a real experience of disappointment."
      },
      "interviewer": {
-      "openingQuestion": "How would you react to this disappointment, and tell me about a real time you were not chosen for something you wanted.",
+      "openingQuestion": "How would you react to this disappointment?",
       "followUps": [
        "What would you do with the teacher's feedback?",
        "How would you treat the student who was chosen?",
@@ -13393,7 +13694,7 @@
       "doorPrompt": "This station has a demanding examiner. Imagine you are class president. You proposed using the class fund for a trip to help at a rural school, but the class voted for a party at a Bangkok restaurant instead. Some classmates now say you are 'too serious' to be president. The examiner will ask how you would respond and about your real experience of leadership."
      },
      "interviewer": {
-      "openingQuestion": "What would you do after the vote? Then tell me about a real time a group decided against your idea.",
+      "openingQuestion": "What would you do after the vote?",
       "followUps": [
        "Should a leader always follow the majority? Why or why not?",
        "Could you combine both ideas in some way?",
@@ -13704,7 +14005,8 @@
        "What if returning it meant the museum loses its biggest sponsor and has to cut staff, including you?",
        "Thailand has asked foreign museums to return Thai artefacts. Does that change how Thailand should act here?"
       ],
-      "pressureProbe": "If every museum returned every object with a complicated history, museums would be empty. Isn't that a ridiculous standard?"
+      "pressureProbe": "If every museum returned every object with a complicated history, museums would be empty. Isn't that a ridiculous standard?",
+      "note": "Keep the discussion on evidence and principles. Do not name a country or discuss current politics."
      },
      "observer": {
       "keyPoints": [
@@ -13728,7 +14030,7 @@
      "difficulty": "standard",
      "title": "Old Wall, New Train Line",
      "interviewee": {
-      "doorPrompt": "You are a junior officer in a city heritage team. Construction of a new rail station has uncovered brick remains that may be part of a 200-year-old city wall. Work has stopped, the contractor says each day of delay costs millions of baht, local residents want the station opened, and a history group is already posting about it online. You have two weeks to give a recommendation."
+      "doorPrompt": "You are a junior officer in a city heritage team. Construction of a new rail station has uncovered brick remains that may be part of a 200-year-old city wall. Work has stopped. The contractor says each day of delay costs millions of baht, and local residents want the station opened. A history group is already posting about it online. You have two weeks to give a recommendation."
      },
      "interviewer": {
       "openingQuestion": "What would you do first, and how would you plan the next two weeks?",
@@ -13762,7 +14064,7 @@
      "difficulty": "standard",
      "title": "Literature Festival Chaos",
      "interviewee": {
-      "doorPrompt": "You are a student volunteer coordinator at a Bangkok international literature festival. In two hours, a famous Japanese author is due to speak to 300 people. Her flight is delayed by 90 minutes, the Thai-English interpreter has called in sick, and the books for the signing session are still at the warehouse. You have three volunteers and a phone."
+      "doorPrompt": "You are a student volunteer coordinator at a Bangkok international literature festival. In two hours, a famous Japanese author is due to give a talk in English to 300 people. Her flight is delayed by 90 minutes, the English–Thai interpreter has called in sick, and the books for the signing session are still at the warehouse. You have three volunteers and a phone."
      },
      "interviewer": {
       "openingQuestion": "What are your priorities, and what would you do in the next 30 minutes?",
@@ -13772,7 +14074,7 @@
        "What if the only person who can interpret is a volunteer whose English is good but not professional?",
        "What if the author lands but says she is too tired to speak today?"
       ],
-      "pressureProbe": "You have chosen to focus on the interpreter. Surely the audience is the real priority, isn't it?"
+      "pressureProbe": "You seem to be focusing on the interpreter. Surely the audience is the real priority, isn't it?"
      },
      "observer": {
       "keyPoints": [
@@ -13833,7 +14135,7 @@
       "doorPrompt": "You have decided to apply for a philosophy major. Your mother, who runs a small business and paid for your tutoring for years, is worried. She has asked to talk with you tonight before you submit your application. You want to explain your choice honestly and keep a good relationship with her."
      },
      "interviewer": {
-      "openingQuestion": "Please begin speaking with your mother.",
+      "openingQuestion": "The interviewer will play Khun Wanida. Please begin speaking with your mother.",
       "followUps": [
        "How did you explain what philosophy is in simple, everyday language?",
        "Which of your mother's worries do you think is the most reasonable?",
@@ -13864,7 +14166,8 @@
        "Uses academic jargon such as 'epistemology' without explanation",
        "Dismisses the mother's concerns as old-fashioned",
        "Gives in immediately without explaining their own view"
-      ]
+      ],
+      "note": "The candidate is talking to her own mother, so for 'Builds rapport' rate the warmth and timing of the opening, not whether she introduces herself."
      }
     },
     {
@@ -13877,7 +14180,7 @@
       "doorPrompt": "You are a student volunteer guide at a historical park in central Thailand. A foreign visitor at the entrance is upset because Thai citizens pay 30 baht and foreigners pay 100 baht. He says this is unfair and discriminatory, and other visitors are starting to watch. Your supervisor asks you to talk to him."
      },
      "interviewer": {
-      "openingQuestion": "Please begin speaking with the visitor.",
+      "openingQuestion": "The interviewer will play Daniel. Please begin speaking with the visitor.",
       "followUps": [
        "How did you explain the reason for the two prices without sounding defensive?",
        "Do you personally think dual pricing is fair? Why or why not?",
@@ -13921,7 +14224,7 @@
       "doorPrompt": "You are a junior editor at a Thai publishing house. A new novel you helped edit is set in a southern fishing village. A teacher from a real village nearby has come to the office. She says the book shows her community as poor, dishonest and backward, and that students at her school are now being teased. Your manager is in a meeting and asks you to speak with her first."
      },
      "interviewer": {
-      "openingQuestion": "Please begin speaking with the teacher.",
+      "openingQuestion": "The interviewer will play Khru Ari. Please begin speaking with the teacher.",
       "followUps": [
        "How did you respond to her anger without immediately agreeing or defending the book?",
        "Where is the line between artistic freedom and harming a real community?",
@@ -14033,7 +14336,7 @@
        "columns": [
         "Faculty",
         "Starting salary (baht)",
-        "Graduates who responded"
+        "Replies"
        ],
        "rows": [
         [
@@ -14126,14 +14429,14 @@
      "difficulty": "standard",
      "title": "The Translation Team Clash",
      "interviewee": {
-      "doorPrompt": "Imagine you are in a group of four translating a Thai short story into English for a class project. One member, Krit, wants a very literal translation that 'respects the original'. Another, Fah, wants to rewrite freely so it 'sounds natural in English'. The deadline is in five days and the group has stopped talking."
+      "doorPrompt": "Imagine you are in a group of four translating a Thai short story into English for a class project. One member, Bam, wants a very literal translation that 'respects the original'. Another, Fah, wants to rewrite freely so it 'sounds natural in English'. The deadline is in five days and the group has stopped talking."
      },
      "interviewer": {
       "openingQuestion": "What would you do in this situation, and can you tell me about a time you helped resolve a disagreement in a team?",
       "followUps": [
        "In your real example, what exactly did you say or do, and what was the result?",
        "In the translation case, whose approach do you think is better, and why?",
-       "What if both Krit and Fah threaten to complain to the teacher about each other?",
+       "What if both Bam and Fah threaten to complain to the teacher about each other?",
        "Looking back on your real example, what would you do differently now?"
       ],
       "pressureProbe": "It sounds like you just wanted everyone to be happy. Did you actually solve anything, or just avoid conflict?"
@@ -14143,7 +14446,7 @@
        "Treats the disagreement as a real professional question (faithful versus natural translation), not just a personality clash",
        "Suggests a practical process: agreeing on the target reader, translating one sample page both ways, setting shared guidelines",
        "Gives a real, specific example using STAR, with their own actions clearly described",
-       "Shows they can stay neutral and help others feel heard, while still pushing towards a decision",
+       "Restates each side's view fairly before suggesting a way forward",
        "Reflects honestly on what they learned and what they would change"
       ],
       "warningSigns": [
@@ -14197,7 +14500,7 @@
       "doorPrompt": "You are leading your school's team at a Model United Nations conference, representing a country whose official position on a climate agreement you personally disagree with. Two team members want to ignore the country's real position and argue what they believe is right. The judges score how accurately you represent your country. The examiner is direct and will challenge your choices."
      },
      "interviewer": {
-      "openingQuestion": "As team leader, what would you decide, and how would you handle the two team members? Then tell me about a real time you had to represent a view you disagreed with.",
+      "openingQuestion": "As team leader, what would you decide, and how would you handle the two team members?",
       "followUps": [
        "Is it dishonest to argue strongly for a position you do not believe in?",
        "How would you keep the two members motivated if you overrule them?",
@@ -14212,7 +14515,7 @@
        "Explains the decision clearly to the team and listens to their concerns rather than simply giving orders",
        "Finds a creative middle path, e.g. representing the position accurately while proposing realistic compromises the country could accept",
        "Provides a genuine leadership example with specific actions and an honest outcome",
-       "Handles the direct, challenging tone calmly and defends their view with reasons rather than changing their answer just to please the examiner"
+       "Gives at least one reason the country's real position exists (economy, history, politics) before criticising it"
       ],
       "warningSigns": [
        "Says personal beliefs should always override the task, ignoring the rules everyone agreed to",
@@ -14220,6 +14523,48 @@
        "Changes position completely as soon as the examiner pushes back"
       ]
      }
+    }
+   ],
+   "glossary": [
+    {
+     "term": "curator",
+     "def": "a person who looks after and chooses the objects in a museum collection"
+    },
+    {
+     "term": "low-lying",
+     "def": "land close to sea or river level that floods first"
+    },
+    {
+     "term": "dual pricing",
+     "def": "charging locals and foreigners different prices for the same thing"
+    },
+    {
+     "term": "provenance",
+     "def": "the documented history of who owned an object"
+    },
+    {
+     "term": "consecutive interpreting",
+     "def": "the speaker pauses and the interpreter translates each part"
+    },
+    {
+     "term": "growth mindset",
+     "def": "the belief that ability grows with effort and practice"
+    },
+    {
+     "term": "migrant",
+     "def": "a person who has moved to another country to live or work"
+    },
+    {
+     "term": "evacuate",
+     "def": "move people out of a dangerous place"
+    },
+    {
+     "term": "polished",
+     "def": "finished and improved to a high standard"
+    },
+    {
+     "term": "repatriation",
+     "def": "returning an object or person to its home country"
     }
    ]
   }

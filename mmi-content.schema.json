@@ -223,6 +223,10 @@
                   "type": "string"
                 }
               }
+            },
+            "note": {
+              "type": "string",
+              "description": "v1.2: optional staging or conduct note shown only to the interviewer"
             }
           }
         },
@@ -248,6 +252,10 @@
               },
               "minItems": 2,
               "maxItems": 3
+            },
+            "note": {
+              "type": "string",
+              "description": "v1.2: optional scoring note shown only to the observer"
             }
           }
         }
@@ -685,6 +693,25 @@
             "maxItems": 18,
             "items": {
               "$ref": "#/$defs/scenario"
+            }
+          },
+          "glossary": {
+            "type": "array",
+            "description": "v1.2: hard words shown under the door prompt when they appear in it, and in the Toolkit",
+            "items": {
+              "type": "object",
+              "required": [
+                "term",
+                "def"
+              ],
+              "properties": {
+                "term": {
+                  "type": "string"
+                },
+                "def": {
+                  "type": "string"
+                }
+              }
             }
           }
         }

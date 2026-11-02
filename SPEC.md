@@ -655,3 +655,28 @@ Two sections. **During the interview**: rating legend, station criteria, key poi
 | all 4 | Outstanding (100%) |
 
 Calibration: flat 3s with obsG 6, intG 3 → raterGap 3. Flat 4s with globals 3 and 2 → mismatch. Self 5 vs glob 5.5 → close; 7 vs 4 → higher; 2 vs 5 → lower. Minimum: station 3 + total 8 passes; station 2 or total 7 fails.
+
+## 18. Version 1.2 changes (normative, 2 Nov 2026)
+
+Report codes, session codes, storage keys and the scoring formula are unchanged. Content pack 1.2.0.
+
+### 18.1 Scenario glossary
+- A profession may carry `glossary[]` of `{term, def}` (the eight class professions do).
+- The door card shows a collapsed "Words to know (n)" list of every glossary term that appears (whole word, singular or plural, case-insensitive) in the scenario's title, door prompt or data table. Nothing is shown when no term matches. The interviewee sees it in reading, interview ("Show the prompt again") and feedback; the interviewer sees it under "What the candidate sees on the door".
+- The Toolkit shows the whole glossary for the selected profession under the vocabulary cards.
+
+### 18.2 Scenario notes
+- `interviewer.note` (optional) is shown to the interviewer under the pressure probe; `observer.note` (optional) is shown to the observer above the station criteria. Both use the signal-amber flag style. Used for the phone role-play (medicine-s4-C: eye contact n/o) and the mother role-play (humanities-s4-A: rapport without a self-introduction).
+
+### 18.3 My reports
+- "Received" and "Reports I've given" are lists of tappable rows (whole row = Open / Show), not tables. At 390 px the old table pushed the Open button off the screen.
+
+### 18.4 Content rules made explicit
+- Station 5 door prompts never state a reading time; the session clock decides it.
+- Station 6 openings ask the hypothetical only when a follow-up already asks for the real STAR example; the opening never repeats a follow-up.
+- Every Station 4 opening starts "The interviewer will play <role>." so the interviewer reads it aloud out of character first.
+- Data table headers stay under about 22 characters so four columns fit a phone without three-line wraps.
+- Group-work scenarios set in school use girls' names (Satriwithaya is a girls' school); adult roles may be any gender.
+
+### 18.5 Deployment
+- Live at https://pegasus028.github.io/MMI/; `APP_URL` is set to it. `sw.js` CACHE is `mmi-circuit-v1.2.0`.

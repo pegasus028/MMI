@@ -1,4 +1,16 @@
-# MMI Practice Circuit — v1.1 review and changes
+# MMI Practice Circuit — changes
+
+## v1.2 · 2 Nov 2026 · B2 student walkthrough
+
+Three simulated B2 students (Ploy, Nam, Fern) ran every station for every class profession on three phones, and four persona reviewers read all 144 class-profession scenarios in each role. Full findings and fixes: `QA-REPORT.md`. Compatibility unchanged (codes, storage keys, scoring).
+
+- **Content 1.2.0** (`tools/patch-2026-11-02.js`, 171 edits): Station 5 "one minute" sentences removed (5 scenarios); double-barrelled Station 6 openings trimmed where a follow-up already asks for the real example (13); every Station 4 opening names the role the interviewer plays (33); eleven data tables given short headers; medicine-s6-A and design-s6-C rewritten (one was a copy of business-s6-A, the other of design-s2-B); boys' names in school group scenarios replaced; 50 or so scenario-level fixes (ambiguous prompts, key points that could not be observed, pressure probes that presumed an answer, Thai-context realism).
+- **Glossaries**: ten hard words per class profession, shown under the door prompt when they appear in it, and in the Toolkit (§18.1).
+- **Scenario notes** for the phone role-play and the mother role-play (§18.2).
+- **My reports**: tappable rows instead of tables (§18.3).
+- `APP_URL` set to the live site; `sw.js` cache bumped.
+
+## v1.1 · 5 Oct 2026
 
 5 Oct 2026 · Review of the v1.0 package (SPEC.md, mmi-content.json, reference build) and the changes made in v1.1.
 

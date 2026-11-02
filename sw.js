@@ -1,6 +1,6 @@
 /* MMI Practice Circuit — offline cache. Serves the last good copy when Wi-Fi drops,
  * and refreshes it in the background when the network is back. */
-const CACHE = "mmi-circuit-v1.1.0";
+const CACHE = "mmi-circuit-v1.2.0";
 const SHELL = ["./", "index.html", "app.css", "js/core.js", "js/qr.js", "js/app.js", "mmi-content.json"];
 
 self.addEventListener("install", (e) => {

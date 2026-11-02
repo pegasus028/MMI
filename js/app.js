@@ -126,7 +126,25 @@
       <tbody>${d.rows.map((r) => `<tr>${r.map((c, i) => `<td class="${i ? "n" : ""}">${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>
       <p class="small muted">Small print: ${esc(d.smallPrint)}</p></figure>`;
   }
-  const doorCard = (st, v, sc) => `<div class="card-door sc${st}"><p class="label">On the door · Scenario ${letter(v)}: ${esc(sc.title)}</p><p class="stem">${esc(sc.interviewee.doorPrompt)}</p>${dataTable(sc.interviewee.data)}</div>`;
+  /* Glossary: profession terms that appear in this scenario's door prompt, table or title (v1.2) */
+  function glossFor(prof, sc) {
+    const g = (PROF[prof] && PROF[prof].glossary) || [];
+    if (!g.length) return [];
+    const d = sc.interviewee.data;
+    const hay = [sc.title, sc.interviewee.doorPrompt, d ? [d.caption, d.columns.join(" "), d.rows.map((r) => r.join(" ")).join(" "), d.smallPrint].join(" ") : ""].join(" ").toLowerCase();
+    return g.filter((w) => {
+      const t = w.term.toLowerCase().replace(/\s*\(.*\)$/, "");
+      const base = t.replace(/[^a-z0-9\u0e00-\u0e7f/ -]/g, "");
+      const re = new RegExp("(^|[^a-z0-9])" + base.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/ /g, "[ -]") + "(s|es|d|ed|ing)?([^a-z0-9]|$)");
+      return re.test(hay);
+    });
+  }
+  const glossBlock = (prof, sc) => {
+    const g = glossFor(prof, sc);
+    return g.length ? `<details class="gloss"><summary>Words to know (${g.length})</summary><dl>${g.map((w) => `<div><dt>${esc(w.term)}</dt><dd>${esc(w.def)}</dd></div>`).join("")}</dl></details>` : "";
+  };
+  const doorCard = (st, v, sc, prof) => `<div class="card-door sc${st}"><p class="label">On the door · Scenario ${letter(v)}: ${esc(sc.title)}</p><p class="stem">${esc(sc.interviewee.doorPrompt)}</p>${dataTable(sc.interviewee.data)}${prof ? glossBlock(prof, sc) : ""}</div>`;
+  const noteBlock = (text, cls) => (text ? `<div class="flag note-sc ${cls || ""}">${esc(text)}</div>` : "");
   function fbGuide(feedbackMin) {
     const sec = feedbackMin * 60;
     return `<ol class="fbguide" data-sec="${sec}">${C.observer.feedbackGuide.map((g) => `<li data-at="${Math.round(sec * g.atFraction)}"><span class="mini muted tnum">${fmt(Math.round(sec * g.atFraction))}</span><b>${esc(g.who)}</b><span>${esc(g.text)}</span></li>`).join("")}</ol>`;
@@ -273,13 +291,13 @@
         <section class="panel"><h3>Remember: ${esc(fwName)}</h3>${fwBlock(stn)}</section></div>`;
     }
     if (ph === "read" || ph === "idle") {
-      return `<div class="two"><section class="sect">${doorCard(cur.st, cur.variant, sc)}</section>
+      return `<div class="two"><section class="sect">${doorCard(cur.st, cur.variant, sc, cur.prof)}</section>
         <section class="panel"><h3>Plan with: ${esc(fwName)}</h3>${fwBlock(stn)}<p class="small muted">Note 2–3 key points. When the interview starts, put your phone face down.</p></section></div>`;
     }
     if (ph === "interview") {
       return `<section class="panel center" style="padding-block:28px"><p class="label">Interview in progress</p><h2>Phone down. Look at your interviewer.</h2>
         <p class="muted">Answer first, then explain. Think aloud. It's fine to pause.</p>
-        <details style="width:100%;text-align:left"><summary>Show the prompt again</summary><div>${doorCard(cur.st, cur.variant, sc)}</div></details></section>`;
+        <details style="width:100%;text-align:left"><summary>Show the prompt again</summary><div>${doorCard(cur.st, cur.variant, sc, cur.prof)}</div></details></section>`;
     }
     return `<div class="two"><section class="panel"><h3>Feedback time</h3>
         ${fbGuide(cur.feedbackMin)}
@@ -290,7 +308,7 @@
         </form>
         <p id="imp-msg" class="small" role="status"></p></section>
         <section class="panel"><h3>Reflect in one minute</h3><ul class="list">${C.observer.reflectionPrompts.map((p) => `<li>${esc(p)}</li>`).join("")}</ul>
-        <details><summary>See the prompt again</summary><div>${doorCard(cur.st, cur.variant, sc)}</div></details></section></div>`;
+        <details><summary>See the prompt again</summary><div>${doorCard(cur.st, cur.variant, sc, cur.prof)}</div></details></section></div>`;
   }
 
   function viewInterviewer(cur, stn, sc) {
@@ -309,7 +327,8 @@
           <p class="label">${isActor ? "After the role-play: follow-ups" : "Follow-up probes · tick as you ask"}</p>
           <ul class="checks">${iv.followUps.map((f, i) => `<li><label><input type="checkbox" data-ask="${i}" ${asked & (1 << i) ? "checked" : ""}><span>${esc(f)}</span></label></li>`).join("")}</ul>
           <p class="label">Pressure probe</p><div class="flag" style="border-left-color:var(--signal);background:color-mix(in srgb,var(--signal) 10%,var(--surface))">${esc(iv.pressureProbe)}</div></div>
-        <details><summary>What the candidate sees on the door</summary><div>${doorCard(cur.st, cur.variant, sc)}</div></details>
+        ${noteBlock(iv.note, "sc-note-int")}
+        <details><summary>What the candidate sees on the door</summary><div>${doorCard(cur.st, cur.variant, sc, cur.prof)}</div></details>
       </section>
       <section class="sect">
         <div class="panel"><h3>Your timing</h3>
@@ -357,6 +376,7 @@
       <section class="sect">
         <div class="sect-h"><h3>During the interview</h3><p class="small muted">${esc(SG.during)}</p></div>
         ${legend}
+        ${noteBlock(sc.observer.note, "sc-note-obs")}
         ${grp(`Station ${cur.st} · ${esc(stn.name)}`, W.station, 0, 4)}
         <div class="panel"><h3>Did you hear these?</h3><p class="small muted">Scenario ${letter(cur.variant)}: ${esc(sc.title)}. Tick each point the candidate made.</p>
           <ul class="checks keep">${sc.observer.keyPoints.slice(0, 5).map((l, i) => `<li><label><input type="checkbox" data-look="${i}" ${d.looks & (1 << i) ? "checked" : ""}><span>${esc(l)}</span></label></li>`).join("")}</ul></div>
@@ -639,6 +659,7 @@
     </div>
     <section class="panel"><div class="row" style="justify-content:space-between"><h3>Profession vocabulary</h3><label class="sr" for="tk-prof">Profession</label><select id="tk-prof">${profOptions(pk, true)}</select></div>
       <div class="vocab">${PROF[pk].vocabulary.map((w) => `<div><b>${esc(w.term)} <span class="small muted">${esc(w.pos)}</span></b><span class="small">${esc(w.def)}</span><em>${esc(w.example)}</em></div>`).join("")}</div></section>
+    ${(PROF[pk].glossary || []).length ? `<section class="panel"><h3>Words to know in your scenarios</h3><p class="small muted">Hard words from the ${esc(profLabel(pk))} door prompts. They also appear under the prompt at the station.</p><div class="vocab">${PROF[pk].glossary.map((w) => `<div><b>${esc(w.term)}</b><span class="small">${esc(w.def)}</span></div>`).join("")}</div></section>` : ""}
     <section class="panel"><h3>Ten rules for MMI day</h3><div class="vocab">${C.interviewee.generalRules.map((g) => `<div><b>${esc(g.title)}</b><span class="small">${esc(g.text)}</span></div>`).join("")}</div></section>`;
     $$("[data-tk]").forEach((b) => { b.onclick = () => { S.tkStation = +b.dataset.tk; renderToolkit(); }; });
     $("#tk-prof").onchange = (e) => { S.tkProf = e.target.value; renderToolkit(); };
@@ -694,11 +715,11 @@
       <p class="small muted">${esc(U.storageNote)}</p></section>
     ${sel ? `<section class="panel"><div class="row" style="justify-content:space-between"><button class="btn ghost" id="back" type="button">← All reports</button><div class="row"><button class="btn" id="cp-sel" type="button">Copy report as text</button><span class="small" id="cp-msg" role="status"></span></div></div>${reportHTML(sel, { date: sel.date })}</section>` :
       `${summary}
-      <section class="panel"><h3>Received (${list.length})</h3>${list.length ? `<div class="tbl-wrap"><table><thead><tr><th>Date</th><th>Station</th><th>Scenario</th><th>Score</th><th><span class="sr">Open</span></th></tr></thead><tbody>${list.map((r) => {
+      <section class="panel"><h3>Received (${list.length})</h3>${list.length ? `<ul class="replist">${list.map((r) => {
         const sc = M.scoreReport(r, C);
-        return `<tr><td>${esc(r.date)}</td><td>${r.station} · ${esc(station(r.station).name)}</td><td>${letter(r.variant)} · ${esc(scenarioOf(r).title)}</td><td class="n">${sc.pct === null ? esc(U.notScored) : sc.pct + "%"} ${sc.band ? `<span class="pill ${sc.band.tone}">${esc(sc.band.label)}</span>` : ""}${sc.flagList.length ? ' <span class="pill bad">concern</span>' : ""}</td><td><button class="btn ghost" type="button" data-open="${r.code}">Open</button></td></tr>`;
-      }).join("")}</tbody></table></div>` : `<p class="muted">${esc(U.noReportsYet)}</p>`}</section>
-      <section class="panel"><h3>Reports I've given as observer (${given.length})</h3>${given.length ? `<div class="tbl-wrap"><table><tbody>${given.map((g) => `<tr><td>${esc(g.date)}</td><td class="n" style="font-family:var(--f-sign);font-size:1.15rem;letter-spacing:.06em">${esc(g.code)}</td><td><button class="btn ghost" type="button" data-showg="${esc(g.code)}">Show</button></td></tr>`).join("")}</tbody></table></div>` : `<p class="muted">${esc(U.noGivenYet)}</p>`}</section>`}`;
+        return `<li><button type="button" class="rrow" data-open="${r.code}" aria-label="Open report: Station ${r.station}, ${esc(r.date)}"><span class="when tnum">${esc(r.date)}</span><span class="what"><b class="sc${r.station}">${r.station} · ${esc(station(r.station).name)}</b><span class="small muted">${letter(r.variant)} · ${esc(scenarioOf(r).title)}</span></span><span class="score"><b class="tnum">${sc.pct === null ? esc(U.notScored) : sc.pct + "%"}</b>${sc.band ? `<span class="pill ${sc.band.tone}">${esc(sc.band.label)}</span>` : ""}${sc.flagList.length ? '<span class="pill bad">concern</span>' : ""}</span><span class="chev" aria-hidden="true">›</span></button></li>`;
+      }).join("")}</ul>` : `<p class="muted">${esc(U.noReportsYet)}</p>`}</section>
+      <section class="panel"><h3>Reports I've given as observer (${given.length})</h3>${given.length ? `<ul class="replist">${given.map((g) => `<li><button type="button" class="rrow" data-showg="${esc(g.code)}" aria-label="Show report code ${esc(g.code)}"><span class="when tnum">${esc(g.date)}</span><span class="what"><b class="codetxt">${esc(g.code)}</b>${g.notes && g.notes.strength ? `<span class="small muted">${esc(g.notes.strength)}</span>` : ""}</span><span class="chev" aria-hidden="true">›</span></button></li>`).join("")}</ul>` : `<p class="muted">${esc(U.noGivenYet)}</p>`}</section>`}`;
     S.flash = "";
     $("#imp2").onsubmit = (e) => {
       e.preventDefault();
