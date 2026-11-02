@@ -30,7 +30,7 @@
 
       <!-- Deterministic Station Code Sync -->
       <div class="flex items-center gap-2 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700">
-        <label for="codeJumpInput" class="text-xs text-slate-300 font-medium">Triad Sync Code:</label>
+        <label for="codeJumpSelect" class="text-xs text-slate-300 font-medium">Triad Sync Code:</label>
         <select id="codeJumpSelect" class="bg-slate-900 text-amber-400 font-mono text-sm font-bold px-2 py-1 rounded border border-slate-600 focus:outline-none focus:border-indigo-400">
           <!-- Populated dynamically -->
         </select>
@@ -292,6 +292,128 @@
 
   <script>
     /**
+     * MODULE 1: Classroom-Safe Drift-Free Timer & Screen WakeLock
+     */
+    class MMITimer {
+      constructor({ displayEl, statusEl, frameEl, onTick, onComplete }) {
+        this.displayEl = displayEl;
+        this.statusEl = statusEl;
+        this.frameEl = frameEl;
+        this.onTick = onTick || (() => {});
+        this.onComplete = onComplete || (() => {});
+
+        this.endTime = null;
+        this.remainingMs = 0;
+        this.rafId = null;
+        this.isRunning = false;
+        this.wakeLock = null;
+        this.warned30s = false;
+
+        document.addEventListener('visibilitychange', () => {
+          if (this.isRunning && document.visibilityState === 'visible') {
+            this.requestWakeLock();
+          }
+        });
+      }
+
+      async requestWakeLock() {
+        if ('wakeLock' in navigator) {
+          try {
+            this.wakeLock = await navigator.wakeLock.request('screen');
+            if (this.statusEl) this.statusEl.textContent = 'Screen Awake Locked';
+          } catch (err) {
+            if (this.statusEl) this.statusEl.textContent = 'Keep screen tapped';
+          }
+        }
+      }
+
+      async releaseWakeLock() {
+        if (this.wakeLock !== null) {
+          try {
+            await this.wakeLock.release();
+            this.wakeLock = null;
+            if (this.statusEl) this.statusEl.textContent = 'Ready';
+          } catch (e) {}
+        }
+      }
+
+      start(durationSeconds) {
+        this.pause();
+        this.remainingMs = durationSeconds * 1000;
+        this.endTime = Date.now() + this.remainingMs;
+        this.isRunning = true;
+        this.warned30s = false;
+        this.clearVisualAlerts();
+        this.requestWakeLock();
+        this.tick();
+      }
+
+      resume() {
+        if (this.isRunning || this.remainingMs <= 0) return;
+        this.endTime = Date.now() + this.remainingMs;
+        this.isRunning = true;
+        this.requestWakeLock();
+        this.tick();
+      }
+
+      pause() {
+        if (!this.isRunning) return;
+        this.remainingMs = Math.max(0, this.endTime - Date.now());
+        this.isRunning = false;
+        if (this.rafId) cancelAnimationFrame(this.rafId);
+        this.releaseWakeLock();
+      }
+
+      reset(durationSeconds = 120) {
+        this.pause();
+        this.remainingMs = durationSeconds * 1000;
+        this.warned30s = false;
+        this.clearVisualAlerts();
+        this.render(durationSeconds);
+      }
+
+      tick() {
+        if (!this.isRunning) return;
+
+        this.remainingMs = Math.max(0, this.endTime - Date.now());
+        const secondsLeft = Math.ceil(this.remainingMs / 1000);
+
+        this.render(secondsLeft);
+        this.onTick(secondsLeft);
+
+        if (secondsLeft <= 30 && secondsLeft > 0 && !this.warned30s) {
+          this.warned30s = true;
+          this.frameEl.classList.remove('mmi-alert-red');
+          this.frameEl.classList.add('mmi-alert-amber');
+          if ('vibrate' in navigator) navigator.vibrate(100);
+        }
+
+        if (this.remainingMs <= 0) {
+          this.isRunning = false;
+          this.releaseWakeLock();
+          this.frameEl.classList.remove('mmi-alert-amber');
+          this.frameEl.classList.add('mmi-alert-red');
+          if ('vibrate' in navigator) navigator.vibrate([200, 100, 200]);
+          this.onComplete();
+          return;
+        }
+
+        this.rafId = requestAnimationFrame(() => this.tick());
+      }
+
+      clearVisualAlerts() {
+        if (!this.frameEl) return;
+        this.frameEl.classList.remove('mmi-alert-amber', 'mmi-alert-red');
+      }
+
+      render(totalSeconds) {
+        const mins = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
+        const secs = String(totalSeconds % 60).padStart(2, '0');
+        if (this.displayEl) this.displayEl.textContent = `${mins}:${secs}`;
+      }
+    }
+
+    /**
      * MODULE 2: Complete 6-Track CEFR B2 MMI Dataset (18 Stations)
      */
     const MMI_DATA = [
@@ -353,7 +475,7 @@
           { term: "Beneficence", def: "Acting in the best interest and welfare of the patient." }
         ],
         structure: [
-          "Identify the conflict: Western/medical principle of Patient Autonomy vs. familial protection/cultural harmony.",
+          "Identify the conflict: Medical principle of Patient Autonomy vs. familial protection/cultural harmony.",
           "Acknowledge the family's fear empathetically without promising to deceive the patient.",
           "Action plan: Offer to deliver the news gently with the family present and arrange palliative/psychological support."
         ],
@@ -736,7 +858,6 @@
     let rubricState = { content: 2, language: 2, delivery: 2 };
     let selectedTags = new Set();
 
-    // Initialize Timer
     const timer = new MMITimer({
       displayEl: document.getElementById('timerDisplay'),
       statusEl: document.getElementById('wakeLockBadge'),
@@ -812,7 +933,6 @@
       document.getElementById('stationTypeBadge').textContent = station.stationType;
       document.getElementById('promptScenarioText').textContent = station.prompt;
 
-      // Render Glossary Chips
       const glossaryContainer = document.getElementById('glossaryContainer');
       const defBox = document.getElementById('glossaryDefinitionBox');
       glossaryContainer.innerHTML = '';
@@ -829,7 +949,6 @@
         glossaryContainer.appendChild(chip);
       });
 
-      // Render Interviewee Structure & Phrases
       const structList = document.getElementById('intervieweeStructureList');
       structList.innerHTML = station.structure.map(s => `<li>${s}</li>`).join('');
 
@@ -838,25 +957,21 @@
         .map(p => `<span class="text-xs bg-white border border-emerald-200 text-emerald-900 px-2.5 py-1 rounded font-medium">"${p}"</span>`)
         .join('');
 
-      // Render Interviewer Probes
       document.getElementById('probeAText').textContent = `"${station.probeA}"`;
       document.getElementById('probeBText').textContent = `"${station.probeB}"`;
 
-      // Render Observer Guide
       const obsList = document.getElementById('observerGuideList');
       obsList.innerHTML = station.observerGuide.map(g => `<li>${g}</li>`).join('');
 
       markCodeSeen(station.code);
     }
 
-    // Draw Unseen Random Station in Current Track
     document.getElementById('drawRandomBtn').addEventListener('click', () => {
       const seen = new Set(getSeenCodes());
       const trackPool = MMI_DATA.filter(s => s.track === currentTrack);
       let unseenPool = trackPool.filter(s => !seen.has(s.code));
 
       if (unseenPool.length === 0) {
-        // Reset seen codes for this track only
         const remainingSeen = getSeenCodes().filter(code => !trackPool.some(t => t.code === code));
         localStorage.setItem(STORAGE_KEYS.SEEN_CODES, JSON.stringify(remainingSeen));
         unseenPool = trackPool;
@@ -871,7 +986,6 @@
       updateUnseenCounter();
     });
 
-    // Role Switcher Tabs
     document.querySelectorAll('.role-tab').forEach(tab => {
       tab.addEventListener('click', () => {
         currentRole = tab.dataset.role;
@@ -889,7 +1003,6 @@
       });
     });
 
-    // Timer Controls
     let selectedDuration = 120;
     document.getElementById('setPrepBtn').addEventListener('click', () => {
       selectedDuration = 90;
@@ -911,7 +1024,6 @@
     document.getElementById('pauseTimerBtn').addEventListener('click', () => timer.pause());
     document.getElementById('resetTimerBtn').addEventListener('click', () => timer.reset(selectedDuration));
 
-    // Rubric Selection
     document.querySelectorAll('[data-rubric]').forEach(group => {
       const domain = group.dataset.rubric;
       group.querySelectorAll('.rubric-btn').forEach(btn => {
@@ -927,7 +1039,6 @@
       });
     });
 
-    // Quick-Tap Feedback Chips
     document.querySelectorAll('.feedback-chip').forEach(chip => {
       chip.addEventListener('click', () => {
         const text = chip.textContent;
@@ -941,7 +1052,6 @@
       });
     });
 
-    // Local Persistence & CSV Export
     function getSavedScores() {
       try {
         return JSON.parse(localStorage.getItem(STORAGE_KEYS.SAVED_SCORES) || '[]');
@@ -953,9 +1063,6 @@
     function updateSavedCount() {
       document.getElementById('savedCountBadge').textContent = getSavedScores().length;
     }
-
-    // PASTE YOUR GOOGLE APPS SCRIPT '/exec' URL INSIDE THE QUOTES BELOW:
-    const GOOGLE_SHEETS_WEBHOOK_URL = 'PASTE_YOUR_WEB_APP_URL_HERE';
 
     document.getElementById('saveScoreBtn').addEventListener('click', () => {
       const logs = getSavedScores();
@@ -975,15 +1082,6 @@
       localStorage.setItem(STORAGE_KEYS.SAVED_SCORES, JSON.stringify(logs));
       updateSavedCount();
       document.getElementById('candidateNameInput').value = '';
-
-      // Send to Google Sheets if a valid /exec URL is configured
-      if (GOOGLE_SHEETS_WEBHOOK_URL && GOOGLE_SHEETS_WEBHOOK_URL.startsWith('https://')) {
-        fetch(GOOGLE_SHEETS_WEBHOOK_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          body: JSON.stringify(entry)
-        });
-      }
     });
 
     document.getElementById('exportCsvBtn').addEventListener('click', () => {
