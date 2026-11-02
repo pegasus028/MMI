@@ -1,37 +1,1014 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>MMI Practice Circuit</title>
-<meta name="description" content="In-class Multiple Mini Interview practice: synced station clock, rotating roles, observer scoring and feedback reports.">
-<meta name="theme-color" content="#16212A">
-<link rel="icon" href="data:,">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
-<link rel="stylesheet" href="app.css">
-<script>
-  /* Deployment settings. APP_URL: the public address students open (used in QR codes).
-     Leave empty to use the current page address. GRADEBOOK_URL: optional Apps Script /exec URL (SPEC §14). */
-  window.MMI_CONFIG = { APP_URL: "https://pegasus028.github.io/MMI/", GRADEBOOK_URL: "" };
-</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MMI Triad Simulator — CEFR B2 Edition</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes pulseAmber {
+      0%, 100% { box-shadow: inset 0 0 0 8px rgba(245, 158, 11, 0.85); }
+      50% { box-shadow: inset 0 0 0 2px rgba(245, 158, 11, 0.2); }
+    }
+    @keyframes pulseRed {
+      0%, 100% { box-shadow: inset 0 0 0 10px rgba(239, 68, 68, 0.95); background-color: rgba(254, 242, 242, 0.7); }
+      50% { box-shadow: inset 0 0 0 3px rgba(239, 68, 68, 0.3); }
+    }
+    .mmi-alert-amber { animation: pulseAmber 1.5s infinite; }
+    .mmi-alert-red { animation: pulseRed 0.9s infinite; }
+  </style>
 </head>
-<body>
-<header class="bar"><div class="bar-in">
-  <div class="brand"><i aria-hidden="true">M</i><span class="bt">MMI Practice Circuit</span></div>
-  <nav class="tabs" role="tablist" aria-label="Sections">
-    <button class="tab" role="tab" id="tab-station" data-tab="station" aria-selected="true">Station</button>
-    <button class="tab" role="tab" id="tab-toolkit" data-tab="toolkit" aria-selected="false">Toolkit</button>
-    <button class="tab" role="tab" id="tab-reports" data-tab="reports" aria-selected="false">My reports</button>
-    <button class="tab" role="tab" id="tab-teacher" data-tab="teacher" aria-selected="false">Teacher</button>
-  </nav>
-</div></header>
-<main class="wrap" id="app">
-  <section class="loading" id="boot"><p class="label">Loading stations…</p></section>
-</main>
-<script src="js/core.js"></script>
-<script src="js/qr.js"></script>
-<script src="js/app.js"></script>
+<body id="appFrame" class="min-h-screen bg-slate-50 text-slate-800 transition-colors duration-300">
+
+  <!-- TOP HEADER & TRIAD SYNC BAR -->
+  <header class="bg-slate-900 text-white shadow-md sticky top-0 z-30">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <span class="bg-indigo-600 text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded">MMI B2 Triad</span>
+        <h1 class="text-lg font-bold tracking-tight">University Admissions MMI</h1>
+      </div>
+
+      <!-- Deterministic Station Code Sync -->
+      <div class="flex items-center gap-2 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700">
+        <label for="codeJumpInput" class="text-xs text-slate-300 font-medium">Triad Sync Code:</label>
+        <select id="codeJumpSelect" class="bg-slate-900 text-amber-400 font-mono text-sm font-bold px-2 py-1 rounded border border-slate-600 focus:outline-none focus:border-indigo-400">
+          <!-- Populated dynamically -->
+        </select>
+        <button id="drawRandomBtn" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-3 py-1.5 rounded transition">
+          🎲 Draw Unseen
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 py-6 space-y-6">
+
+    <!-- TRACK SELECTOR & STICKY TIMER BAR -->
+    <section class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <!-- Track Filter -->
+      <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 lg:col-span-2 flex flex-col justify-between">
+        <div>
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Step 1: Select Professional Track</span>
+          <div id="trackButtons" class="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-2">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+        <div class="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between text-xs text-slate-500 gap-2">
+          <div>Active Station: <strong id="stationMetaLabel" class="text-slate-800 font-mono">MED-01</strong></div>
+          <div>Unseen Cards Left in Track: <strong id="unseenCountLabel" class="text-indigo-600">3</strong></div>
+          <button id="resetDeckBtn" class="text-slate-400 hover:text-slate-700 underline">Reset Seen History</button>
+        </div>
+      </div>
+
+      <!-- Drift-Free WakeLock Timer -->
+      <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-col justify-between">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Station Timer (Silent Pulse)</span>
+          <span id="wakeLockBadge" class="text-[11px] bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded font-medium">Ready</span>
+        </div>
+
+        <div class="my-3 text-center">
+          <div id="timerDisplay" class="text-5xl font-mono font-extrabold tracking-tight text-slate-900">02:00</div>
+          <div id="timerPhaseLabel" class="text-xs font-semibold text-indigo-600 uppercase mt-1">Speaking Phase (120s)</div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-1.5 mb-2">
+          <button id="setPrepBtn" class="text-xs py-1.5 px-2 rounded bg-slate-100 hover:bg-slate-200 font-semibold text-slate-700">
+            ⏱ Prep (90s)
+          </button>
+          <button id="setSpeakBtn" class="text-xs py-1.5 px-2 rounded bg-indigo-50 hover:bg-indigo-100 font-semibold text-indigo-700">
+            🎙 Speak (120s)
+          </button>
+        </div>
+
+        <div class="grid grid-cols-3 gap-1.5">
+          <button id="startTimerBtn" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold py-2 rounded transition">
+            ▶ Start
+          </button>
+          <button id="pauseTimerBtn" class="bg-amber-500 hover:bg-amber-400 text-white text-xs font-bold py-2 rounded transition">
+            ⏸ Pause
+          </button>
+          <button id="resetTimerBtn" class="bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold py-2 rounded transition">
+            ↺ Reset
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SHARED STATION PROMPT CARD -->
+    <section class="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
+      <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+        <div class="flex items-center gap-2">
+          <span id="promptCodeBadge" class="bg-amber-100 text-amber-900 font-mono text-sm font-bold px-2.5 py-1 rounded">MED-01</span>
+          <span id="stationTypeBadge" class="bg-indigo-100 text-indigo-800 text-xs font-semibold px-2.5 py-1 rounded">Station 1: Personal Motivation</span>
+        </div>
+        <span class="text-xs text-slate-400">Share the code above so all 3 triad phones match</span>
+      </div>
+
+      <p id="promptScenarioText" class="text-base sm:text-lg font-medium text-slate-900 leading-relaxed mb-4">
+        Loading prompt...
+      </p>
+
+      <!-- Tap-to-Define CEFR B2 Glossary Bar -->
+      <div class="bg-slate-50 rounded-lg p-3 border border-slate-200">
+        <div class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
+          📖 CEFR B2 Key Terms (Tap a term to toggle definition)
+        </div>
+        <div id="glossaryContainer" class="flex flex-wrap gap-2">
+          <!-- Populated dynamically -->
+        </div>
+        <div id="glossaryDefinitionBox" class="hidden mt-2.5 text-sm bg-white p-2.5 rounded border border-indigo-200 text-slate-700"></div>
+      </div>
+    </section>
+
+    <!-- 3-TAB ROLE SWITCHER -->
+    <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+      <div class="grid grid-cols-3 border-b border-slate-200 bg-slate-100">
+        <button data-role="interviewee" class="role-tab py-3.5 px-4 text-sm font-bold text-center border-b-2 border-indigo-600 bg-white text-indigo-600 transition">
+          🗣 1. Interviewee View
+        </button>
+        <button data-role="interviewer" class="role-tab py-3.5 px-4 text-sm font-bold text-center border-b-2 border-transparent text-slate-600 hover:text-slate-900 transition">
+          ❓ 2. Interviewer View
+        </button>
+        <button data-role="observer" class="role-tab py-3.5 px-4 text-sm font-bold text-center border-b-2 border-transparent text-slate-600 hover:text-slate-900 transition">
+          📋 3. Observer Rubric
+        </button>
+      </div>
+
+      <!-- TAB 1: INTERVIEWEE SCAFFOLDING -->
+      <div id="panel-interviewee" class="role-panel p-5 space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-indigo-50/60 border border-indigo-100 rounded-lg p-4">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-indigo-900 mb-2">
+              🧭 Recommended Response Structure (PEEL / STAR)
+            </h3>
+            <ol id="intervieweeStructureList" class="list-decimal list-inside text-sm text-slate-700 space-y-1.5">
+              <!-- Populated by JS -->
+            </ol>
+          </div>
+
+          <div class="bg-emerald-50/60 border border-emerald-100 rounded-lg p-4">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-emerald-900 mb-2">
+              💬 B2+ Discourse Markers & Power Collocations
+            </h3>
+            <div id="intervieweePhrasesList" class="flex flex-wrap gap-1.5">
+              <!-- Populated by JS -->
+            </div>
+            <p class="text-xs text-slate-500 mt-3">
+              <strong>Tip:</strong> Avoid writing full sentences during the 90s prep. Jot down 3 keywords and maintain eye contact!
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: INTERVIEWER FOLLOW-UP PROBES -->
+      <div id="panel-interviewer" class="role-panel hidden p-5 space-y-4">
+        <div class="bg-amber-50 border border-amber-200 rounded-lg p-4">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-amber-900 mb-1">
+            🎙 Interviewer Instructions
+          </h3>
+          <p class="text-sm text-slate-700">
+            Let the Candidate speak uninterrupted for the first 60 seconds. If they finish early, stall, or only look at one side of the issue, ask one of the scripted follow-up probes below:
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="p-4 rounded-lg border border-slate-200 bg-slate-50">
+            <span class="text-xs font-bold text-indigo-600 uppercase">Follow-Up Probe A (Depth / Example)</span>
+            <p id="probeAText" class="text-sm font-medium text-slate-900 mt-1"></p>
+          </div>
+          <div class="p-4 rounded-lg border border-slate-200 bg-slate-50">
+            <span class="text-xs font-bold text-rose-600 uppercase">Follow-Up Probe B (Counter-Perspective)</span>
+            <p id="probeBText" class="text-sm font-medium text-slate-900 mt-1"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: OBSERVER ANCHORED RUBRIC & LOGGING -->
+      <div id="panel-observer" class="role-panel hidden p-5 space-y-5">
+        <!-- Model Reasoning Guide for Observer -->
+        <div class="bg-slate-100 border border-slate-200 rounded-lg p-4">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+            🎯 Observer Content Guide (What a Strong B2 Answer Includes)
+          </h3>
+          <ul id="observerGuideList" class="list-disc list-inside text-sm text-slate-700 space-y-1"></ul>
+        </div>
+
+        <!-- Candidate Name / Seat Input -->
+        <div class="flex flex-wrap items-center gap-3">
+          <input id="candidateNameInput" type="text" placeholder="Interviewee Name / Student ID"
+            class="flex-1 min-w-[200px] text-sm px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:border-indigo-500" />
+          <span class="text-xs text-slate-400">Scores save locally & export to CSV</span>
+        </div>
+
+        <!-- 3-Domain Behavioral Anchor Rubric -->
+        <div class="space-y-4">
+          <!-- Content -->
+          <div class="border border-slate-200 rounded-lg p-3.5">
+            <div class="text-xs font-bold uppercase text-slate-500 mb-2">1. Content & Critical Thinking</div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2" data-rubric="content">
+              <button data-score="1" class="rubric-btn text-left p-2.5 rounded border border-slate-200 hover:border-indigo-400 text-xs">
+                <div class="font-bold text-slate-800">1 — Emerging</div>
+                <div class="text-slate-500 mt-0.5">One-sided or brief; misses core ethical/professional tension.</div>
+              </button>
+              <button data-score="2" class="rubric-btn text-left p-2.5 rounded border border-indigo-600 bg-indigo-50 text-xs">
+                <div class="font-bold text-indigo-900">2 — Competent (B2)</div>
+                <div class="text-slate-600 mt-0.5">Clear stance with 1–2 relevant reasons; addresses follow-up.</div>
+              </button>
+              <button data-score="3" class="rubric-btn text-left p-2.5 rounded border border-slate-200 hover:border-indigo-400 text-xs">
+                <div class="font-bold text-slate-800">3 — Strong (B2+/C1)</div>
+                <div class="text-slate-500 mt-0.5">Weighs multiple stakeholders logically with concrete solution.</div>
+              </button>
+            </div>
+          </div>
+
+          <!-- Language -->
+          <div class="border border-slate-200 rounded-lg p-3.5">
+            <div class="text-xs font-bold uppercase text-slate-500 mb-2">2. Language & Discourse (CEFR B2)</div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2" data-rubric="language">
+              <button data-score="1" class="rubric-btn text-left p-2.5 rounded border border-slate-200 hover:border-indigo-400 text-xs">
+                <div class="font-bold text-slate-800">1 — Basic (B1)</div>
+                <div class="text-slate-500 mt-0.5">Repetitive vocabulary; frequent pauses searching for words.</div>
+              </button>
+              <button data-score="2" class="rubric-btn text-left p-2.5 rounded border border-indigo-600 bg-indigo-50 text-xs">
+                <div class="font-bold text-indigo-900">2 — Competent (B2)</div>
+                <div class="text-slate-600 mt-0.5">Uses connectors ("however, therefore") and some domain terms.</div>
+              </button>
+              <button data-score="3" class="rubric-btn text-left p-2.5 rounded border border-slate-200 hover:border-indigo-400 text-xs">
+                <div class="font-bold text-slate-800">3 — Precise (B2+/C1)</div>
+                <div class="text-slate-500 mt-0.5">Natural hedging ("it could be argued") and accurate collocations.</div>
+              </button>
+            </div>
+          </div>
+
+          <!-- Delivery -->
+          <div class="border border-slate-200 rounded-lg p-3.5">
+            <div class="text-xs font-bold uppercase text-slate-500 mb-2">3. Delivery & Composure</div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2" data-rubric="delivery">
+              <button data-score="1" class="rubric-btn text-left p-2.5 rounded border border-slate-200 hover:border-indigo-400 text-xs">
+                <div class="font-bold text-slate-800">1 — Script-Bound</div>
+                <div class="text-slate-500 mt-0.5">Reads off notes/phone; stops under 45 seconds.</div>
+              </button>
+              <button data-score="2" class="rubric-btn text-left p-2.5 rounded border border-indigo-600 bg-indigo-50 text-xs">
+                <div class="font-bold text-indigo-900">2 — Steady</div>
+                <div class="text-slate-600 mt-0.5">Good eye contact and pacing; minor hesitation.</div>
+              </button>
+              <button data-score="3" class="rubric-btn text-left p-2.5 rounded border border-slate-200 hover:border-indigo-400 text-xs">
+                <div class="font-bold text-slate-800">3 — Engaging</div>
+                <div class="text-slate-500 mt-0.5">Confident posture, empathetic tone, well-timed conclusion.</div>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick-Tap Feedback Chips -->
+        <div>
+          <div class="text-xs font-bold uppercase text-slate-500 mb-2">Quick-Tap Peer Feedback Tags</div>
+          <div id="feedbackTagsContainer" class="flex flex-wrap gap-1.5">
+            <button type="button" class="feedback-chip text-xs px-2.5 py-1 rounded-full border border-slate-300 bg-white text-slate-700">+ Clear PEEL structure</button>
+            <button type="button" class="feedback-chip text-xs px-2.5 py-1 rounded-full border border-slate-300 bg-white text-slate-700">+ Used key glossary terms</button>
+            <button type="button" class="feedback-chip text-xs px-2.5 py-1 rounded-full border border-slate-300 bg-white text-slate-700">+ Strong eye contact</button>
+            <button type="button" class="feedback-chip text-xs px-2.5 py-1 rounded-full border border-slate-300 bg-white text-slate-700">! Finished under 60s</button>
+            <button type="button" class="feedback-chip text-xs px-2.5 py-1 rounded-full border border-slate-300 bg-white text-slate-700">! Needs both stakeholder sides</button>
+            <button type="button" class="feedback-chip text-xs px-2.5 py-1 rounded-full border border-slate-300 bg-white text-slate-700">! Rushed conclusion</button>
+          </div>
+        </div>
+
+        <!-- Save & Export Controls -->
+        <div class="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-200">
+          <button id="saveScoreBtn" class="bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-bold px-4 py-2 rounded-lg transition">
+            💾 Save Triad Evaluation (<span id="savedCountBadge">0</span>)
+          </button>
+          <div class="flex items-center gap-2">
+            <button id="exportCsvBtn" class="bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold px-3 py-2 rounded-lg transition">
+              ⬇ Export Session CSV
+            </button>
+            <button id="clearScoresBtn" class="text-xs text-rose-600 hover:underline px-2 py-1">Clear Log</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    /**
+     * MODULE 2: Complete 6-Track CEFR B2 MMI Dataset (18 Stations)
+     */
+    const MMI_DATA = [
+      // ================= 1. HEALTHCARE =================
+      {
+        code: "MED-01",
+        track: "Healthcare",
+        stationType: "Station 1: Personal Motivation",
+        prompt: "Healthcare professionals frequently face compassion fatigue and high emotional stress. Tell us about a time you supported someone through a difficult situation while managing your own stress, and explain why you are suited for a clinical career.",
+        glossary: [
+          { term: "Compassion fatigue", def: "Emotional exhaustion from caring for people in distress over a long period." },
+          { term: "Resilience", def: "The capacity to recover quickly from difficulties and keep functioning." },
+          { term: "Clinical", def: "Relating to the direct medical observation and treatment of actual patients." }
+        ],
+        structure: [
+          "Situation: Briefly set the context of who needed help and why.",
+          "Action: Explain how you balanced empathy with practical emotional boundaries.",
+          "Link to Healthcare: Connect that skill to long-term sustainability as a doctor/nurse/pharmacist."
+        ],
+        phrases: ["From a personal perspective,", "To prevent burnout,", "Balancing empathy with objectivity,", "This experience reinforced my commitment to..."],
+        probeA: "How do you personally recharge when you feel overwhelmed by school or family responsibilities?",
+        probeB: "Some argue that doctors who become too emotionally attached make worse clinical decisions. Do you agree?",
+        observerGuide: [
+          "Avoids the cliché 'I just want to help people' without concrete evidence.",
+          "Gives a specific STAR example showing both empathy and self-regulation."
+        ]
+      },
+      {
+        code: "MED-02",
+        track: "Healthcare",
+        stationType: "Station 2: Professional Knowledge",
+        prompt: "Thailand is rapidly transitioning into a 'super-aged society,' while rural provinces still face a shortage of specialists. How can telemedicine and preventative care reduce the strain on public hospitals?",
+        glossary: [
+          { term: "Telemedicine", def: "Remote diagnosis and treatment of patients using telecommunications technology." },
+          { term: "Preventative care", def: "Measures taken for disease prevention (e.g., screenings, vaccines, lifestyle) rather than curing symptoms." },
+          { term: "Rural disparity", def: "Inequality in healthcare access between big cities and countryside areas." }
+        ],
+        structure: [
+          "Define the twin challenge: Aging population + urban/rural doctor gap.",
+          "Benefit of Telemedicine: Remote follow-ups for chronic illnesses (diabetes, hypertension).",
+          "Limitation & Prevention: Acknowledge digital literacy barriers for the elderly and stress early community screening."
+        ],
+        phrases: ["To alleviate hospital overcrowding,", "Bridging the urban-rural divide,", "However, a key limitation is...", "In the long run, preventative screening..."],
+        probeA: "Many elderly patients in rural areas struggle to use smartphones. How would you solve this barrier?",
+        probeB: "If hospital budgets are limited, should the government fund high-tech telemedicine or hire more local community nurses?",
+        observerGuide: [
+          "Addresses both telemedicine and preventative care (not just one).",
+          "Acknowledges practical barriers for elderly patients (e.g., technology access or physical exams)."
+        ]
+      },
+      {
+        code: "MED-03",
+        track: "Healthcare",
+        stationType: "Station 3: Ethical / Critical Thinking",
+        prompt: "You are a junior physician. A 70-year-old mentally competent patient asks to know the full truth about his terminal cancer diagnosis. However, his adult children waiting outside beg you not to tell him, claiming the shock will make him give up hope. How do you handle this?",
+        glossary: [
+          { term: "Patient autonomy", def: "The right of a mentally competent patient to make decisions about their own medical care." },
+          { term: "Terminal diagnosis", def: "An illness that cannot be cured and is reasonably expected to result in death." },
+          { term: "Beneficence", def: "Acting in the best interest and welfare of the patient." }
+        ],
+        structure: [
+          "Identify the conflict: Western/medical principle of Patient Autonomy vs. familial protection/cultural harmony.",
+          "Acknowledge the family's fear empathetically without promising to deceive the patient.",
+          "Action plan: Offer to deliver the news gently with the family present and arrange palliative/psychological support."
+        ],
+        phrases: ["While I deeply respect the family's concern,", "Ethically and legally, patient autonomy...", "To find a compassionate middle ground,", "I would communicate the prognosis sensitively by..."],
+        probeA: "What if the patient says, 'Doctor, just talk to my children, I don't want to know the details'?",
+        probeB: "How would you calm down an angry family member who accuses you of not respecting Thai family values?",
+        observerGuide: [
+          "Upholds the competent patient's right to know the truth.",
+          "Shows cultural sensitivity toward the family rather than dismissing them coldly."
+        ]
+      },
+
+      // ================= 2. ENGINEERING =================
+      {
+        code: "ENG-01",
+        track: "Engineering",
+        stationType: "Station 1: Personal Motivation",
+        prompt: "Engineering is about solving real-world constraints under limited time and resources. Describe a technical, scientific, or team project where your initial design failed, and how you iterated to find a workable solution.",
+        glossary: [
+          { term: "Constraint", def: "A limitation or restriction (such as budget, time, or physical materials)." },
+          { term: "Iterate", def: "To test, analyze, and repeatedly improve a design based on failure data." },
+          { term: "Prototype", def: "An early sample or model built to test a concept." }
+        ],
+        structure: [
+          "Context & Goal: What were you trying to build or solve?",
+          "The Failure Point: What went wrong in the first test and why?",
+          "Diagnostic & Iteration: How you analyzed the root cause and modified the design."
+        ],
+        phrases: ["When our initial prototype failed,", "By isolating the root cause,", "Working within strict constraints,", "This taught me that engineering requires..."],
+        probeA: "If you had two more weeks on that project, what further optimization would you have made?",
+        probeB: "When a team project fails, how do you prevent teammates from blaming each other?",
+        observerGuide: [
+          "Focuses on systematic problem-solving rather than just complaining about the failure.",
+          "Clearly explains the 'before vs. after' adjustment."
+        ]
+      },
+      {
+        code: "ENG-02",
+        track: "Engineering",
+        stationType: "Station 2: Professional Knowledge",
+        prompt: "Major cities like Bangkok face recurring urban flooding and high carbon emissions. From an engineering standpoint, should urban planners prioritize grey infrastructure (concrete floodwalls, giant drainage tunnels) or green infrastructure (permeable parks, retention wetlands)?",
+        glossary: [
+          { term: "Grey infrastructure", def: "Traditional human-engineered systems like concrete pipes, dams, and seawalls." },
+          { term: "Green infrastructure", def: "Natural or semi-natural systems like sponge parks, bioswales, and wetlands that absorb water." },
+          { term: "Resilience", def: "The ability of an urban system to absorb extreme weather shocks and recover." }
+        ],
+        structure: [
+          "Compare both approaches: Immediate high-volume capacity of Grey vs. ecological/cooling co-benefits of Green.",
+          "Evaluate trade-offs: Land cost in dense cities vs. long-term maintenance and carbon footprint.",
+          "Synthesis: Propose a hybrid 'sponge city' approach combining both."
+        ],
+        phrases: ["From a structural cost-benefit perspective,", "While grey infrastructure offers immediate capacity,", "Integrating hybrid green-grey systems...", "To mitigate long-term climate risk,"],
+        probeA: "In a densely packed city where land is extremely expensive, how can engineers justify building green retention parks instead of condos?",
+        probeB: "How can AI or IoT sensors be used to make existing drainage tunnels work more efficiently?",
+        observerGuide: [
+          "Weighs both engineering methods across cost, space, and sustainability.",
+          "Proposes a balanced hybrid engineering solution."
+        ]
+      },
+      {
+        code: "ENG-03",
+        track: "Engineering",
+        stationType: "Station 3: Ethical / Critical Thinking",
+        prompt: "You are a software/safety engineer testing an autonomous braking algorithm two days before a major product launch. You discover an edge-case bug that fails 1% of the time in heavy rain. Your manager tells you to approve the release now and patch it via an over-the-air update next month. What do you do?",
+        glossary: [
+          { term: "Edge-case", def: "A problem or situation that occurs only at extreme operating conditions (e.g., heavy tropical rain)." },
+          { term: "Whistleblowing", def: "Reporting internal safety violations or unethical conduct to higher authorities." },
+          { term: "Liability", def: "Legal responsibility for damages or injury caused by a defective product." }
+        ],
+        structure: [
+          "State safety primacy: Public human life outweighs commercial launch deadlines.",
+          "Data-driven internal escalation: Quantify the 1% risk in heavy rain and present documented test logs to the manager and chief engineer.",
+          "Contingency: Propose disabling the autonomous feature in rain until the patch is verified, escalating further if ignored."
+        ],
+        phrases: ["Engineering ethics dictate that public safety...", "I would document the empirical test data and...", "Rather than halting the entire launch, one compromise is...", "If management still refuses to act, I am obligated to..."],
+        probeA: "What if your manager threatens to fire you or give you a bad performance review if you delay the launch?",
+        probeB: "Is a 99% success rate ever acceptable in engineering, or must engineers wait for 100% perfection?",
+        observerGuide: [
+          "Refuses to sign off on a known life-threatening defect.",
+          "Follows professional escalation steps (data -> manager -> safety board) before jumping straight to public media."
+        ]
+      },
+
+      // ================= 3. BUSINESS =================
+      {
+        code: "BUS-01",
+        track: "Business",
+        stationType: "Station 1: Personal Motivation",
+        prompt: "Successful business leaders must persuade diverse stakeholders who have conflicting goals. Tell us about a time you had to negotiate a compromise or pitch an unpopular idea to a group.",
+        glossary: [
+          { term: "Stakeholder", def: "Anyone who has an interest in or is affected by a business decision (customers, staff, investors)." },
+          { term: "Value proposition", def: "The clear benefit that makes an idea or product attractive to someone." },
+          { term: "Win-win compromise", def: "An agreement where all sides gain something valuable." }
+        ],
+        structure: [
+          "Context: Who were the opposing sides and what was at stake?",
+          "Active Listening & Pitch: How you identified their underlying concerns and framed the benefits.",
+          "Outcome: The measurable result and what you learned about leadership."
+        ],
+        phrases: ["To align conflicting priorities,", "By understanding their core incentives,", "We reached a mutually beneficial compromise that...", "This strengthened my ability to lead through influence."],
+        probeA: "What would you have done if the loudest person in the group still refused to cooperate?",
+        probeB: "In business, is it better to be a decisive leader who makes fast calls, or a consensus builder?",
+        observerGuide: [
+          "Demonstrates two-way negotiation (listening + persuading) rather than forcing their way.",
+          "Highlights a concrete outcome."
+        ]
+      },
+      {
+        code: "BUS-02",
+        track: "Business",
+        stationType: "Station 2: Professional Knowledge",
+        prompt: "Many Gen-Z consumers say they care about sustainability, yet ultra-fast-fashion brands continue to record massive revenue growth. Why does this 'attitude-behavior gap' exist, and how can sustainable local brands compete without going bankrupt?",
+        glossary: [
+          { term: "Revenue vs. Profit", def: "Revenue is total money brought in from sales; profit is what remains after subtracting all costs." },
+          { term: "Greenwashing", def: "Deceptive marketing that makes a company appear more environmentally friendly than it really is." },
+          { term: "Economies of scale", def: "Cost advantages that huge companies get due to massive production volume." }
+        ],
+        structure: [
+          "Explain the gap: Price sensitivity, social media micro-trends, and convenience beat abstract eco-guilt.",
+          "Challenge for local SMEs: Higher ethical labor/material costs limit price competition.",
+          "Strategy: Compete on durability, transparent storytelling, resale/repair models, and niche brand loyalty."
+        ],
+        phrases: ["This consumer attitude-behavior gap stems from...", "Because SMEs lack economies of scale,", "To differentiate without greenwashing,", "Building long-term brand equity requires..."],
+        probeA: "Should governments place an environmental 'carbon tax' on cheap fast-fashion imports, even if it raises clothing prices for low-income families?",
+        probeB: "How can a customer tell the difference between genuine ESG commitment and corporate greenwashing?",
+        observerGuide: [
+          "Uses business concepts accurately (cost, pricing power, differentiation).",
+          "Provides realistic marketing/operational strategies for smaller brands."
+        ]
+      },
+      {
+        code: "BUS-03",
+        track: "Business",
+        stationType: "Station 3: Ethical / Critical Thinking",
+        prompt: "You manage a popular food-delivery platform. Data shows that during heavy rainstorms, raising delivery surge fees by 300% maximizes company profit, while also pressuring riders to drive faster in dangerous conditions to hit bonus targets. How do you redesign this policy?",
+        glossary: [
+          { term: "Surge pricing", def: "Temporary price increases when customer demand exceeds available supply." },
+          { term: "Corporate Social Responsibility (CSR)", def: "A business model that holds a company accountable to social and safety impacts." },
+          { term: "Externalities", def: "Hidden social costs (like road accidents) caused by a business activity." }
+        ],
+        structure: [
+          "Weigh stakeholders: Platform profitability & customer demand vs. rider physical safety & public reputation.",
+          "Critique the current incentive: Speed-based bonuses in rain directly cause accidents.",
+          "Policy redesign: Cap surge fees, pass hazard pay directly to riders, and suspend 'delivery speed penalties' during severe weather."
+        ],
+        phrases: ["While surge pricing balances supply and demand,", "Incentivizing speed during hazardous weather creates...", "To balance profitability with rider welfare,", "In the long term, protecting workers safeguards brand reputation."],
+        probeA: "If you remove speed timers in the rain, customers will receive cold food and might switch to a competitor app. How do you handle customer complaints?",
+        probeB: "Since delivery riders are 'independent contractors' and not full-time employees, is the company really responsible for their road safety?",
+        observerGuide: [
+          "Avoids extreme answers ('ban all deliveries in rain' or 'only care about profit').",
+          "Separates hazard compensation from dangerous speed targets."
+        ]
+      },
+
+      // ================= 4. LAW =================
+      {
+        code: "LAW-01",
+        track: "Law",
+        stationType: "Station 1: Personal Motivation",
+        prompt: "Studying and practicing law requires objective reasoning even when a case triggers strong personal emotions. Describe a situation where you changed your mind about a controversial issue after examining new evidence or hearing an opposing argument.",
+        glossary: [
+          { term: "Objectivity", def: "Judging fairly based on facts and evidence rather than personal feelings or bias." },
+          { term: "Precedent", def: "A previous legal decision or principle that guides future similar cases." },
+          { term: "Advocacy", def: "Public support or formal argument in favor of a cause or policy." }
+        ],
+        structure: [
+          "Initial stance: What did you originally believe and why?",
+          "New evidence: What counter-argument or factual evidence challenged your assumption?",
+          "Legal mindset: Why intellectual humility and impartiality are essential in jurisprudence."
+        ],
+        phrases: ["Initially, I held the assumption that...", "Upon examining the counter-evidence,", "From a legal standpoint, impartiality requires...", "This experience taught me to separate emotion from evidence."],
+        probeA: "How do you stay respectful when debating someone who uses emotional attacks instead of logic?",
+        probeB: "Can a judge or lawyer ever be 100% free from personal bias?",
+        observerGuide: [
+          "Shows genuine intellectual flexibility rather than stubbornness.",
+          "Connects evidence-based reasoning to the legal profession."
+        ]
+      },
+      {
+        code: "LAW-02",
+        track: "Law",
+        stationType: "Station 2: Professional Knowledge",
+        prompt: "When a 15-year-old commits a serious violent crime, public outrage on social media often demands that they be punished as an adult. Should the juvenile justice system prioritize deterrence (strict punishment) or rehabilitation (education and reform)?",
+        glossary: [
+          { term: "Deterrence", def: "Using harsh punishment to discourage the offender and others from committing crimes." },
+          { term: "Rehabilitation", def: "Reforming and educating an offender so they can return to society peacefully." },
+          { term: "Culpability", def: "The degree to which a person can be held morally or legally blameworthy (brain maturity)." }
+        ],
+        structure: [
+          "Contrast the two legal philosophies: Retribution/Deterrence for victims vs. Rehabilitation for youth.",
+          "Developmental factor: Minors have developing impulse control and high potential for reform if kept out of adult prisons.",
+          "Nuanced reform: Keep rehabilitative focus for most minors, while allowing judicial review for extreme, premeditated repeat offenses."
+        ],
+        phrases: ["The core tension in juvenile jurisprudence lies between...", "While public outcry demands deterrence,", "Neurological and legal standards of culpability suggest...", "A balanced legal framework should..."],
+        probeA: "How would you explain a rehabilitation sentence to the grieving family of the victim who feels justice was not served?",
+        probeB: "What if adult gangs intentionally recruit 14-year-olds to commit crimes because they know juvenile penalties are lighter?",
+        observerGuide: [
+          "Accurately distinguishes between deterrence and rehabilitation.",
+          "Avoids knee-jerk emotional trial-by-social-media reasoning."
+        ]
+      },
+      {
+        code: "LAW-03",
+        track: "Law",
+        stationType: "Station 3: Ethical / Critical Thinking",
+        prompt: "As a defense attorney, you are assigned to represent a client accused of corporate fraud. During a private meeting, the client hints that they did commit the crime, but points out that the police obtained the key evidence illegally without a warrant. How can you ethically defend this client?",
+        glossary: [
+          { term: "Due process", def: "Fair treatment through the normal judicial system, requiring police to follow legal rules." },
+          { term: "Inadmissible evidence", def: "Evidence that cannot be used in court because it was gathered illegally." },
+          { term: "Perjury", def: "The crime of intentionally lying under oath in court." }
+        ],
+        structure: [
+          "Clarify the defense lawyer's constitutional role: Protecting the integrity of the justice system and due process, not endorsing crime.",
+          "Ethical boundary: You cannot lie to the court or allow the client to commit perjury on the witness stand.",
+          "Valid defense: Challenge the illegal police search so law enforcement is held accountable to the rule of law."
+        ],
+        phrases: ["A defense counsel's duty is to uphold due process,", "While I must never fabricate evidence or permit perjury,", "Allowing police to use illegally obtained evidence undermines...", "Every citizen is entitled to a rigorous legal defense."],
+        probeA: "If you get the illegal evidence thrown out and the guilty client goes free, how do you sleep at night?",
+        probeB: "Why shouldn't courts accept illegal police evidence if it proves 100% that the suspect is guilty?",
+        observerGuide: [
+          "Explains *why* defending the guilty protects everyone's rights against police abuse.",
+          "Notes the strict ethical line against lying/perjury."
+        ]
+      },
+
+      // ================= 5. ARCHITECTURE =================
+      {
+        code: "ARC-01",
+        track: "Architecture",
+        stationType: "Station 1: Personal Motivation",
+        prompt: "Architecture shapes how people feel, interact, and move every day. Describe a public building or urban space in Thailand that you believe is either brilliantly designed or poorly designed, and explain how you would improve it.",
+        glossary: [
+          { term: "Spatial flow", def: "How easily and naturally people move through a physical space." },
+          { term: "Universal design", def: "Designing buildings so they are accessible to everyone, including wheelchair users and the elderly." },
+          { term: "Microclimate", def: "Local atmospheric zones where shade, wind, and plants make an outdoor space cooler." }
+        ],
+        structure: [
+          "Identify the space: Name the specific building, skywalk, park, or transit hub.",
+          "Critique functionality & aesthetics: Analyze lighting, ventilation, accessibility, and human comfort (not just 'it looks nice').",
+          "Redesign proposal: Suggest 1–2 concrete spatial improvements."
+        ],
+        phrases: ["From a user-centric design perspective,", "In terms of spatial circulation and natural ventilation,", "To enhance universal accessibility,", "Architecture must harmonize form with social function."],
+        probeA: "How would you keep your redesign affordable on a tight municipal budget?",
+        probeB: "Should public architecture prioritize iconic visual landmarks for tourism, or everyday comfort for local residents?",
+        observerGuide: [
+          "Moves beyond basic adjectives ('big, modern, pretty') to analyze human function, shade, airflow, or accessibility.",
+          "Proposes a specific, practical design tweak."
+        ]
+      },
+      {
+        code: "ARC-02",
+        track: "Architecture",
+        stationType: "Station 2: Professional Knowledge",
+        prompt: "Historic neighborhoods like Talad Noi or Song Wat in Bangkok face intense pressure from commercial developers who want to demolish old shophouses for high-rise condos. How can architects balance heritage conservation with modern urban density?",
+        glossary: [
+          { term: "Adaptive reuse", def: "Renovating an old historic building for a new modern purpose while keeping its cultural character." },
+          { term: "Gentrification", def: "When renovating an area raises property prices so high that original local residents are pushed out." },
+          { term: "Urban density", def: "The concentration of people and housing within a city area." }
+        ],
+        structure: [
+          "Acknowledge both needs: Cities need affordable housing density, but demolishing heritage erases cultural identity.",
+          "Architectural solution: Adaptive reuse—preserving historic facades and timber/brick craftsmanship while upgrading interiors and safety.",
+          "Community integration: Mixed-use zoning that keeps ground-floor spaces affordable for original local vendors."
+        ],
+        phrases: ["Through adaptive reuse, architects can...", "Rather than wholesale demolition,", "To mitigate the negative effects of gentrification,", "Preserving the vernacular architectural identity..."],
+        probeA: "Old historic buildings often have poor fire safety and no wheelchair ramps. How do you upgrade them without ruining their historic look?",
+        probeB: "Who should decide whether an old building is saved: the private property owner or the city government?",
+        observerGuide: [
+          "Uses architectural concepts like adaptive reuse and mixed-use zoning.",
+          "Considers the social impact on existing local residents (gentrification)."
+        ]
+      },
+      {
+        code: "ARC-03",
+        track: "Architecture",
+        stationType: "Station 3: Ethical / Critical Thinking",
+        prompt: "A wealthy retail client hires your firm to redesign the public plaza outside their luxury mall. They explicitly instruct you to install 'hostile architecture'—metal spikes on ledges and divided benches—so homeless people and street vendors cannot sit or sleep there. How do you respond?",
+        glossary: [
+          { term: "Hostile architecture", def: "Urban design features (spikes, sloped benches) used to exclude certain groups from public spaces." },
+          { term: "Public realm", def: "Spaces accessible to all citizens, such as sidewalks, plazas, and parks." },
+          { term: "Inclusive design", def: "Creating environments that welcome diverse demographics without discrimination." }
+        ],
+        structure: [
+          "Analyze the ethical conflict: Client's desire for security/image vs. the architect's civic duty to humane public space.",
+          "Hidden consequence: Spikes and sloped benches also harm elderly shoppers, pregnant women, and children.",
+          "Constructive alternative: Propose inclusive landscape zoning, natural lighting, and active community programming instead of punitive spikes."
+        ],
+        phrases: ["While I understand the client's concern regarding safety,", "Hostile architecture degrades the public realm and...", "Instead of punitive design, I would propose...", "As architects, we have an ethical obligation to inclusive spaces."],
+        probeA: "What if the client says, 'I am paying your fee—if you don't draw the metal dividers, I will hire another architect'?",
+        probeB: "Does an architect have the power to solve social problems like homelessness, or is that purely the government's job?",
+        observerGuide: [
+          "Critiques hostile architecture on both ethical and functional grounds (hurts elderly/disabled too).",
+          "Pitches a professional design alternative to the client."
+        ]
+      },
+
+      // ================= 6. HUMANITIES =================
+      {
+        code: "HUM-01",
+        track: "Humanities",
+        stationType: "Station 1: Personal Motivation",
+        prompt: "In an era dominated by STEM and AI, some policymakers question the value of studying the Humanities, Languages, and Social Sciences. Why have you chosen this track, and why is human cultural and linguistic insight more vital than ever?",
+        glossary: [
+          { term: "Critical literacy", def: "The ability to analyze texts and media for hidden bias, power, and ideology." },
+          { term: "Intercultural competence", def: "The ability to communicate effectively and empathetically across different cultures." },
+          { term: "Nuance", def: "Subtle shades of meaning, emotion, or cultural context that machines often miss." }
+        ],
+        structure: [
+          "Hook & Personal Spark: What drew you to language, culture, psychology, or communication?",
+          "Counter the STEM-only myth: Technology builds tools, but the Humanities guide ethics, meaning, and human empathy.",
+          "Future application: How you will apply critical analysis and cross-cultural communication in your career."
+        ],
+        phrases: ["While technological innovation tells us 'how' to build,", "The humanities provide the critical lens to ask 'why'...", "In an increasingly polarized global society,", "Cultivating intercultural competence allows us to..."],
+        probeA: "Give a concrete example of a technology failure that happened because engineers ignored human culture or psychology.",
+        probeB: "How would you convince practical parents that a Humanities degree leads to strong career opportunities?",
+        observerGuide: [
+          "Articulates the complementary value of Humanities alongside STEM without sounding defensive.",
+          "Uses clear, persuasive structure."
+        ]
+      },
+      {
+        code: "HUM-02",
+        track: "Humanities",
+        stationType: "Station 2: Professional Knowledge",
+        prompt: "English today functions as a global Lingua Franca (ELF), where non-native speakers outnumber native speakers 4 to 1. Should schools and international organizations still judge communicators by 'native-speaker' British/American accents, or prioritize mutual intelligibility and cultural diversity?",
+        glossary: [
+          { term: "Lingua Franca (ELF)", def: "A common bridge language used for communication between people who do not share a native tongue." },
+          { term: "Mutual intelligibility", def: "Being clearly understood by your listener, regardless of having a local accent." },
+          { term: "Linguistic imperialism", def: "The imposition of one dominant language/accent as superior to others." }
+        ],
+        structure: [
+          "Define the shift: English belongs to all global users, not just inner-circle UK/US speakers.",
+          "Critique accent bias: Obsessing over native accents causes speaking anxiety and ignores communicative effectiveness.",
+          "Pedagogical/Social shift: Prioritize clarity, pragmatic accommodation, and respect for diverse regional Englishes."
+        ],
+        phrases: ["Within the framework of English as a Lingua Franca,", "Prioritizing mutual intelligibility over native-speakerism...", "Linguistic diversity enriches global communication by...", "Effective communicators adapt their register to their audience."],
+        probeA: "If we stop teaching a single standard grammar/pronunciation model, won't regional Englishes drift so far apart that people can't understand each other?",
+        probeB: "In high-stakes fields like international aviation or diplomacy, is a standardized form of English still necessary?",
+        observerGuide: [
+          "Demonstrates clear understanding of ELF vs. native-speaker bias.",
+          "Balances inclusivity with the practical need for clarity."
+        ]
+      },
+      {
+        code: "HUM-03",
+        track: "Humanities",
+        stationType: "Station 3: Ethical / Critical Thinking",
+        prompt: "You are a journalist / communications officer covering a major public crisis. You verify a story that exposes serious safety negligence by a local factory, but publishing it immediately might trigger public panic and cause the factory to close, costing 500 local workers their jobs. How do you proceed?",
+        glossary: [
+          { term: "Public interest", def: "The welfare or well-being of the general public and their right to know about safety risks." },
+          { term: "Sensationalism", def: "Using shocking or exaggerated language in media to provoke emotional panic and clicks." },
+          { term: "Editorial integrity", def: "Reporting verified truth independently without giving in to outside pressure." }
+        ],
+        structure: [
+          "Weigh the ethical duty: Truth and public health/safety vs. economic harm and panic.",
+          "Reject suppression: Hiding verified safety negligence makes the journalist complicit in future harm.",
+          "Responsible reporting: Publish the verified facts objectively without sensationalist panic headlines, give the factory a right of reply, and highlight regulatory solutions."
+        ],
+        phrases: ["Journalistic ethics require prioritizing the public interest,", "However, to avoid irresponsible sensationalism,", "It is vital to distinguish between reporting facts and inciting panic.", "By framing the investigation constructively,"],
+        probeA: "What if the factory is the biggest advertising sponsor of your news outlet and threatens to pull all funding?",
+        probeB: "At what point does a journalist's duty to protect vulnerable sources or workers outweigh the public's right to know?",
+        observerGuide: [
+          "Upholds transparency on public safety while condemning clickbait sensationalism.",
+          "Shows nuanced awareness of media responsibility."
+        ]
+      }
+    ];
+
+    /**
+     * MODULE 3: Application Controller (State, Role Tabs, Randomizer & Local Persistence)
+     */
+    const STORAGE_KEYS = {
+      SEEN_CODES: 'mmi_b2_seen_codes_v2',
+      SAVED_SCORES: 'mmi_b2_saved_scores_v2'
+    };
+
+    let currentTrack = 'Healthcare';
+    let currentStation = MMI_DATA[0];
+    let currentRole = 'interviewee';
+    let rubricState = { content: 2, language: 2, delivery: 2 };
+    let selectedTags = new Set();
+
+    // Initialize Timer
+    const timer = new MMITimer({
+      displayEl: document.getElementById('timerDisplay'),
+      statusEl: document.getElementById('wakeLockBadge'),
+      frameEl: document.getElementById('appFrame')
+    });
+
+    function getSeenCodes() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEYS.SEEN_CODES) || '[]');
+      } catch {
+        return [];
+      }
+    }
+
+    function markCodeSeen(code) {
+      const seen = new Set(getSeenCodes());
+      seen.add(code);
+      localStorage.setItem(STORAGE_KEYS.SEEN_CODES, JSON.stringify([...seen]));
+      updateUnseenCounter();
+    }
+
+    function updateUnseenCounter() {
+      const seen = new Set(getSeenCodes());
+      const trackStations = MMI_DATA.filter(s => s.track === currentTrack);
+      const unseen = trackStations.filter(s => !seen.has(s.code));
+      document.getElementById('unseenCountLabel').textContent = `${unseen.length} / ${trackStations.length}`;
+    }
+
+    function renderTrackButtons() {
+      const tracks = [...new Set(MMI_DATA.map(d => d.track))];
+      const container = document.getElementById('trackButtons');
+      container.innerHTML = '';
+      tracks.forEach(track => {
+        const btn = document.createElement('button');
+        const active = track === currentTrack;
+        btn.className = `text-xs font-bold py-2 px-3 rounded-lg border transition text-left flex items-center justify-between ${
+          active
+            ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm'
+            : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+        }`;
+        btn.innerHTML = `<span>${track}</span>`;
+        btn.addEventListener('click', () => {
+          currentTrack = track;
+          renderTrackButtons();
+          const firstInTrack = MMI_DATA.find(s => s.track === currentTrack);
+          if (firstInTrack) loadStationByCode(firstInTrack.code);
+        });
+        container.appendChild(btn);
+      });
+    }
+
+    function populateCodeDropdown() {
+      const select = document.getElementById('codeJumpSelect');
+      select.innerHTML = '';
+      MMI_DATA.forEach(item => {
+        const opt = document.createElement('option');
+        opt.value = item.code;
+        opt.textContent = `${item.code} (${item.track} - S${item.code.slice(-1)})`;
+        select.appendChild(opt);
+      });
+      select.addEventListener('change', e => loadStationByCode(e.target.value));
+    }
+
+    function loadStationByCode(code) {
+      const station = MMI_DATA.find(s => s.code === code) || MMI_DATA[0];
+      currentStation = station;
+      currentTrack = station.track;
+
+      renderTrackButtons();
+      document.getElementById('codeJumpSelect').value = station.code;
+      document.getElementById('stationMetaLabel').textContent = `${station.code} (${station.track})`;
+      document.getElementById('promptCodeBadge').textContent = station.code;
+      document.getElementById('stationTypeBadge').textContent = station.stationType;
+      document.getElementById('promptScenarioText').textContent = station.prompt;
+
+      // Render Glossary Chips
+      const glossaryContainer = document.getElementById('glossaryContainer');
+      const defBox = document.getElementById('glossaryDefinitionBox');
+      glossaryContainer.innerHTML = '';
+      defBox.classList.add('hidden');
+
+      station.glossary.forEach(item => {
+        const chip = document.createElement('button');
+        chip.className = 'text-xs font-semibold bg-white hover:bg-indigo-50 text-indigo-700 border border-indigo-200 px-2.5 py-1 rounded-md transition';
+        chip.textContent = `🔍 ${item.term}`;
+        chip.addEventListener('click', () => {
+          defBox.innerHTML = `<strong class="text-indigo-900">${item.term}:</strong> ${item.def}`;
+          defBox.classList.remove('hidden');
+        });
+        glossaryContainer.appendChild(chip);
+      });
+
+      // Render Interviewee Structure & Phrases
+      const structList = document.getElementById('intervieweeStructureList');
+      structList.innerHTML = station.structure.map(s => `<li>${s}</li>`).join('');
+
+      const phrasesList = document.getElementById('intervieweePhrasesList');
+      phrasesList.innerHTML = station.phrases
+        .map(p => `<span class="text-xs bg-white border border-emerald-200 text-emerald-900 px-2.5 py-1 rounded font-medium">"${p}"</span>`)
+        .join('');
+
+      // Render Interviewer Probes
+      document.getElementById('probeAText').textContent = `"${station.probeA}"`;
+      document.getElementById('probeBText').textContent = `"${station.probeB}"`;
+
+      // Render Observer Guide
+      const obsList = document.getElementById('observerGuideList');
+      obsList.innerHTML = station.observerGuide.map(g => `<li>${g}</li>`).join('');
+
+      markCodeSeen(station.code);
+    }
+
+    // Draw Unseen Random Station in Current Track
+    document.getElementById('drawRandomBtn').addEventListener('click', () => {
+      const seen = new Set(getSeenCodes());
+      const trackPool = MMI_DATA.filter(s => s.track === currentTrack);
+      let unseenPool = trackPool.filter(s => !seen.has(s.code));
+
+      if (unseenPool.length === 0) {
+        // Reset seen codes for this track only
+        const remainingSeen = getSeenCodes().filter(code => !trackPool.some(t => t.code === code));
+        localStorage.setItem(STORAGE_KEYS.SEEN_CODES, JSON.stringify(remainingSeen));
+        unseenPool = trackPool;
+      }
+
+      const randomPick = unseenPool[Math.floor(Math.random() * unseenPool.length)];
+      loadStationByCode(randomPick.code);
+    });
+
+    document.getElementById('resetDeckBtn').addEventListener('click', () => {
+      localStorage.removeItem(STORAGE_KEYS.SEEN_CODES);
+      updateUnseenCounter();
+    });
+
+    // Role Switcher Tabs
+    document.querySelectorAll('.role-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        currentRole = tab.dataset.role;
+        document.querySelectorAll('.role-tab').forEach(t => {
+          const isActive = t.dataset.role === currentRole;
+          t.className = `role-tab py-3.5 px-4 text-sm font-bold text-center border-b-2 transition ${
+            isActive
+              ? 'border-indigo-600 bg-white text-indigo-600'
+              : 'border-transparent text-slate-600 hover:text-slate-900'
+          }`;
+        });
+        document.querySelectorAll('.role-panel').forEach(panel => {
+          panel.classList.toggle('hidden', panel.id !== `panel-${currentRole}`);
+        });
+      });
+    });
+
+    // Timer Controls
+    let selectedDuration = 120;
+    document.getElementById('setPrepBtn').addEventListener('click', () => {
+      selectedDuration = 90;
+      document.getElementById('timerPhaseLabel').textContent = 'Preparation Phase (90s)';
+      timer.reset(90);
+    });
+    document.getElementById('setSpeakBtn').addEventListener('click', () => {
+      selectedDuration = 120;
+      document.getElementById('timerPhaseLabel').textContent = 'Speaking Phase (120s)';
+      timer.reset(120);
+    });
+    document.getElementById('startTimerBtn').addEventListener('click', () => {
+      if (timer.remainingMs > 0 && timer.remainingMs < selectedDuration * 1000) {
+        timer.resume();
+      } else {
+        timer.start(selectedDuration);
+      }
+    });
+    document.getElementById('pauseTimerBtn').addEventListener('click', () => timer.pause());
+    document.getElementById('resetTimerBtn').addEventListener('click', () => timer.reset(selectedDuration));
+
+    // Rubric Selection
+    document.querySelectorAll('[data-rubric]').forEach(group => {
+      const domain = group.dataset.rubric;
+      group.querySelectorAll('.rubric-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          rubricState[domain] = Number(btn.dataset.score);
+          group.querySelectorAll('.rubric-btn').forEach(b => {
+            const active = Number(b.dataset.score) === rubricState[domain];
+            b.className = `rubric-btn text-left p-2.5 rounded border text-xs transition ${
+              active ? 'border-indigo-600 bg-indigo-50' : 'border-slate-200 hover:border-indigo-400'
+            }`;
+          });
+        });
+      });
+    });
+
+    // Quick-Tap Feedback Chips
+    document.querySelectorAll('.feedback-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const text = chip.textContent;
+        if (selectedTags.has(text)) {
+          selectedTags.delete(text);
+          chip.className = 'feedback-chip text-xs px-2.5 py-1 rounded-full border border-slate-300 bg-white text-slate-700';
+        } else {
+          selectedTags.add(text);
+          chip.className = 'feedback-chip text-xs px-2.5 py-1 rounded-full border border-indigo-600 bg-indigo-600 text-white font-semibold';
+        }
+      });
+    });
+
+    // Local Persistence & CSV Export
+    function getSavedScores() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEYS.SAVED_SCORES) || '[]');
+      } catch {
+        return [];
+      }
+    }
+
+    function updateSavedCount() {
+      document.getElementById('savedCountBadge').textContent = getSavedScores().length;
+    }
+
+    document.getElementById('saveScoreBtn').addEventListener('click', () => {
+      const logs = getSavedScores();
+      const candidate = document.getElementById('candidateNameInput').value.trim() || 'Anonymous Student';
+      const entry = {
+        timestamp: new Date().toISOString(),
+        candidate,
+        stationCode: currentStation.code,
+        track: currentStation.track,
+        content: rubricState.content,
+        language: rubricState.language,
+        delivery: rubricState.delivery,
+        total: rubricState.content + rubricState.language + rubricState.delivery,
+        feedback: [...selectedTags].join(' | ')
+      };
+      logs.push(entry);
+      localStorage.setItem(STORAGE_KEYS.SAVED_SCORES, JSON.stringify(logs));
+      updateSavedCount();
+      document.getElementById('candidateNameInput').value = '';
+    });
+
+    document.getElementById('exportCsvBtn').addEventListener('click', () => {
+      const logs = getSavedScores();
+      if (!logs.length) return alert('No saved evaluations in this session yet.');
+      const headers = ['Timestamp', 'Candidate', 'StationCode', 'Track', 'Content(1-3)', 'Language(1-3)', 'Delivery(1-3)', 'Total(9)', 'FeedbackTags'];
+      const rows = logs.map(r => [
+        r.timestamp,
+        `"${r.candidate.replace(/"/g, '""')}"`,
+        r.stationCode,
+        r.track,
+        r.content,
+        r.language,
+        r.delivery,
+        r.total,
+        `"${r.feedback.replace(/"/g, '""')}"`
+      ]);
+      const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `MMI_Triad_Scores_${new Date().toISOString().slice(0, 10)}.csv`;
+      a.click();
+    });
+
+    document.getElementById('clearScoresBtn').addEventListener('click', () => {
+      if (confirm('Clear all locally saved evaluations on this device?')) {
+        localStorage.removeItem(STORAGE_KEYS.SAVED_SCORES);
+        updateSavedCount();
+      }
+    });
+
+    // Boot App
+    populateCodeDropdown();
+    loadStationByCode('MED-01');
+    updateSavedCount();
+  </script>
 </body>
 </html>
