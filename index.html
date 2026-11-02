@@ -954,6 +954,9 @@
       document.getElementById('savedCountBadge').textContent = getSavedScores().length;
     }
 
+    // PASTE YOUR GOOGLE APPS SCRIPT '/exec' URL INSIDE THE QUOTES BELOW:
+    const GOOGLE_SHEETS_WEBHOOK_URL = 'PASTE_YOUR_WEB_APP_URL_HERE';
+
     document.getElementById('saveScoreBtn').addEventListener('click', () => {
       const logs = getSavedScores();
       const candidate = document.getElementById('candidateNameInput').value.trim() || 'Anonymous Student';
@@ -972,6 +975,15 @@
       localStorage.setItem(STORAGE_KEYS.SAVED_SCORES, JSON.stringify(logs));
       updateSavedCount();
       document.getElementById('candidateNameInput').value = '';
+
+      // Send to Google Sheets if a valid /exec URL is configured
+      if (GOOGLE_SHEETS_WEBHOOK_URL && GOOGLE_SHEETS_WEBHOOK_URL.startsWith('https://')) {
+        fetch(GOOGLE_SHEETS_WEBHOOK_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          body: JSON.stringify(entry)
+        });
+      }
     });
 
     document.getElementById('exportCsvBtn').addEventListener('click', () => {
