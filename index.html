@@ -573,7 +573,7 @@
               "330"
             ],
             [
-              "Patients aged 65+ using the app",
+              "Share of patients aged 65+ who used the app",
               "—",
               "18%"
             ],
@@ -597,6 +597,10 @@
           {
             "term": "Uptake",
             "def": "How many people actually start using a new service."
+          },
+          {
+            "term": "Outpatient",
+            "def": "A patient who visits a hospital for treatment but does not stay overnight."
           }
         ],
         "structure": [
@@ -759,7 +763,7 @@
         "structure": [
           "Hello & Explore: Introduce yourself, ask to see the cracks or photos, and ask when he first noticed them.",
           "Acknowledge: Show you understand his worry about his family home and the early-morning noise.",
-          "Respond: Do not admit or deny blame yet; offer an independent inspection with a date, and report it to your manager today."
+          "Respond: Do not admit or deny blame yet; offer an independent inspection with a date, and report it to your manager today. Pass the noise complaint to your manager as well."
         ],
         "phrases": [
           "Thank you for coming to tell us directly,",
@@ -779,74 +783,74 @@
         "code": "ENG-05",
         "track": "Engineering",
         "stationType": "Station 5: Data",
-        "prompt": "A city council tested two road surfaces on a street that floods every rainy season. An official says: 'Permeable asphalt is the clear winner. We should use it on every road in the city.' Look at the results. What do they really show?",
+        "prompt": "A school put solar panels on the roof of one building in January 2026. The director says: 'The panels halved our electricity bill, so every building in the school should have them.' Look at the figures. What do they really show?",
         "table": {
-          "caption": "Trial on one street, May–October 2025",
+          "caption": "Building 3, monthly averages, Jan–Jun",
           "columns": [
             "Measure",
-            "Standard asphalt",
-            "Permeable asphalt"
+            "2025 (no panels)",
+            "2026 (panels)"
           ],
           "rows": [
             [
-              "Length tested",
-              "200 m",
-              "200 m"
+              "Electricity bill (baht)",
+              "84,000",
+              "41,000"
             ],
             [
-              "Hours of standing water",
-              "64",
-              "11"
+              "Total electricity used (kWh)",
+              "18,000",
+              "14,500"
             ],
             [
-              "Cost per m² (baht)",
-              "450",
-              "1,300"
+              "Electricity from the panels (kWh)",
+              "—",
+              "5,200"
             ],
             [
-              "Potholes after 6 months",
-              "2",
-              "9"
+              "Days above 35°C",
+              "61",
+              "38"
             ],
             [
-              "Main traffic",
-              "Cars",
-              "Cars and trucks"
+              "Cost of the panels (baht)",
+              "—",
+              "1,900,000"
             ]
           ],
           "note": "Illustrative data for practice only."
         },
         "glossary": [
           {
-            "term": "Permeable",
-            "def": "Allowing water to pass through."
+            "term": "kWh (kilowatt-hour)",
+            "def": "A unit that measures how much electricity is used."
           },
           {
-            "term": "Trial",
-            "def": "A small test carried out before a bigger decision is made."
+            "term": "Payback period",
+            "def": "How long it takes for the money saved to cover what something cost."
           },
           {
-            "term": "Generalise",
-            "def": "To claim that a result from a small test is true everywhere."
+            "term": "Variable",
+            "def": "Something that can change and affect a result, such as the weather."
           }
         ],
         "structure": [
-          "Describe: Permeable asphalt drained much faster (about 11 vs. 64 hours) but cost nearly three times as much.",
-          "Doubt: One street, one season, different traffic; more potholes, so its durability is unclear.",
-          "Decide: Support a larger trial rather than a citywide roll-out, and name the extra data you would need."
+          "Describe: The bill roughly halved (from 84,000 to 41,000 baht), and the panels produced about 5,200 kWh a month.",
+          "Doubt: Total electricity use also fell, and there were fewer very hot days, so the panels explain only part of the saving; one building, six months; other roofs may get less sun.",
+          "Decide: The panels probably helped, but check the cost and payback period and survey the other roofs before installing them everywhere."
         ],
         "phrases": [
-          "The most striking difference is...",
-          "It cost nearly three times as much...",
-          "We cannot be sure yet, because...",
-          "A fairer test would be to..."
+          "The bill fell by roughly half, from... to...",
+          "However, the building also used less electricity overall...",
+          "Part of the saving may be due to...",
+          "Before investing in every building, I would want to know..."
         ],
-        "probeA": "What would a fair, bigger trial look like? What would you measure?",
-        "probeB": "The rainy season starts next month and residents are angry. Is it acceptable to wait for more data?",
+        "probeA": "What extra information would you need to decide whether the panels are worth 1.9 million baht?",
+        "probeB": "Some parents say the money should be spent on more teachers instead of solar panels. How would you respond?",
         "observerGuide": [
-          "Summarises the main result and the cost difference instead of reading every number.",
-          "Spots the small trial, the single season and the different traffic as limitations.",
-          "Recommends a cautious next step (larger trial, maintenance data) rather than a simple yes or no."
+          "Describes the fall in the bill and the solar output with approximate numbers.",
+          "Notices that total electricity use and the number of hot days also fell, so not all of the saving comes from the panels.",
+          "Recommends a cautious next step (cost and payback period, roof survey, a longer comparison)."
         ]
       },
       {
@@ -1010,7 +1014,7 @@
         "code": "BUS-05",
         "track": "Business",
         "stationType": "Station 5: Data",
-        "prompt": "A Thai skincare start-up spent the same budget on two online advertising channels last month. The marketing manager says: 'TikTok brought three times more clicks, so we should move our whole budget to TikTok.' Look at the table. Do you agree?",
+        "prompt": "A Thai skincare start-up spent the same budget on two online advertising channels in March 2026. The marketing manager says: 'TikTok brought three times more clicks, so we should move our whole budget to TikTok.' Look at the table. Do you agree?",
         "table": {
           "caption": "One-month advertising test, March 2026",
           "columns": [
@@ -1255,13 +1259,13 @@
               "2023",
               "1,200",
               "1.1 million",
-              "At a police station only"
+              "Police station only"
             ],
             [
               "2024",
               "2,500",
               "1.1 million",
-              "New online reporting website"
+              "New reporting website"
             ],
             [
               "2025",
@@ -1288,7 +1292,7 @@
         ],
         "structure": [
           "Describe: Reported cases rose roughly threefold, from about 1,200 to 3,600.",
-          "Doubt: Easier online reporting from 2024 may explain much of the rise; reported crime is not the same as actual crime; nothing here measures police performance.",
+          "Doubt: Easier online reporting from 2024 may explain much of the rise; the population also grew, so the rate per person rose about 2.75 times; reported crime is not the same as actual crime; the table covers fraud only, and nothing here measures police performance.",
           "Decide: Say the claim is only partly supported, and name better evidence (victim surveys, cases solved, money recovered)."
         ],
         "phrases": [
@@ -1649,7 +1653,7 @@
         "code": "HUM-04",
         "track": "Humanities",
         "stationType": "Station 4: Role-play",
-        "prompt": "Role-play. The interviewer will play Khun Kanya, a visitor to a local history museum where you volunteer at the information desk. She is upset about an exhibition label that describes the culture of her home province, Nan, as 'simple and old-fashioned'. Speak to her.",
+        "prompt": "Role-play. The interviewer will play Khun Kanya, a visitor to a history museum in Bangkok where you volunteer at the information desk. She is upset about an exhibition label that describes the culture of her home province, Nan, as 'simple and old-fashioned'. Speak to her.",
         "actor": {
           "role": "Khun Kanya, a museum visitor from Nan province",
           "brief": "You are proud of your home province, its weaving, food and dialect. You feel the label is insulting and that people from Bangkok look down on the provinces. You calm down if the volunteer listens, takes the complaint seriously and asks what you think the label should say.",
@@ -1699,7 +1703,7 @@
         "stationType": "Station 5: Data",
         "prompt": "A newspaper headline says: 'Thai teenagers have stopped reading.' The article is based on the survey results below. Look at the data. Is the headline fair?",
         "table": {
-          "caption": "Reading habits of people aged 15–19 (self-reported)",
+          "caption": "Reading habits of Thai people aged 15–19 (self-reported averages)",
           "columns": [
             "Year",
             "Printed books a year",
@@ -1744,7 +1748,7 @@
         ],
         "structure": [
           "Describe: Printed book reading fell from about 8 to 3 books a year, while online reading nearly tripled.",
-          "Doubt: 'Reading' is measured mainly as books; the data is self-reported; the sample became smaller each year.",
+          "Doubt: The headline counts only printed books; the data is self-reported; the sample became smaller in each survey.",
           "Decide: The headline is unfair; reading has changed form rather than stopped. Suggest better measures."
         ],
         "phrases": [
@@ -1892,7 +1896,7 @@
       hr.className = 'bg-slate-100 text-slate-700';
       t.columns.forEach(c => {
         const th = document.createElement('th');
-        th.className = 'px-3 py-2 font-semibold whitespace-nowrap';
+        th.className = 'px-2 py-2 font-semibold align-bottom';
         th.textContent = c;
         hr.appendChild(th);
       });
@@ -1904,7 +1908,7 @@
         tr.className = 'border-t border-slate-100';
         r.forEach((cell, i) => {
           const td = document.createElement('td');
-          td.className = 'px-3 py-2 ' + (i === 0 ? 'font-medium text-slate-800' : 'text-slate-700');
+          td.className = 'px-2 py-2 ' + (i === 0 ? 'font-medium text-slate-800' : 'text-slate-700');
           td.textContent = cell;
           tr.appendChild(td);
         });
