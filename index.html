@@ -29,9 +29,9 @@
       </div>
 
       <!-- Deterministic Station Code Sync -->
-      <div class="flex items-center gap-2 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700">
+      <div class="flex flex-wrap items-center gap-2 max-w-full bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700">
         <label for="codeJumpSelect" class="text-xs text-slate-300 font-medium">Triad Sync Code:</label>
-        <select id="codeJumpSelect" class="bg-slate-900 text-amber-400 font-mono text-sm font-bold px-2 py-1 rounded border border-slate-600 focus:outline-none focus:border-indigo-400">
+        <select id="codeJumpSelect" class="min-w-0 max-w-full bg-slate-900 text-amber-400 font-mono text-sm font-bold px-2 py-1 rounded border border-slate-600 focus:outline-none focus:border-indigo-400">
           <!-- Populated dynamically -->
         </select>
         <button id="drawRandomBtn" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-3 py-1.5 rounded transition">
@@ -109,6 +109,9 @@
         Loading prompt...
       </p>
 
+      <!-- Station 5 data table (only on Data cards) -->
+      <div id="promptDataTable" class="hidden mb-4"></div>
+
       <!-- Tap-to-Define CEFR B2 Glossary Bar -->
       <div class="bg-slate-50 rounded-lg p-3 border border-slate-200">
         <div class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
@@ -170,6 +173,17 @@
           <p class="text-sm text-slate-700">
             Let the Candidate speak uninterrupted for the first 60 seconds. If they finish early, stall, or only look at one side of the issue, ask one of the scripted follow-up probes below:
           </p>
+        </div>
+
+        <div id="actorCard" class="hidden bg-orange-50 border border-orange-200 rounded-lg p-4 space-y-2">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-orange-900">🎭 Role-play Brief (interviewer only: read silently, stay in character)</h3>
+          <p class="text-sm text-slate-800"><strong>You play:</strong> <span id="actorRole"></span></p>
+          <p id="actorBrief" class="text-sm text-slate-700"></p>
+          <div>
+            <span class="text-xs font-bold text-orange-900 uppercase">Lines to use</span>
+            <ul id="actorLines" class="list-disc list-inside text-sm text-slate-800 space-y-1 mt-1"></ul>
+          </div>
+          <p class="text-sm text-slate-700"><strong>How to react:</strong> <span id="actorReact"></span></p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -444,7 +458,7 @@
       {
         code: "MED-02",
         track: "Healthcare",
-        stationType: "Station 2: Professional Knowledge",
+        stationType: "Station 3: Problem Solving",
         prompt: "Thailand is rapidly transitioning into a 'super-aged society,' while rural provinces still face a shortage of specialists. How can telemedicine and preventative care reduce the strain on public hospitals?",
         glossary: [
           { term: "Telemedicine", def: "Remote diagnosis and treatment of patients using telecommunications technology." },
@@ -467,7 +481,7 @@
       {
         code: "MED-03",
         track: "Healthcare",
-        stationType: "Station 3: Ethical / Critical Thinking",
+        stationType: "Station 2: Ethical Dilemma",
         prompt: "You are a junior physician. A 70-year-old mentally competent patient asks to know the full truth about his terminal cancer diagnosis. However, his adult children waiting outside beg you not to tell him, claiming the shock will make him give up hope. How do you handle this?",
         glossary: [
           { term: "Patient autonomy", def: "The right of a mentally competent patient to make decisions about their own medical care." },
@@ -485,6 +499,161 @@
         observerGuide: [
           "Upholds the competent patient's right to know the truth.",
           "Shows cultural sensitivity toward the family rather than dismissing them coldly."
+        ]
+      },
+      {
+        "code": "MED-04",
+        "track": "Healthcare",
+        "stationType": "Station 4: Role-play",
+        "prompt": "Role-play. The interviewer will play Khun Malee, a mother whose six-year-old son has a high fever. They have waited three hours in a busy hospital emergency department. You are a medical student helping at the triage desk. She walks up to you, clearly upset. Speak to her.",
+        "actor": {
+          "role": "Khun Malee, mother of a six-year-old boy with a fever",
+          "brief": "You are tired, scared and angry. Patients who arrived after you have been called first, and you think the hospital is ignoring your son. You calm down only if the student listens, explains simply why some patients go first, and offers something practical.",
+          "lines": [
+            "Excuse me! We've been here THREE hours. My son is burning hot and nobody cares!",
+            "That man came after us and he's gone in already. Is it because we're not rich?",
+            "So what am I supposed to do, just sit here?"
+          ],
+          "react": "If the student interrupts, blames the hospital or promises an exact time, get more upset. If they acknowledge your fear and explain triage in plain words, lower your voice."
+        },
+        "glossary": [
+          {
+            "term": "Triage",
+            "def": "Sorting patients by how urgent their condition is, not by when they arrived."
+          },
+          {
+            "term": "Reassure",
+            "def": "To help someone feel less worried, without making promises you cannot keep."
+          },
+          {
+            "term": "Escalate",
+            "def": "To pass a concern quickly to someone more senior who can act on it."
+          }
+        ],
+        "structure": [
+          "Hello & Explore: Introduce yourself, use her name, and ask how her son has been since they arrived.",
+          "Acknowledge: Name her feelings (worried, exhausted) before you explain any hospital rules.",
+          "Respond: Explain triage in plain words, then give honest next steps: tell the triage nurse, re-check his temperature, agree when you will update her."
+        ],
+        "phrases": [
+          "I can see how worried you are,",
+          "Can I ask how he has been since you arrived?",
+          "The reason some patients go in first is...",
+          "What I can do for you right now is..."
+        ],
+        "probeA": "(In character) Just promise me he'll be seen in ten minutes. Can you promise that?",
+        "probeB": "(In character) Wait, his lips look a bit blue now and he's very sleepy. What are you going to do?",
+        "observerGuide": [
+          "Acknowledges the mother's fear before explaining rules; never argues with her or blames her.",
+          "Explains triage without jargon and makes no promise about exact waiting times.",
+          "Escalates at once to a nurse or doctor when the new warning signs (blue lips, sleepy) appear."
+        ]
+      },
+      {
+        "code": "MED-05",
+        "track": "Healthcare",
+        "stationType": "Station 5: Data",
+        "prompt": "A district hospital launched an online booking app in 2025. The director says: 'The app cut our waiting time by one third.' Look at the table. What does it really show? Do you agree with the director?",
+        "table": {
+          "caption": "Outpatient department, Hospital X (yearly averages)",
+          "columns": [
+            "Measure",
+            "2024 (no app)",
+            "2025 (with app)"
+          ],
+          "rows": [
+            [
+              "Average wait (minutes)",
+              "142",
+              "96"
+            ],
+            [
+              "Patients per day",
+              "410",
+              "330"
+            ],
+            [
+              "Patients aged 65+ using the app",
+              "—",
+              "18%"
+            ],
+            [
+              "Complaints about long waits",
+              "212",
+              "205"
+            ]
+          ],
+          "note": "Illustrative data for practice only."
+        },
+        "glossary": [
+          {
+            "term": "Correlation",
+            "def": "When two things change at the same time; it does not prove that one caused the other."
+          },
+          {
+            "term": "Confounding factor",
+            "def": "A hidden third factor that could explain a result (for example, fewer patients)."
+          },
+          {
+            "term": "Uptake",
+            "def": "How many people actually start using a new service."
+          }
+        ],
+        "structure": [
+          "Describe: State the main change with approximate numbers (waiting time fell by roughly a third).",
+          "Doubt: Point out what else changed: fewer patients per day, low use by older patients, complaints almost unchanged.",
+          "Decide: Give a cautious conclusion ('the app may have helped') and say what extra data you would need."
+        ],
+        "phrases": [
+          "The table suggests that...",
+          "Waiting time fell by roughly a third, from... to...",
+          "However, this may be partly explained by...",
+          "Before I could agree, I would want to see..."
+        ],
+        "probeA": "If you could collect one more piece of data, what would it be, and why?",
+        "probeB": "Only 18% of older patients used the app. Is the app making healthcare less fair? What would you do about it?",
+        "observerGuide": [
+          "Describes the trend with approximate numbers instead of reading every figure aloud.",
+          "Notices that patient numbers also fell, so the app may not be the only cause.",
+          "Reaches a cautious conclusion and suggests further evidence (same patient numbers, results by age group)."
+        ]
+      },
+      {
+        "code": "MED-06",
+        "track": "Healthcare",
+        "stationType": "Station 6: Teamwork",
+        "prompt": "Doctors work every day in teams with nurses, pharmacists and other staff. Tell me about a real time when you worked in a group where one member was not doing their share. What did you do, and what did you learn?",
+        "glossary": [
+          {
+            "term": "Accountability",
+            "def": "Being responsible for your part of the work and its results."
+          },
+          {
+            "term": "Delegate",
+            "def": "To give part of a task to another person."
+          },
+          {
+            "term": "Multidisciplinary team",
+            "def": "A team of people from different professions working on the same patient or problem."
+          }
+        ],
+        "structure": [
+          "Situation & Task: Briefly describe the group, the goal and the problem (one member not contributing).",
+          "Action: Explain what YOU did (talked privately, asked why, re-shared the tasks), using 'I', not only 'we'.",
+          "Result & Learning: Give the outcome, what you would do differently, and link it to a hospital team."
+        ],
+        "phrases": [
+          "My role in the group was...",
+          "Rather than complaining to the teacher straight away, I...",
+          "In hindsight, I would have...",
+          "This taught me that in a clinical team..."
+        ],
+        "probeA": "Why do you think that person wasn't contributing? Did you find out?",
+        "probeB": "In a hospital, a senior colleague isn't doing their share and patients may be affected. Would you handle it the same way?",
+        "observerGuide": [
+          "Gives one specific, real example, not a general 'I always work well in teams'.",
+          "Describes their own actions clearly and does not simply blame the teammate.",
+          "Reflects on what they learned and links it to teamwork in healthcare."
         ]
       },
 
@@ -515,7 +684,7 @@
       {
         code: "ENG-02",
         track: "Engineering",
-        stationType: "Station 2: Professional Knowledge",
+        stationType: "Station 3: Problem Solving",
         prompt: "Major cities like Bangkok face recurring urban flooding and high carbon emissions. From an engineering standpoint, should urban planners prioritize grey infrastructure (concrete floodwalls, giant drainage tunnels) or green infrastructure (permeable parks, retention wetlands)?",
         glossary: [
           { term: "Grey infrastructure", def: "Traditional human-engineered systems like concrete pipes, dams, and seawalls." },
@@ -538,7 +707,7 @@
       {
         code: "ENG-03",
         track: "Engineering",
-        stationType: "Station 3: Ethical / Critical Thinking",
+        stationType: "Station 2: Ethical Dilemma",
         prompt: "You are a software/safety engineer testing an autonomous braking algorithm two days before a major product launch. You discover an edge-case bug that fails 1% of the time in heavy rain. Your manager tells you to approve the release now and patch it via an over-the-air update next month. What do you do?",
         glossary: [
           { term: "Edge-case", def: "A problem or situation that occurs only at extreme operating conditions (e.g., heavy tropical rain)." },
@@ -556,6 +725,166 @@
         observerGuide: [
           "Refuses to sign off on a known life-threatening defect.",
           "Follows professional escalation steps (data -> manager -> safety board) before jumping straight to public media."
+        ]
+      },
+      {
+        "code": "ENG-04",
+        "track": "Engineering",
+        "stationType": "Station 4: Role-play",
+        "prompt": "Role-play. The interviewer will play Khun Somchai, who lives next to a condominium building site in Bangkok. Since the piling work started, cracks have appeared in his kitchen wall and the noise starts at 6 a.m. You are a junior site engineer. He has come to the site office. Speak to him.",
+        "actor": {
+          "role": "Khun Somchai, 60, a resident next to the building site",
+          "brief": "Your family has lived in this house for 30 years. You are angry and want the company to pay for repairs now. You think engineers do not care about neighbours. You calm down if the engineer listens, takes the cracks seriously and offers a concrete next step, such as an inspection with a date.",
+          "lines": [
+            "Look at this photo! My wall was fine before your machines came.",
+            "Your company is making millions. You just want to finish fast and leave.",
+            "I want someone to fix my house this week."
+          ],
+          "react": "Get louder if the engineer says the cracks are 'probably old' or uses technical words you don't understand. If they offer an inspection and a clear timeline, become calmer but keep asking who will pay."
+        },
+        "glossary": [
+          {
+            "term": "Piling",
+            "def": "Driving long columns deep into the ground to support a heavy building; it can cause vibration."
+          },
+          {
+            "term": "Structural survey",
+            "def": "A professional inspection that checks whether a building is safe and finds the cause of damage."
+          },
+          {
+            "term": "Liability",
+            "def": "Legal responsibility for paying for damage."
+          }
+        ],
+        "structure": [
+          "Hello & Explore: Introduce yourself, ask to see the cracks or photos, and ask when he first noticed them.",
+          "Acknowledge: Show you understand his worry about his family home and the early-morning noise.",
+          "Respond: Do not admit or deny blame yet; offer an independent inspection with a date, and report it to your manager today."
+        ],
+        "phrases": [
+          "Thank you for coming to tell us directly,",
+          "Could you show me where the cracks first appeared?",
+          "I cannot say yet what caused them, but...",
+          "What I will do today is..."
+        ],
+        "probeA": "(In character) So you admit your company broke my wall? Just say it!",
+        "probeB": "(In character) My neighbours want to call the TV news. And what about the 6 a.m. noise?",
+        "observerGuide": [
+          "Stays calm and polite, and acknowledges the resident's worry before giving facts.",
+          "Neither admits blame nor dismisses the cracks; offers an independent inspection with a clear timeline.",
+          "Explains technical points (piling, vibration) in everyday words."
+        ]
+      },
+      {
+        "code": "ENG-05",
+        "track": "Engineering",
+        "stationType": "Station 5: Data",
+        "prompt": "A city council tested two road surfaces on a street that floods every rainy season. An official says: 'Permeable asphalt is the clear winner. We should use it on every road in the city.' Look at the results. What do they really show?",
+        "table": {
+          "caption": "Trial on one street, May–October 2025",
+          "columns": [
+            "Measure",
+            "Standard asphalt",
+            "Permeable asphalt"
+          ],
+          "rows": [
+            [
+              "Length tested",
+              "200 m",
+              "200 m"
+            ],
+            [
+              "Hours of standing water",
+              "64",
+              "11"
+            ],
+            [
+              "Cost per m² (baht)",
+              "450",
+              "1,300"
+            ],
+            [
+              "Potholes after 6 months",
+              "2",
+              "9"
+            ],
+            [
+              "Main traffic",
+              "Cars",
+              "Cars and trucks"
+            ]
+          ],
+          "note": "Illustrative data for practice only."
+        },
+        "glossary": [
+          {
+            "term": "Permeable",
+            "def": "Allowing water to pass through."
+          },
+          {
+            "term": "Trial",
+            "def": "A small test carried out before a bigger decision is made."
+          },
+          {
+            "term": "Generalise",
+            "def": "To claim that a result from a small test is true everywhere."
+          }
+        ],
+        "structure": [
+          "Describe: Permeable asphalt drained much faster (about 11 vs. 64 hours) but cost nearly three times as much.",
+          "Doubt: One street, one season, different traffic; more potholes, so its durability is unclear.",
+          "Decide: Support a larger trial rather than a citywide roll-out, and name the extra data you would need."
+        ],
+        "phrases": [
+          "The most striking difference is...",
+          "It cost nearly three times as much...",
+          "We cannot be sure yet, because...",
+          "A fairer test would be to..."
+        ],
+        "probeA": "What would a fair, bigger trial look like? What would you measure?",
+        "probeB": "The rainy season starts next month and residents are angry. Is it acceptable to wait for more data?",
+        "observerGuide": [
+          "Summarises the main result and the cost difference instead of reading every number.",
+          "Spots the small trial, the single season and the different traffic as limitations.",
+          "Recommends a cautious next step (larger trial, maintenance data) rather than a simple yes or no."
+        ]
+      },
+      {
+        "code": "ENG-06",
+        "track": "Engineering",
+        "stationType": "Station 6: Teamwork",
+        "prompt": "Engineers often work with people who think and work very differently from them. Tell me about a real time when you worked with someone whose working style was very different from yours. What happened, and what did you learn?",
+        "glossary": [
+          {
+            "term": "Working style",
+            "def": "The way a person prefers to plan and do tasks (for example, fast and flexible or slow and detailed)."
+          },
+          {
+            "term": "Compromise",
+            "def": "An agreement in which each side gives up something."
+          },
+          {
+            "term": "Interdisciplinary",
+            "def": "Involving people from different subjects or fields."
+          }
+        ],
+        "structure": [
+          "Situation: Who was involved, what the project was, and how your styles were different.",
+          "Action: What you did to work well together (agreed roles, deadlines, checking each other's work).",
+          "Result & Learning: The outcome and how this prepares you for engineering teams."
+        ],
+        "phrases": [
+          "Our styles were completely different:",
+          "To make use of both our strengths, we agreed that...",
+          "Looking back, I realise that...",
+          "In engineering projects, this matters because..."
+        ],
+        "probeA": "Honestly, what did you find most frustrating about working with that person?",
+        "probeB": "If your team leader preferred the other person's style, would you change yours? Why or why not?",
+        "observerGuide": [
+          "Gives a real, specific example with a clear problem and outcome.",
+          "Shows respect for the other person's style instead of criticising them.",
+          "Explains what they personally learned and would do next time."
         ]
       },
 
@@ -586,7 +915,7 @@
       {
         code: "BUS-02",
         track: "Business",
-        stationType: "Station 2: Professional Knowledge",
+        stationType: "Station 3: Problem Solving",
         prompt: "Many Gen-Z consumers say they care about sustainability, yet ultra-fast-fashion brands continue to record massive revenue growth. Why does this 'attitude-behavior gap' exist, and how can sustainable local brands compete without going bankrupt?",
         glossary: [
           { term: "Revenue vs. Profit", def: "Revenue is total money brought in from sales; profit is what remains after subtracting all costs." },
@@ -609,7 +938,7 @@
       {
         code: "BUS-03",
         track: "Business",
-        stationType: "Station 3: Ethical / Critical Thinking",
+        stationType: "Station 2: Ethical Dilemma",
         prompt: "You manage a popular food-delivery platform. Data shows that during heavy rainstorms, raising delivery surge fees by 300% maximizes company profit, while also pressuring riders to drive faster in dangerous conditions to hit bonus targets. How do you redesign this policy?",
         glossary: [
           { term: "Surge pricing", def: "Temporary price increases when customer demand exceeds available supply." },
@@ -627,6 +956,166 @@
         observerGuide: [
           "Avoids extreme answers ('ban all deliveries in rain' or 'only care about profit').",
           "Separates hazard compensation from dangerous speed targets."
+        ]
+      },
+      {
+        "code": "BUS-04",
+        "track": "Business",
+        "stationType": "Station 4: Role-play",
+        "prompt": "Role-play. The interviewer will play Khun Nida, who ordered a birthday cake from your bakery's online shop for her daughter's party today. The cake was never delivered, and the party starts in two hours. You are the shop's customer-service manager. She has just walked into the shop. Speak to her.",
+        "actor": {
+          "role": "Khun Nida, a customer whose birthday cake was not delivered",
+          "brief": "You paid 1,800 baht a week ago. Your daughter is turning seven and twenty children are coming. You want a solution, not just an apology. You calm down if the manager listens, apologises sincerely and offers a realistic plan and fair compensation.",
+          "lines": [
+            "I paid a week ago! Where is my cake?",
+            "Sorry isn't enough. Twenty children are coming in two hours.",
+            "I'm going to give you a one-star review on every platform."
+          ],
+          "react": "If the manager blames the delivery company or offers only a discount code, get angrier. If they take responsibility and offer a practical plan, accept it but ask about a refund."
+        },
+        "glossary": [
+          {
+            "term": "Compensation",
+            "def": "Something (money, a refund, a gift) given because a customer was let down."
+          },
+          {
+            "term": "Customer retention",
+            "def": "Keeping customers so that they buy from you again."
+          },
+          {
+            "term": "Take ownership",
+            "def": "To accept responsibility for a problem instead of blaming others."
+          }
+        ],
+        "structure": [
+          "Hello & Explore: Apologise, use her name, and check the order details and the party time.",
+          "Acknowledge: Show you understand what this day means for her and her daughter.",
+          "Respond: Offer a realistic solution within two hours plus fair compensation, and explain what you will check so it does not happen again."
+        ],
+        "phrases": [
+          "I am so sorry; this is our responsibility,",
+          "Let me check exactly what happened to your order.",
+          "What I can offer you right now is...",
+          "To make sure this does not happen again,"
+        ],
+        "probeA": "(In character) Can you give me my money back AND a free cake?",
+        "probeB": "(In character) Your app says the cake was delivered. Are you calling me a liar?",
+        "observerGuide": [
+          "Takes ownership and apologises sincerely without blaming the delivery company.",
+          "Offers a realistic solution within the two hours, plus fair compensation.",
+          "Stays calm and respectful when the customer threatens bad reviews."
+        ]
+      },
+      {
+        "code": "BUS-05",
+        "track": "Business",
+        "stationType": "Station 5: Data",
+        "prompt": "A Thai skincare start-up spent the same budget on two online advertising channels last month. The marketing manager says: 'TikTok brought three times more clicks, so we should move our whole budget to TikTok.' Look at the table. Do you agree?",
+        "table": {
+          "caption": "One-month advertising test, March 2026",
+          "columns": [
+            "Measure",
+            "TikTok ads",
+            "Facebook ads"
+          ],
+          "rows": [
+            [
+              "Budget (baht)",
+              "100,000",
+              "100,000"
+            ],
+            [
+              "Clicks",
+              "30,000",
+              "10,000"
+            ],
+            [
+              "Purchases",
+              "300",
+              "250"
+            ],
+            [
+              "Average order (baht)",
+              "450",
+              "900"
+            ],
+            [
+              "Products returned",
+              "60",
+              "10"
+            ]
+          ],
+          "note": "Illustrative data for practice only."
+        },
+        "glossary": [
+          {
+            "term": "Conversion rate",
+            "def": "The percentage of people who buy something after clicking an advert."
+          },
+          {
+            "term": "Return on investment (ROI)",
+            "def": "How much money you earn compared with how much you spent."
+          },
+          {
+            "term": "Vanity metric",
+            "def": "A number that looks impressive (such as clicks) but does not show real business value."
+          }
+        ],
+        "structure": [
+          "Describe: TikTok had about three times more clicks, but only slightly more purchases.",
+          "Doubt: Compare sales value and returns (Facebook earned far more money); only one month; possibly different customers.",
+          "Decide: Do not move the whole budget; suggest a split and a longer test with a clear goal."
+        ],
+        "phrases": [
+          "At first glance, TikTok looks better because...",
+          "However, when we look at the value of sales...",
+          "Clicks alone can be misleading because...",
+          "A safer decision would be to..."
+        ],
+        "probeA": "If the company's main goal were brand awareness among teenagers, would your answer change?",
+        "probeB": "Why might TikTok customers return more products? How could the company find out?",
+        "observerGuide": [
+          "Moves beyond clicks to purchases, order value and returns.",
+          "Notes the limitations (one month, possibly different audiences) instead of giving a fixed verdict.",
+          "Recommends a balanced, testable next step."
+        ]
+      },
+      {
+        "code": "BUS-06",
+        "track": "Business",
+        "stationType": "Station 6: Teamwork",
+        "prompt": "In business, good leaders take responsibility when things go wrong. Tell me about a real time when you made a mistake that affected your team or group. What did you do about it, and what did you learn?",
+        "glossary": [
+          {
+            "term": "Take responsibility",
+            "def": "To accept that something was your job or your fault, and act on it."
+          },
+          {
+            "term": "Damage control",
+            "def": "Quick actions taken to limit the harm caused by a mistake."
+          },
+          {
+            "term": "Lessons learned",
+            "def": "What a person or team agrees to do differently after a problem."
+          }
+        ],
+        "structure": [
+          "Situation & Task: The project and what you were responsible for.",
+          "Action: How you admitted the mistake and what you did to fix it.",
+          "Result & Learning: The outcome and how you changed the way you work."
+        ],
+        "phrases": [
+          "I have to admit that it was my mistake:",
+          "As soon as I realised, I...",
+          "Fortunately, we were able to...",
+          "Since then, I always make sure that..."
+        ],
+        "probeA": "How did your teammates react when you told them? How did that feel?",
+        "probeB": "Some people say leaders should never admit mistakes because it makes them look weak. What do you think?",
+        "observerGuide": [
+          "Chooses a real mistake, not a 'fake weakness' such as 'I work too hard'.",
+          "Takes clear personal responsibility and describes concrete actions to fix it.",
+          "Shows genuine learning and a changed habit."
         ]
       },
 
@@ -657,7 +1146,7 @@
       {
         code: "LAW-02",
         track: "Law",
-        stationType: "Station 2: Professional Knowledge",
+        stationType: "Station 3: Problem Solving",
         prompt: "When a 15-year-old commits a serious violent crime, public outrage on social media often demands that they be punished as an adult. Should the juvenile justice system prioritize deterrence (strict punishment) or rehabilitation (education and reform)?",
         glossary: [
           { term: "Deterrence", def: "Using harsh punishment to discourage the offender and others from committing crimes." },
@@ -680,7 +1169,7 @@
       {
         code: "LAW-03",
         track: "Law",
-        stationType: "Station 3: Ethical / Critical Thinking",
+        stationType: "Station 2: Ethical Dilemma",
         prompt: "As a defense attorney, you are assigned to represent a client accused of corporate fraud. During a private meeting, the client hints that they did commit the crime, but points out that the police obtained the key evidence illegally without a warrant. How can you ethically defend this client?",
         glossary: [
           { term: "Due process", def: "Fair treatment through the normal judicial system, requiring police to follow legal rules." },
@@ -698,6 +1187,160 @@
         observerGuide: [
           "Explains *why* defending the guilty protects everyone's rights against police abuse.",
           "Notes the strict ethical line against lying/perjury."
+        ]
+      },
+      {
+        "code": "LAW-04",
+        "track": "Law",
+        "stationType": "Station 4: Role-play",
+        "prompt": "Role-play. The interviewer will play Khun Prasert, a 68-year-old retired teacher. He put 300,000 baht of his savings into an online 'investment' app that has now disappeared. You are a law student volunteering at a free legal-aid clinic. He feels ashamed and asks whether he will get his money back. Speak to him.",
+        "actor": {
+          "role": "Khun Prasert, 68, a retired teacher who lost his savings to an online scam",
+          "brief": "You are embarrassed and have not told your children. You want the student to say the money will come back. You calm down if the student is kind, does not judge you, is honest that recovery is uncertain, and explains clear steps.",
+          "lines": [
+            "I feel so stupid. I was a teacher. I should have known better.",
+            "Please tell me the police can get my money back.",
+            "Do I have to tell my children? I'm too ashamed."
+          ],
+          "react": "If the student blames you ('Why did you trust it?') or promises the money will come back, go quiet and withdrawn. If they are warm and honest, start asking practical questions."
+        },
+        "glossary": [
+          {
+            "term": "Fraud",
+            "def": "Tricking someone in order to get money or property illegally."
+          },
+          {
+            "term": "Evidence",
+            "def": "Information such as screenshots, bank slips and chat messages that can support a case."
+          },
+          {
+            "term": "Freeze an account",
+            "def": "When a bank stops money moving into or out of an account."
+          }
+        ],
+        "structure": [
+          "Hello & Explore: Introduce yourself, thank him for coming, and ask gently what happened.",
+          "Acknowledge: Reassure him that scams fool many intelligent people; do not judge.",
+          "Respond: Be honest that recovery is uncertain, then give clear steps: contact the bank and the police quickly, keep all evidence, think about family support."
+        ],
+        "phrases": [
+          "You are not the first person this has happened to,",
+          "I want to be honest with you:",
+          "The most important thing to do today is...",
+          "Would it help to talk about how to tell your family?"
+        ],
+        "probeA": "(In character) Just say yes. I'll definitely get my money back, won't I?",
+        "probeB": "(In character) My nephew knows a 'recovery company' that can get the money back for a 50,000 baht fee. Should I pay them?",
+        "observerGuide": [
+          "Shows empathy and never blames or judges the victim.",
+          "Is honest that the money may not be recovered; makes no false promises.",
+          "Gives practical next steps (bank, police, keep evidence) and warns that 'recovery companies' are often a second scam."
+        ]
+      },
+      {
+        "code": "LAW-05",
+        "track": "Law",
+        "stationType": "Station 5: Data",
+        "prompt": "A politician posts online: 'Online crime in our province has tripled in two years. Our police are failing!' Look at the figures he used. Does the data support his claim?",
+        "table": {
+          "caption": "Reported online fraud cases, Province Y",
+          "columns": [
+            "Year",
+            "Cases reported",
+            "Population",
+            "How to report"
+          ],
+          "rows": [
+            [
+              "2023",
+              "1,200",
+              "1.1 million",
+              "At a police station only"
+            ],
+            [
+              "2024",
+              "2,500",
+              "1.1 million",
+              "New online reporting website"
+            ],
+            [
+              "2025",
+              "3,600",
+              "1.2 million",
+              "Station or website"
+            ]
+          ],
+          "note": "Illustrative data for practice only."
+        },
+        "glossary": [
+          {
+            "term": "Reported crime",
+            "def": "Crime that people tell the police about; many crimes are never reported."
+          },
+          {
+            "term": "Per capita",
+            "def": "For each person; used to compare places or years with different populations."
+          },
+          {
+            "term": "Causal claim",
+            "def": "A statement that one thing caused another."
+          }
+        ],
+        "structure": [
+          "Describe: Reported cases rose roughly threefold, from about 1,200 to 3,600.",
+          "Doubt: Easier online reporting from 2024 may explain much of the rise; reported crime is not the same as actual crime; nothing here measures police performance.",
+          "Decide: Say the claim is only partly supported, and name better evidence (victim surveys, cases solved, money recovered)."
+        ],
+        "phrases": [
+          "The figures do show a sharp rise in reported cases,",
+          "However, the rise coincides with...",
+          "This data cannot tell us whether the police are...",
+          "To judge police performance fairly, we would need..."
+        ],
+        "probeA": "What other data would help us decide whether online crime has really increased?",
+        "probeB": "If reports keep rising because reporting is easier, could that actually be good news? Explain.",
+        "observerGuide": [
+          "Distinguishes reported crime from actual crime.",
+          "Notices the new online reporting website as a possible explanation for the rise.",
+          "Challenges the jump from 'more reported cases' to 'the police are failing'."
+        ]
+      },
+      {
+        "code": "LAW-06",
+        "track": "Law",
+        "stationType": "Station 6: Teamwork",
+        "prompt": "Lawyers sometimes need to disagree with senior colleagues in a respectful way. Tell me about a real time when you disagreed with a decision made by a group leader, a teacher or your team. How did you raise it, and what happened?",
+        "glossary": [
+          {
+            "term": "Respectful disagreement",
+            "def": "Saying that you think differently while staying polite and open to the other view."
+          },
+          {
+            "term": "Evidence-based",
+            "def": "Supported by facts rather than feelings."
+          },
+          {
+            "term": "Hierarchy",
+            "def": "A system in which people have different levels of authority."
+          }
+        ],
+        "structure": [
+          "Situation: What was decided and why you disagreed.",
+          "Action: How and when you raised it (privately? with evidence?) and how you listened to the other side.",
+          "Result & Learning: What happened, even if your view was not accepted, and what you learned about influencing people."
+        ],
+        "phrases": [
+          "I could see why they made that decision, but...",
+          "I asked if we could talk about it privately...",
+          "In the end, we agreed to...",
+          "I learned that how you disagree matters as much as..."
+        ],
+        "probeA": "In Thai culture it can be hard to disagree with someone older or more senior. How did you handle that?",
+        "probeB": "What would you do if you were sure a decision was wrong and nobody listened to you?",
+        "observerGuide": [
+          "Gives a specific real example with a clear decision and a clear disagreement.",
+          "Shows respectful, evidence-based disagreement rather than complaining or giving up.",
+          "Reflects honestly on the result, including the possibility that they were wrong."
         ]
       },
 
@@ -728,7 +1371,7 @@
       {
         code: "ARC-02",
         track: "Architecture",
-        stationType: "Station 2: Professional Knowledge",
+        stationType: "Station 3: Problem Solving",
         prompt: "Historic neighborhoods like Talad Noi or Song Wat in Bangkok face intense pressure from commercial developers who want to demolish old shophouses for high-rise condos. How can architects balance heritage conservation with modern urban density?",
         glossary: [
           { term: "Adaptive reuse", def: "Renovating an old historic building for a new modern purpose while keeping its cultural character." },
@@ -751,7 +1394,7 @@
       {
         code: "ARC-03",
         track: "Architecture",
-        stationType: "Station 3: Ethical / Critical Thinking",
+        stationType: "Station 2: Ethical Dilemma",
         prompt: "A wealthy retail client hires your firm to redesign the public plaza outside their luxury mall. They explicitly instruct you to install 'hostile architecture'—metal spikes on ledges and divided benches—so homeless people and street vendors cannot sit or sleep there. How do you respond?",
         glossary: [
           { term: "Hostile architecture", def: "Urban design features (spikes, sloped benches) used to exclude certain groups from public spaces." },
@@ -769,6 +1412,166 @@
         observerGuide: [
           "Critiques hostile architecture on both ethical and functional grounds (hurts elderly/disabled too).",
           "Pitches a professional design alternative to the client."
+        ]
+      },
+      {
+        "code": "ARC-04",
+        "track": "Architecture",
+        "stationType": "Station 4: Role-play",
+        "prompt": "Role-play. The interviewer will play Khun Wipa, a client whose family-home renovation is six weeks late and 15% over budget. The builders found rotten wooden floor beams that had to be replaced. She says she trusted your firm. You are the junior architect on the project. Speak to her.",
+        "actor": {
+          "role": "Khun Wipa, owner of the house being renovated",
+          "brief": "Your elderly mother, who uses a walking frame, is staying with relatives until the house is ready. You are frustrated about the delay and the extra cost, and you feel nobody warned you early enough. You calm down if the architect listens, explains the problem clearly and gives an honest new timeline.",
+          "lines": [
+            "Six weeks late! My mother can't come home.",
+            "Why did nobody tell me about these beams before I signed?",
+            "I'm not paying a single baht more."
+          ],
+          "react": "If the architect uses technical words or says 'it's not our fault', get more frustrated. If they explain clearly and show options, start discussing the budget."
+        },
+        "glossary": [
+          {
+            "term": "Structural",
+            "def": "Relating to the parts that hold a building up, such as beams, columns and foundations."
+          },
+          {
+            "term": "Contingency budget",
+            "def": "Extra money set aside for unexpected problems."
+          },
+          {
+            "term": "Timeline",
+            "def": "A plan showing when each stage of a project will be finished."
+          }
+        ],
+        "structure": [
+          "Hello & Explore: Greet her, ask how her mother is, and ask what worries her most.",
+          "Acknowledge: Accept that the delay is hard for her family and that she could have been told sooner.",
+          "Respond: Explain the rotten beams simply, give an honest new timeline and options for the cost, and agree on regular updates."
+        ],
+        "phrases": [
+          "I completely understand why you are frustrated,",
+          "To put it simply, the floor beams were...",
+          "Here is an honest timeline:",
+          "From now on, I will update you every..."
+        ],
+        "probeA": "(In character) Can you finish in one week if the builders work through the night?",
+        "probeB": "(In character) My friend says the old floor was fine and you're just making more money. Prove it.",
+        "observerGuide": [
+          "Acknowledges the impact on her family (her mother) before explaining technical issues.",
+          "Explains the structural problem in plain language and gives an honest timeline, with evidence (photos, survey) if challenged.",
+          "Does not promise unsafe shortcuts such as rushed night work, and does not blame the builders."
+        ]
+      },
+      {
+        "code": "ARC-05",
+        "track": "Architecture",
+        "stationType": "Station 5: Data",
+        "prompt": "A developer compares two of its Bangkok housing projects and claims: 'More green space makes residents happier, so all our future projects will have bigger gardens.' Look at the survey results. What do they really show?",
+        "table": {
+          "caption": "Resident survey, 2025",
+          "columns": [
+            "Measure",
+            "Project A",
+            "Project B"
+          ],
+          "rows": [
+            [
+              "Green space per resident",
+              "12 m²",
+              "3 m²"
+            ],
+            [
+              "Residents satisfied",
+              "82%",
+              "55%"
+            ],
+            [
+              "Survey responses",
+              "40 of 400",
+              "300 of 600"
+            ],
+            [
+              "Average rent (baht/month)",
+              "25,000",
+              "9,000"
+            ],
+            [
+              "Building age",
+              "2 years",
+              "15 years"
+            ]
+          ],
+          "note": "Illustrative data for practice only."
+        },
+        "glossary": [
+          {
+            "term": "Response rate",
+            "def": "The share of people asked who actually answered a survey."
+          },
+          {
+            "term": "Sample bias",
+            "def": "When the people who answer are not typical of the whole group."
+          },
+          {
+            "term": "Amenity",
+            "def": "A useful or pleasant feature of a place, such as a garden or a pool."
+          }
+        ],
+        "structure": [
+          "Describe: Project A has four times more green space and higher satisfaction (82% vs. 55%).",
+          "Doubt: Very low response rate in A (only one resident in ten), much higher rent and a newer building; any of these could explain the difference.",
+          "Decide: Green space may help, but this survey cannot prove it; suggest a fairer comparison."
+        ],
+        "phrases": [
+          "On the surface, the data suggests...",
+          "However, only one resident in ten in Project A...",
+          "Other differences, such as rent and building age,...",
+          "A more reliable way to test this would be..."
+        ],
+        "probeA": "How would you design a fairer study to test whether green space makes residents happier?",
+        "probeB": "Even without perfect data, should architects still include more green space? Why?",
+        "observerGuide": [
+          "Spots the low response rate in Project A.",
+          "Names other differences (rent, building age) that could explain satisfaction.",
+          "Separates 'the data proves it' from 'it may still be a good idea for other reasons'."
+        ]
+      },
+      {
+        "code": "ARC-06",
+        "track": "Architecture",
+        "stationType": "Station 6: Teamwork",
+        "prompt": "Architecture students often present their work to teachers and classmates who criticise it strongly. Tell me about a real time when your group's work was criticised. How did your team react, and what did you change?",
+        "glossary": [
+          {
+            "term": "Critique (crit)",
+            "def": "A session where teachers and classmates comment on and judge design work."
+          },
+          {
+            "term": "Constructive criticism",
+            "def": "Feedback that points out problems in order to help you improve."
+          },
+          {
+            "term": "Revise",
+            "def": "To change and improve work after receiving feedback."
+          }
+        ],
+        "structure": [
+          "Situation: The project and the criticism your group received.",
+          "Action: How you personally responded and helped the team respond (listen, sort the feedback, decide on changes).",
+          "Result & Learning: What improved and how you handle criticism now."
+        ],
+        "phrases": [
+          "At first, the feedback was hard to hear because...",
+          "I suggested that we sort the comments into...",
+          "As a result, the final version...",
+          "Now I see criticism as..."
+        ],
+        "probeA": "Was there any feedback you decided NOT to follow? Why?",
+        "probeB": "What would you do if a teammate became very upset and wanted to quit after the criticism?",
+        "observerGuide": [
+          "Describes a real example of criticism and the team's reaction honestly.",
+          "Shows their own role in turning criticism into concrete changes.",
+          "Shows openness to feedback without becoming defensive."
         ]
       },
 
@@ -799,7 +1602,7 @@
       {
         code: "HUM-02",
         track: "Humanities",
-        stationType: "Station 2: Professional Knowledge",
+        stationType: "Station 3: Problem Solving",
         prompt: "English today functions as a global Lingua Franca (ELF), where non-native speakers outnumber native speakers 4 to 1. Should schools and international organizations still judge communicators by 'native-speaker' British/American accents, or prioritize mutual intelligibility and cultural diversity?",
         glossary: [
           { term: "Lingua Franca (ELF)", def: "A common bridge language used for communication between people who do not share a native tongue." },
@@ -822,7 +1625,7 @@
       {
         code: "HUM-03",
         track: "Humanities",
-        stationType: "Station 3: Ethical / Critical Thinking",
+        stationType: "Station 2: Ethical Dilemma",
         prompt: "You are a journalist / communications officer covering a major public crisis. You verify a story that exposes serious safety negligence by a local factory, but publishing it immediately might trigger public panic and cause the factory to close, costing 500 local workers their jobs. How do you proceed?",
         glossary: [
           { term: "Public interest", def: "The welfare or well-being of the general public and their right to know about safety risks." },
@@ -840,6 +1643,160 @@
         observerGuide: [
           "Upholds transparency on public safety while condemning clickbait sensationalism.",
           "Shows nuanced awareness of media responsibility."
+        ]
+      },
+      {
+        "code": "HUM-04",
+        "track": "Humanities",
+        "stationType": "Station 4: Role-play",
+        "prompt": "Role-play. The interviewer will play Khun Kanya, a visitor to a local history museum where you volunteer at the information desk. She is upset about an exhibition label that describes the culture of her home province, Nan, as 'simple and old-fashioned'. Speak to her.",
+        "actor": {
+          "role": "Khun Kanya, a museum visitor from Nan province",
+          "brief": "You are proud of your home province, its weaving, food and dialect. You feel the label is insulting and that people from Bangkok look down on the provinces. You calm down if the volunteer listens, takes the complaint seriously and asks what you think the label should say.",
+          "lines": [
+            "'Simple and old-fashioned'? My grandmother's weaving is art!",
+            "This is what Bangkok people always think about us.",
+            "Who wrote this? I want it taken down today."
+          ],
+          "react": "If the volunteer defends the label or says 'it's just a word', become more offended. If they ask what is special about your culture, start sharing proudly."
+        },
+        "glossary": [
+          {
+            "term": "Stereotype",
+            "def": "A fixed, oversimplified idea about a group of people."
+          },
+          {
+            "term": "Representation",
+            "def": "How a group or culture is shown or described to others."
+          },
+          {
+            "term": "Curator",
+            "def": "The person who chooses and explains the objects in a museum exhibition."
+          }
+        ],
+        "structure": [
+          "Hello & Explore: Thank her, and ask her to show you the label and explain what upset her.",
+          "Acknowledge: Accept that the words could feel disrespectful, and invite her to share what is special about her culture.",
+          "Respond: Be honest that you cannot change the label yourself today, record her complaint for the curator, and explain how she can share her view."
+        ],
+        "phrases": [
+          "Thank you for telling us about this,",
+          "Could you tell me what the label should say instead?",
+          "I cannot change it myself, but what I can do is...",
+          "Your perspective would really help the curator..."
+        ],
+        "probeA": "(In character) Just admit it. The museum thinks people from the provinces are backward.",
+        "probeB": "(In character) If the museum won't change it, I'll post photos of it on Facebook. Is that fair?",
+        "observerGuide": [
+          "Listens with curiosity and does not defend or dismiss the label.",
+          "Invites the visitor's own perspective and shows respect for her culture.",
+          "Is honest about what they can and cannot do, and gives a clear next step."
+        ]
+      },
+      {
+        "code": "HUM-05",
+        "track": "Humanities",
+        "stationType": "Station 5: Data",
+        "prompt": "A newspaper headline says: 'Thai teenagers have stopped reading.' The article is based on the survey results below. Look at the data. Is the headline fair?",
+        "table": {
+          "caption": "Reading habits of people aged 15–19 (self-reported)",
+          "columns": [
+            "Year",
+            "Printed books a year",
+            "Online reading (min/day)",
+            "People surveyed"
+          ],
+          "rows": [
+            [
+              "2018",
+              "8",
+              "35",
+              "2,000"
+            ],
+            [
+              "2022",
+              "5",
+              "70",
+              "1,200"
+            ],
+            [
+              "2026",
+              "3",
+              "95",
+              "800"
+            ]
+          ],
+          "note": "Illustrative data for practice only."
+        },
+        "glossary": [
+          {
+            "term": "Self-reported",
+            "def": "Information people give about themselves, which may not be accurate."
+          },
+          {
+            "term": "Literacy",
+            "def": "The ability to read and write, and to understand what you read."
+          },
+          {
+            "term": "Sensational headline",
+            "def": "A headline that exaggerates in order to attract attention."
+          }
+        ],
+        "structure": [
+          "Describe: Printed book reading fell from about 8 to 3 books a year, while online reading nearly tripled.",
+          "Doubt: 'Reading' is measured mainly as books; the data is self-reported; the sample became smaller each year.",
+          "Decide: The headline is unfair; reading has changed form rather than stopped. Suggest better measures."
+        ],
+        "phrases": [
+          "While book reading has clearly declined,",
+          "In contrast, online reading has risen sharply...",
+          "The headline overlooks the fact that...",
+          "A more accurate headline would be..."
+        ],
+        "probeA": "Suggest a fairer headline for this article and explain your choice.",
+        "probeB": "Is reading social media posts really the same as reading a book? Does the type of reading matter?",
+        "observerGuide": [
+          "Notices that online reading increased, so 'stopped reading' is an exaggeration.",
+          "Mentions at least one limitation (self-reporting, smaller samples, how 'reading' is defined).",
+          "Proposes a fairer conclusion or headline."
+        ]
+      },
+      {
+        "code": "HUM-06",
+        "track": "Humanities",
+        "stationType": "Station 6: Teamwork",
+        "prompt": "Humanities graduates often work with people from different languages and cultures. Tell me about a real time when you worked in a group with people from different backgrounds and there was a misunderstanding. What did you do, and what did you learn?",
+        "glossary": [
+          {
+            "term": "Intercultural communication",
+            "def": "Communication between people from different cultures."
+          },
+          {
+            "term": "Misunderstanding",
+            "def": "When people understand something differently from what was meant."
+          },
+          {
+            "term": "Clarify",
+            "def": "To make something clearer, often by asking or explaining again."
+          }
+        ],
+        "structure": [
+          "Situation: Who was in the group (different schools, ages, languages?) and what the misunderstanding was.",
+          "Action: How you noticed it and what you did to clarify it and repair the relationship.",
+          "Result & Learning: The outcome and what it taught you about communication."
+        ],
+        "phrases": [
+          "At first, I did not realise that...",
+          "To clear up the confusion, I...",
+          "What I learned about communication is...",
+          "Next time, I would check understanding by..."
+        ],
+        "probeA": "In your opinion, whose fault was the misunderstanding? Why?",
+        "probeB": "Some people say a shared language like English solves most misunderstandings. Do you agree, based on your experience?",
+        "observerGuide": [
+          "Gives a real example and explains the misunderstanding clearly.",
+          "Shows their own actions to clarify and repair, without stereotyping the other people.",
+          "Reflects on a concrete lesson about communication."
         ]
       }
     ];
@@ -909,13 +1866,85 @@
       });
     }
 
+    function stationNumber(item) {
+      const m = /Station (\d)/.exec(item.stationType || '');
+      return m ? m[1] : item.code.slice(-1);
+    }
+
+    function renderDataTable(station) {
+      const box = document.getElementById('promptDataTable');
+      box.innerHTML = '';
+      const t = station.table;
+      box.classList.toggle('hidden', !t);
+      if (!t) return;
+      const wrap = document.createElement('div');
+      wrap.className = 'overflow-x-auto rounded-lg border border-slate-200';
+      const table = document.createElement('table');
+      table.className = 'w-full text-sm text-left';
+      if (t.caption) {
+        const cap = document.createElement('caption');
+        cap.className = 'caption-top text-xs font-bold uppercase tracking-wider text-slate-500 text-left px-3 py-2 bg-slate-50';
+        cap.textContent = t.caption;
+        table.appendChild(cap);
+      }
+      const thead = document.createElement('thead');
+      const hr = document.createElement('tr');
+      hr.className = 'bg-slate-100 text-slate-700';
+      t.columns.forEach(c => {
+        const th = document.createElement('th');
+        th.className = 'px-3 py-2 font-semibold whitespace-nowrap';
+        th.textContent = c;
+        hr.appendChild(th);
+      });
+      thead.appendChild(hr);
+      table.appendChild(thead);
+      const tbody = document.createElement('tbody');
+      t.rows.forEach(r => {
+        const tr = document.createElement('tr');
+        tr.className = 'border-t border-slate-100';
+        r.forEach((cell, i) => {
+          const td = document.createElement('td');
+          td.className = 'px-3 py-2 ' + (i === 0 ? 'font-medium text-slate-800' : 'text-slate-700');
+          td.textContent = cell;
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      });
+      table.appendChild(tbody);
+      wrap.appendChild(table);
+      box.appendChild(wrap);
+      if (t.note) {
+        const note = document.createElement('p');
+        note.className = 'text-xs text-slate-400 mt-1.5 italic';
+        note.textContent = t.note;
+        box.appendChild(note);
+      }
+    }
+
+    function renderActor(station) {
+      const card = document.getElementById('actorCard');
+      const a = station.actor;
+      card.classList.toggle('hidden', !a);
+      if (!a) return;
+      document.getElementById('actorRole').textContent = a.role;
+      document.getElementById('actorBrief').textContent = a.brief;
+      document.getElementById('actorReact').textContent = a.react;
+      const ul = document.getElementById('actorLines');
+      ul.innerHTML = '';
+      a.lines.forEach(l => {
+        const li = document.createElement('li');
+        li.textContent = `"${l}"`;
+        ul.appendChild(li);
+      });
+    }
+
     function populateCodeDropdown() {
       const select = document.getElementById('codeJumpSelect');
       select.innerHTML = '';
       MMI_DATA.forEach(item => {
         const opt = document.createElement('option');
         opt.value = item.code;
-        opt.textContent = `${item.code} (${item.track} - S${item.code.slice(-1)})`;
+        opt.textContent = `${item.code} (${item.track} - S${stationNumber(item)})`;
         select.appendChild(opt);
       });
       select.addEventListener('change', e => loadStationByCode(e.target.value));
@@ -932,6 +1961,8 @@
       document.getElementById('promptCodeBadge').textContent = station.code;
       document.getElementById('stationTypeBadge').textContent = station.stationType;
       document.getElementById('promptScenarioText').textContent = station.prompt;
+      renderDataTable(station);
+      renderActor(station);
 
       const glossaryContainer = document.getElementById('glossaryContainer');
       const defBox = document.getElementById('glossaryDefinitionBox');
