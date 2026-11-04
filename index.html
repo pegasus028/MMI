@@ -305,6 +305,16 @@
   </main>
 
   <script>
+    // Remove the offline cache left by the old v1.2 app so updates appear at once.
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations()
+        .then(regs => regs.forEach(r => r.unregister()))
+        .catch(() => {});
+    }
+    if (window.caches) {
+      caches.keys().then(keys => keys.forEach(k => caches.delete(k))).catch(() => {});
+    }
+
     /**
      * MODULE 1: Classroom-Safe Drift-Free Timer & Screen WakeLock
      */
